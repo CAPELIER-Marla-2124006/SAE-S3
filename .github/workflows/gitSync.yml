@@ -12,4 +12,4 @@ jobs:
     steps:
     - name: syncDistantRepo
       run:
-        curl https://sae.kap.wtf/gitSync/
+        curl https://sae.kap.wtf/gitSync.php/
