@@ -1,0 +1,15 @@
+# This is a basic workflow that is manually triggered
+
+name: gitSync
+
+on:
+  push:
+    branches: [main]
+    
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    steps:
+    - name: syncDistantRepo
+      run:
+        curl https://sae.kap.wtf/gitSync/
