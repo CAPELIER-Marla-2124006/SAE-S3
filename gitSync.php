@@ -1,3 +1,3 @@
 <?php
-print(exec('sudo -u kap git pull'));
+$ex = exec('sudo -u kap git pull');
 ?>
