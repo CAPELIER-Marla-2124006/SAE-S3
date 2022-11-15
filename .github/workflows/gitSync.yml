@@ -4,7 +4,7 @@ name: gitSync
 
 on:
   push:
-    branches: [main]
+    branches: '**'
     
 jobs:
   deployment:
