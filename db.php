@@ -1,7 +1,7 @@
 <?php
     // Variables
-    $HOST="sae.kap.wtf";
-    $DB_NAME="test";
+    $HOST="localhost";
+    $DB_NAME="IUT-SAE";
     $USER="IUT-SAE-USER";
     $PASS="iut-sae-user";
 

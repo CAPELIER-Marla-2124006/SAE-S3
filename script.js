@@ -9,17 +9,19 @@ var editor = ace.edit("editor");
 
 
 var btn = document.getElementById("btn");
-var query = "SELECT * FROM test;";
+var query = "SELECT * FROM TEST;";
 var reponse;
 
 btn.addEventListener("click", ()=>{
     console.log("btn clicked");
 
     let xmlhttp = new XMLHttpRequest();
-    xmlhttp.onload = ()=>{
+
+    xmlhttp.onload = function(){
         reponse = this.responseText;
         console.log(reponse);
     }
-    xmlhttp.open("POST", "sql.php", true);
-    xmlhttp.send("request="+query);
+
+    xmlhttp.open("GET", "sql.php?request="+query, true);
+    xmlhttp.send();
 })
