@@ -11,12 +11,43 @@ else {
     exit();
 }
 
+//penser à faire un traitement avant requette
+
 // query db
 $response = $db->prepare($request);
 $response->execute();
 
-// encode repsonse in json and store in result
-$result = json_encode($response->fetchAll());
+// store result in result
+$result = $response->fetchAll();
 
-echo($result);
+// if there is no result, print cheh
+if(!isset($result[0])) {
+    echo "Cheh";
+    exit();
+}
+
+// create table and headers of table
+echo "<table><tr>";
+// for each keys in first result
+foreach ($result[0] as $key => $caca) {
+    // if a string, echo in header list
+    if(ctype_alpha($key)) echo "<th>".$key."</th>";
+}
+echo "</tr>";
+
+// fill table
+// for each line in results
+foreach ($result as $line) {
+    echo "<tr>";
+    // for each case in line
+    foreach ($line as $key => $case) {
+        // if a string, echo case
+        if(ctype_alpha($key)) echo "<td>".$case."</td>";
+    }
+    echo "</tr>";
+}
+//end table
+echo "</table>";
+
+//echo($result);
 ?>
