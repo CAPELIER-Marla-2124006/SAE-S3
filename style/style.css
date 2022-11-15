@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap');
+
+* {
+    margin: 0;
+    --bk-color: hsl(195, 95%, 55%);
+}
+* :not(#editor *) {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    align-items: center;
+    text-align: center;
+    background-image: url("/style/body.png");
+    background-position: top left;
+    background-repeat: repeat;
+    background-attachment: scroll;
+}
+
+#editor {
+    height: 300px;
+    width: 300px;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 10px;
+}
+
+
+.header {
+    width: 100vw;
+    background: var(--bk-color);
+    padding-top: 1em; padding-bottom: 1em;
+}
+
+.corps {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+}
+
+.corps textarea {
+    font-size: 18px;
+    border-radius: 5px;
+}
+
+.corps button {
+    background-color: var(--bk-color);
+    border: solid 1px black;
+    border-radius: 5px;
+    padding: 12px;
+    font-size: 18px;
+}

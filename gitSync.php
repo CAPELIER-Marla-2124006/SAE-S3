@@ -1,4 +1,4 @@
 <?php
-$ex = exec('sudo -u kap git pull');
+$ex = shell_exec('sudo -u kap git pull');
 print($ex);
 ?>
