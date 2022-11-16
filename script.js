@@ -19,8 +19,14 @@ var results = document.getElementById("results");
 var query = "SELECT * FROM TEST;";
 
 btn.addEventListener("click", ()=>{
-	//query = editor.getValue();
-	//console.log("btn clicked");
+	query = editor.getValue();
+	// add spaces after each line
+	query = query.replaceAll('\n', '\n ')
+	// put every select in start of line and upper
+	query = query.replace(/ *[Ss][Ee][Ll][Ee][Cc][Tt]/i, 'SELECT')
+	// remove all comment (start with '--' and have end of line)
+	query = query.replaceAll(/\-\-.*\n/ig, '')
+	//console.log(query);
 
 	let xmlhttp = new XMLHttpRequest();
 
@@ -32,7 +38,7 @@ btn.addEventListener("click", ()=>{
 	xmlhttp.onload = function() {
 		// get response
 		let response = this.responseText;
-		console.log(response);
+		//console.log(response);
 		// edit result div to show response
 		results.style = "display: flex";
 		results.innerHTML = response;
