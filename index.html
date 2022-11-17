@@ -14,20 +14,53 @@
 
 <body>
 
+    <div class="mobile-warning">
+        <h1>Ptdrrr t ki retourne sur ton mac</h1>
+    </div>
+
     <div class="header">
-        <h1>Bienvenue sur SAE-test</h1>
+        <h1>SQLearn</h1>
+        <div id="levelNumber" style="display: none;">1</div>
     </div>
 
 
-    <div class="corps">
+    <div class="page">
 
-        <div id="editor">--insérer du code ici
+        <div class="left">
+
+            <div class="todo">
+                <div class="instructions">
+                </div>
+                <button id="lesson"><img src="/images/lesson.svg" alt="lesson" width="32px"></button>
+                <button id="hint"><img src="/images/hint.svg" alt="hint" width="32px"></button>
+                <div class="title">Instructions</div>
+            </div>
+
+            <div class="notes">
+                <div class="title">Notes</div>
+            </div>
+
+        </div>
+
+
+        <div class="right">
+
+            <div class="code">
+                <div id="code-editor">--insérer du code ici
 SELECT * FROM TEST;</div>
+            </div>
 
-        <button id="btn">Exécuter</button>
+            <div class="buttons">
+                <button id="restart">Restart</button>
+                <button id="execute">Execute</button>
+            </div>
 
-        <div id="results" style="display:none"></div>
-    </div>
+            <div class="results">
+                <div id="results"></div>
+                <div class="title">Results</div>
+            </div>
+
+        </div>
 
 </body>
 

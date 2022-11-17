@@ -1,7 +1,7 @@
 // get editor from ace (for syntaxic colors etc)
-var editor = ace.edit("editor");
+var editor = ace.edit("code-editor");
 // change theme
-editor.setTheme("ace/theme/dracula");
+editor.setTheme("ace/theme/monokai");
 //set sql language
 editor.session.setMode("ace/mode/sql");
 // set font
@@ -10,15 +10,20 @@ editor.setOptions({
 	fontSize: "14pt"
 })
 
-
+// defaults codes for every level
+var defaultCode = ["--insérer du code ici\nSELECT * FROM TEST;"]
 // get button for query
-var btn = document.getElementById("btn");
+var exe = document.getElementById("execute");
+// get button for reset
+var rst = document.getElementById("restart");
+// get level number
+var levelNumber = document.getElementById("levelNumber");
 //get result place
 var results = document.getElementById("results");
 // deflaut query
 var query = "SELECT * FROM TEST;";
 
-btn.addEventListener("click", ()=>{
+exe.addEventListener("click", ()=>{
 	query = editor.getValue();
 	// add spaces after each line
 	query = query.replaceAll('\n', '\n ')
@@ -40,7 +45,12 @@ btn.addEventListener("click", ()=>{
 		let response = this.responseText;
 		//console.log(response);
 		// edit result div to show response
-		results.style = "display: flex";
 		results.innerHTML = response;
 	}
+})
+
+
+rst.addEventListener("click", ()=>{
+	// reset editor
+	editor.setValue(defaultCode[levelNumber.innerHTML -1]);
 })

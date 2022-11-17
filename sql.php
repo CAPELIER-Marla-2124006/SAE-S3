@@ -11,7 +11,7 @@ else {
     exit();
 }
 
-//penser à faire un traitement avant requette
+// TODO: penser à faire un traitement avant requette
 
 // query db
 $response = $db->prepare($request);
