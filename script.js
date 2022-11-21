@@ -1,7 +1,7 @@
 // get editor from ace (for syntaxic colors etc)
 var editor = ace.edit("code-editor");
 // change theme
-editor.setTheme("ace/theme/monokai");
+editor.setTheme("ace/theme/perso");
 //set sql language
 editor.session.setMode("ace/mode/sql");
 // set font
