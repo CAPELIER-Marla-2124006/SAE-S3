@@ -4,10 +4,14 @@
     margin: 0;
     --background: hsl(0, 0%, 15%);
     --accent-color: hsl(162, 95%, 43%);
+    --accent-color-darker: hsl(162, 95%, 20%);
     --text-background: hsl(0, 0%, 20%);
     --text-color: hsl(0, 0%, 100%);
     --margin: 25px;
+    --little-margin: 12px;
+    --min-margin: 6px;
     --border: solid 1px var(--accent-color);
+    --border-darker: solid 1px var(--accent-color-darker);
     --border-radius: 8px;
     /* color: var(--text-color); */
 }
@@ -28,12 +32,47 @@ body {
     display: none;
 }
 
-/* title and navbars */
+/* title and levels */
 .header {
     background: var(--accent-color);
     color: var(--text-color);
-    padding: 12px;
+    padding: var(--min-margin);
     max-height: fit-content;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+/* levels div */
+.header .levels {
+    display: flex;
+    flex-direction: row;
+    gap: var(--little-margin);
+    font-size: 24px;
+}
+/* buttons level */
+.header .levels .level {
+    height: 42px;
+    width: 42px;
+    background: var(--accent-color-darker);
+    border: var(--border-darker);
+    border-radius: var(--border-radius);
+    color: var(--text-color);
+    font-size: 18px;
+}
+.header .levels .level:hover {
+    background: var(--accent-color);
+    border: var(--border);
+    cursor: pointer;
+}
+.header .levels .level:active {
+    background: var(--accent-color-darker);
+    border: var(--border);
+}
+.header .levels .level.selected {
+    background: var(--accent-color);
+    border: var(--border-darker);
+    color: var(--accent-color-darker);
 }
 
 /* full page and contents */

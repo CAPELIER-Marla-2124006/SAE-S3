@@ -11,7 +11,17 @@ editor.setOptions({
 })
 
 // defaults codes for every level
-var defaultCode = ["--insérer du code ici\nSELECT * FROM TEST;"]
+var defaultCode = ["--insérer du code ici\nSELECT * FROM TEST;",
+				   "SELECT * FROM TEST;",
+				   "SELECT * FROM TEST;",
+				   "SELECT * FROM TEST;",
+				   "SELECT * FROM TEST;",
+				   "SELECT * FROM TEST;",
+				   "SELECT * FROM TEST;",
+				   "SELECT * FROM TEST;",
+				   "SELECT * FROM TEST;",
+				   "SELECT * FROM TEST;",
+				  ];
 // get button for query
 var exe = document.getElementById("execute");
 // get button for reset
@@ -54,3 +64,31 @@ rst.addEventListener("click", ()=>{
 	// reset editor
 	editor.setValue(defaultCode[levelNumber.innerHTML -1]);
 })
+
+
+function changeLevel(id) {
+	// change level number
+	levelNumber.innerHTML = id;
+	// change default code
+	editor.setValue(defaultCode[id]);
+	// reset result
+	results.innerHTML = "";
+	// get all buttons
+	let buttons = document.getElementsByClassName("level");
+	// remove all selected classes
+	for (let i = 0; i < buttons.length; i++) {
+		buttons[i].classList.remove("selected");
+	}
+	// edit button selected
+	buttons[id].classList.add("selected");
+}
+
+
+(function addChangeLevelListeners() {
+	let buttons = document.getElementsByClassName("level");
+	for(let i = 0; i < buttons.length; i++) {
+		buttons[i].addEventListener("click", ()=>{
+			changeLevel(i);
+		})
+	}
+})();
