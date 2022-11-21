@@ -4,14 +4,14 @@
     margin: 0;
     --background: hsl(0, 0%, 15%);
     --accent-color: hsl(162, 95%, 43%);
-    --text-background: hsl(0, 0%, 25%);
-    --text-color: white;
+    --text-background: hsl(0, 0%, 20%);
+    --text-color: hsl(0, 0%, 100%);
     --margin: 25px;
     --border: solid 1px var(--accent-color);
     --border-radius: 8px;
-    color: var(--text-color);
+    /* color: var(--text-color); */
 }
-* :not(#code-editor *) {
+* :not(#code-editor *, textarea#notes) {
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -31,6 +31,7 @@ body {
 /* title and navbars */
 .header {
     background: var(--accent-color);
+    color: var(--text-color);
     padding: 12px;
     max-height: fit-content;
 }
@@ -51,10 +52,13 @@ body {
     top: 0;
     right: 0;
     padding: 5px;
+    color: var(--text-color);
 }
-*:has(.title) {
+/* select all divs selected that contains a title (add to the list) so it won't select everything */
+div:is(.todo, .notes, .results):has(.title) {
     position: relative;
 }
+/* when a div that contains a direct child title is hovered, display the title */
 *:hover > .title {
     display: block;
 }
@@ -68,7 +72,7 @@ body {
     max-width: 450px;
 }
 
-/* todo */
+/* todo / instructions */
 .left .todo {
     flex: 1;
     border-radius: var(--border-radius);
@@ -76,16 +80,19 @@ body {
     background: var(--text-background);
     border: var(--border);
 }
+/* put lesson button in top left */
 .left .todo > button#lesson {
     position: absolute;
     top: 0;
     left: 0;
 }
+/* put hint button in bottom right */
 .left .todo > button#hint {
     position: absolute;
     bottom: 0;
     right: 0;
 }
+/* all buttons in todo */
 .left .todo > button {
     background: none;
     border: none;
@@ -98,6 +105,25 @@ body {
     border-radius: var(--border-radius);
     background: var(--text-background);
     border: var(--border);
+}
+.left .notes textarea {
+    resize: none;
+    border: none;
+    outline: none;
+    padding: 5px;
+    width: calc(100% - (2 * 5px));
+    height: calc(100% - (2 * 5px));
+    background: none;
+    color: var(--text-color);
+    font-family: 'JetBrains Mono';
+    font-size: 18px;
+    /* hide scrollbar */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+/* hide scrollbar in chrome */
+.left .notes textarea::-webkit-scrollbar {
+    display: none;
 }
 
 /* end of left column */
@@ -135,6 +161,7 @@ body {
     background: var(--text-background);
     border: var(--border);
     border-radius: var(--border-radius);
+    color: var(--text-color);
 }
 
 .right .results {
