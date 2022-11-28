@@ -45,8 +45,11 @@ exe.addEventListener("click", ()=>{
 
 	let xmlhttp = new XMLHttpRequest();
 
-	// create and send request with query in GET
-	xmlhttp.open("GET", "sql.php?request=" + query, true);
+	// create request
+	let request = "sql.php?level=" + levelNumber.innerHTML + "&request=" + query;
+	console.log(request);
+	// send request with query in GET
+	xmlhttp.open("GET", request, true);
 	xmlhttp.send();
 
 	// when result come back
@@ -68,7 +71,7 @@ rst.addEventListener("click", ()=>{
 /* change level selected, reset code editor & edit buttons */
 function changeLevel(id) {
 	// change level number
-	levelNumber.innerHTML = id;
+	levelNumber.innerHTML = id+1;
 	// change default code
 	editor.setValue(defaultCode[id]);
 	// reset result
