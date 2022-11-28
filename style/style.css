@@ -91,24 +91,19 @@ body {
     margin: var(--margin);
     justify-content: space-between;
 }
-/* title of little windows */
-.title {
-    display: none;
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 5px;
-    color: var(--text-color);
-}
-/* select all divs that contains a title (add to the list) */
-div:is(.todo, .notes, .results) {
+fieldset {
     position: relative;
 }
-/* when a div that contains a direct child title is hovered, display the title */
-*:hover > .title {
-    display: block;
-    background: var(--text-background);
-    border-radius: var(--border-radius);
+fieldset > *:not(legend, button) {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+legend {
+    color: var(--accent-color);
 }
 
 /* left column (todo and notes) */
@@ -187,9 +182,14 @@ div:is(.todo, .notes, .results) {
 
 .right .code {
     flex: 2;
-    background: var(--background);
+    background: var(--text-background);
     border-radius: var(--border-radius);
     border: var(--border);
+}
+.right .code #code-container {
+    right: -0.5px;
+    background: var(--text-background);
+    border-radius: var(--border-radius);
 }
 .right .code #code-editor {
     width: 100%;

@@ -40,39 +40,41 @@
 
         <div class="left">
 
-            <div class="todo">
+            <fieldset class="todo">
+                <legend>Instructions</legend>
                 <div class="instructions">
                 </div>
                 <button id="lesson"><img src="/images/lesson.svg" alt="lesson" width="32px"></button>
                 <button id="hint"><img src="/images/hint.svg" alt="hint" width="32px"></button>
-                <div class="title">Instructions</div>
-            </div>
+            </fieldset>
 
-            <div class="notes">
+            <fieldset class="notes">
+                <legend>Notes</legend>
                 <textarea name="notes" id="notes">Notes pour plus tard</textarea>
-                <div class="title">Notes</div>
-            </div>
+            </fieldset>
 
         </div>
 
 
         <div class="right">
 
-            <div class="code">
-                <div id="code-editor">--insérer du code ici
+            <fieldset class="code">
+                <legend>Code</legend>
+                <div id="code-container">
+                    <div id="code-editor">--insérer du code ici
 SELECT * FROM ENQUETE01;</div>
-            </div>
+                </div>
+            </fieldset>
 
             <div class="buttons">
                 <button id="restart">Restart</button>
                 <button id="execute">Execute</button>
             </div>
 
-            <div class="results">
-                <div id="results">
-                    <div class="title">Results</div>
-                </div>
-            </div>
+            <fieldset class="results">
+                <legend>Results</legend>
+                <div id="results"></div>
+            </fieldset>
 
         </div>
 
