@@ -1,6 +1,8 @@
 <?php
 require "db.php";
 
+$MAX_LEVELS = 10;
+
 //debug
 //echo("P " . $_POST['request']. PHP_EOL . "G " . $_GET['request']. PHP_EOL . "R " . $_REQUEST['request']);
 
@@ -10,11 +12,18 @@ else {
     echo('Requette REQUEST vide');
     exit();
 }
+// verify request conatin level number
+if(isset($_REQUEST['level']) && $_REQUEST['level'] <= $MAX_LEVELS && $_REQUEST['level'] >= 1)
+    $level_id = $_REQUEST['level'];
+else {
+    echo('Erreur: niveau non valide');
+    exit();
+}
 
 // TODO: penser à faire un traitement avant requette
 
 // get db connexion from function
-$db = connectDB("IUT-SAE");
+$db = connectDB("IUT-SAE-EX" . $level_id);
 
 // query db
 $response = $db->prepare($request);
@@ -25,7 +34,7 @@ $result = $response->fetchAll();
 
 // if there is no result, print cheh
 if(!isset($result[0])) {
-    echo "Cheh";
+    echo "Aucun resultat";
     exit();
 }
 
