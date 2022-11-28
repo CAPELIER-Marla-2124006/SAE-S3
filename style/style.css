@@ -107,6 +107,8 @@ div:is(.todo, .notes, .results) {
 /* when a div that contains a direct child title is hovered, display the title */
 *:hover > .title {
     display: block;
+    background: var(--text-background);
+    border-radius: var(--border-radius);
 }
 
 /* left column (todo and notes) */
@@ -116,6 +118,7 @@ div:is(.todo, .notes, .results) {
     flex-direction: column;
     gap: var(--margin);
     max-width: 450px;
+    min-width: 225px;
 }
 
 /* todo / instructions */
@@ -211,10 +214,35 @@ div:is(.todo, .notes, .results) {
 }
 
 .right .results {
-    flex: 1;
+    flex: 1 0 0;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    /*align-items: center;*/
     background: var(--text-background);
     border-radius: var(--border-radius);
     border: var(--border);
+    color: var(--text-color);
+    overflow-x: auto;
 }
-
+.right #results {
+    padding: var(--min-margin);
+    max-width: 1px;
+    /*max-width: calc(100vw/2 - var(--margin)*2);*/
+}
+.right .results table {
+    border-collapse: collapse;
+    width: min-content;
+}
+.right .results table *:is(th, td) {
+    border: solid 2px var(--accent-color-darker);
+    border-radius: var(--border-radius);
+}
+.right .results table th {
+    padding: 6px;
+}
+.right .results table td {
+    padding: 4px;
+    white-space: nowrap;
+}
 /* end of right column */
