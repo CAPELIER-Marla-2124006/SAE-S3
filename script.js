@@ -47,7 +47,7 @@ exe.addEventListener("click", ()=>{
 
 	// create request
 	let request = "sql.php?level=" + levelNumber.innerHTML + "&request=" + query;
-	console.log(request);
+	//console.log(request);
 	// send request with query in GET
 	xmlhttp.open("GET", request, true);
 	xmlhttp.send();
