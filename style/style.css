@@ -3,8 +3,9 @@
 * {
     margin: 0;
     --background: hsl(0, 0%, 15%);
-    --accent-color: hsl(162, 95%, 43%);
-    --accent-color-darker: hsl(162, 95%, 20%);
+    --hue: 162;
+    --accent-color: hsl(var(--hue), 95%, 43%);
+    --accent-color-darker: hsl(var(--hue), 95%, 20%);
     --text-background: hsl(0, 0%, 20%);
     --text-color: hsl(0, 0%, 100%);
     --margin: 25px;
@@ -34,45 +35,51 @@ body {
 
 /* title and levels */
 .header {
-    background: var(--accent-color);
+    background: var(--text-background);
     color: var(--text-color);
-    padding: var(--min-margin);
+    /*padding: var(--min-margin);*/
     max-height: fit-content;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
 }
+/* header title */
+.header h1 {
+    margin: var(--min-margin);
+}
 /* levels div */
 .header .levels {
     display: flex;
     flex-direction: row;
-    gap: var(--little-margin);
+    gap: var(--min-margin);
     font-size: 24px;
+    height: 100%;
+    --border-bottom: solid 2px var(--accent-color);
+    --big-border-bottom: solid 5px var(--accent-color);
+    --border-bottom-hiden: solid 2px hsla(0, 0%, 0%, 0%);
+    --big-border-bottom-hiden: solid 5px hsla(0, 0%, 0%, 0%);
 }
 /* buttons level */
 .header .levels .level {
-    height: 42px;
-    width: 42px;
-    background: var(--accent-color-darker);
-    border: var(--border-darker);
-    border-radius: var(--border-radius);
+    width: 6vh;
+    background: var(--text-background);
+    border: none;
     color: var(--text-color);
     font-size: 18px;
 }
 .header .levels .level:hover {
-    background: var(--accent-color);
-    border: var(--border);
+    border-bottom: var(--big-border-bottom);
+    border-top: var(--big-border-bottom-hiden);
     cursor: pointer;
 }
 .header .levels .level:active {
-    background: var(--accent-color-darker);
-    border: var(--border);
+    border-bottom: var(--border-bottom);
+    border-top: var(--border-bottom-hiden);
 }
 .header .levels .level.selected {
-    background: var(--accent-color);
-    border: var(--border-darker);
-    color: var(--accent-color-darker);
+    border-bottom: var(--border-bottom);
+    border-top: var(--border-bottom-hiden);
 }
 
 /* full page and contents */
@@ -93,8 +100,8 @@ body {
     padding: 5px;
     color: var(--text-color);
 }
-/* select all divs selected that contains a title (add to the list) so it won't select everything */
-div:is(.todo, .notes, .results):has(.title) {
+/* select all divs that contains a title (add to the list) */
+div:is(.todo, .notes, .results) {
     position: relative;
 }
 /* when a div that contains a direct child title is hovered, display the title */
