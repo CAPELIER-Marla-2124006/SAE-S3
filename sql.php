@@ -7,11 +7,14 @@ require "db.php";
 // get request
 if(isset($_REQUEST['request'])) $request = $_REQUEST['request'];
 else {
-    echo('Roquette REQUEST vide');
+    echo('Requette REQUEST vide');
     exit();
 }
 
 // TODO: penser à faire un traitement avant requette
+
+// get db connexion from function
+$db = connectDB("IUT-SAE");
 
 // query db
 $response = $db->prepare($request);
