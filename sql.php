@@ -32,6 +32,13 @@ $response->execute();
 // store result in result
 $result = $response->fetchAll();
 
+//DEBUG
+/* echo "<!--";
+print_r ($result);
+echo json_encode($result);
+echo "-->\n";
+ */
+
 // if there is no result, print cheh
 if(!isset($result[0])) {
     echo "Aucun resultat";
@@ -42,8 +49,8 @@ if(!isset($result[0])) {
 echo "<table><tr>";
 // for each keys in first result
 foreach ($result[0] as $key => $caca) {
-    // if a string, echo in header list
-    if(ctype_alpha($key)) echo "<th>".$key."</th>";
+    // if it's not a number
+    if(!ctype_digit($key) && !is_numeric($key)) echo "<th>".$key."</th>";
 }
 echo "</tr>";
 
@@ -53,8 +60,8 @@ foreach ($result as $line) {
     echo "<tr>";
     // for each case in line
     foreach ($line as $key => $case) {
-        // if a string, echo case
-        if(ctype_alpha($key)) echo "<td>".$case."</td>";
+        // if it's not a number
+        if(!ctype_digit($key) && !is_numeric($key)) echo "<td>".$case."</td>";
     }
     echo "</tr>";
 }
