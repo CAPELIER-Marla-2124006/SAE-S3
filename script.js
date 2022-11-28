@@ -65,7 +65,7 @@ rst.addEventListener("click", ()=>{
 	editor.setValue(defaultCode[levelNumber.innerHTML -1]);
 })
 
-
+/* change level selected, reset code editor & edit buttons */
 function changeLevel(id) {
 	// change level number
 	levelNumber.innerHTML = id;
@@ -83,9 +83,11 @@ function changeLevel(id) {
 	buttons[id].classList.add("selected");
 }
 
-
+/* this part of code run itslef every refresh of the page, at the beginning */
 (function addChangeLevelListeners() {
+	/* get all levels */
 	let buttons = document.getElementsByClassName("level");
+	/* add event listeneer for every buttons in levels */
 	for(let i = 0; i < buttons.length; i++) {
 		buttons[i].addEventListener("click", ()=>{
 			changeLevel(i);
