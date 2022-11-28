@@ -11,7 +11,7 @@ editor.setOptions({
 })
 
 // defaults codes for every level
-var defaultCode = ["--insérer du code ici\nSELECT * FROM TEST;",
+var defaultCode = ["--insérer du code ici\nSELECT * FROM ENQUETE01;",
 				   "SELECT * FROM TEST;",
 				   "SELECT * FROM TEST;",
 				   "SELECT * FROM TEST;",
