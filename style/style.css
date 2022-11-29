@@ -94,6 +94,7 @@ body {
 }
 fieldset {
     position: relative;
+    color: var(--text-color);
 }
 fieldset > *:not(legend, button) {
     position: absolute;
@@ -135,13 +136,25 @@ legend {
 .left .todo > button#hint {
     position: absolute;
     bottom: 0;
-    right: 0;
+    left: 0;
 }
 /* all buttons in todo */
 .left .todo > button {
     background: none;
     border: none;
     padding: 0;
+}
+.left .todo .instructions {
+    padding-left: 32px;
+    overflow-x: auto;
+
+    /* hide scrollbar */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+/* hide scrollbar in chrome */
+.left .todo .instructions::-webkit-scrollbar {
+    display: none;
 }
 
 /* notes the user can type */
@@ -223,13 +236,12 @@ legend {
     background: var(--text-background);
     border-radius: var(--border-radius);
     border: var(--border);
-    color: var(--text-color);
     overflow-x: auto;
 }
 .right #results {
     padding: var(--min-margin);
-    max-width: 1px;
-    /*max-width: calc(100vw/2 - var(--margin)*2);*/
+    /* max-width: 1px; */
+    max-width: calc(100vw/2 - var(--margin)*2);
 }
 .right .results table {
     border-collapse: collapse;
