@@ -43,6 +43,7 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    border-bottom: solid 2px var(--accent-color);
 }
 /* header title */
 .header h1 {
@@ -63,7 +64,7 @@ body {
 /* buttons level */
 .header .levels .level {
     width: 6vh;
-    background: var(--text-background);
+    background: none;
     border: none;
     color: var(--text-color);
     font-size: 18px;
