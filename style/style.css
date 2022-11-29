@@ -3,7 +3,7 @@
 * {
     margin: 0;
     --background: hsl(0, 0%, 15%);
-    --hue: 162;
+    /* --hue: 162; */
     --accent-color: hsl(var(--hue), 95%, 43%);
     --accent-color-darker: hsl(var(--hue), 95%, 20%);
     --text-background: hsl(0, 0%, 20%);
@@ -49,6 +49,27 @@ body {
 .header h1 {
     margin: var(--min-margin);
 }
+
+/* slider */
+.header .slider {
+    -webkit-appearance: none;
+    appearance: none;
+    outline: none;
+    width: 360px;
+    height: 10px;
+    border-radius: var(--border-radius);
+    background: linear-gradient(to right,hsl(0,100%,50%),hsl(60,100%,50%),hsl(120,100%,50%),hsl(180,100%,50%),hsl(240,100%,50%),hsl(300,100%,50%),hsl(360,100%,50%));
+}
+.header .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--accent-color);
+    cursor: pointer;
+    width: 12px; height: 12px;
+    border-radius: var(--border-radius);
+    outline: solid 2px black;
+}
+
 /* levels div */
 .header .levels {
     display: flex;
