@@ -18,6 +18,12 @@ var resetButton = document.getElementById("restart");			// reset button
 var levelNumberHTML = document.getElementById("levelNumber");	// level number stored in page
 var instructionsDiv = document.getElementById("instructions");	// instructions div for exercice
 var resultsDiv = document.getElementById("results");			// results div
+var colorSlider = document.getElementById("colorSlider");		// slider to choose color from
+var cssRoot = document.querySelector(":root");					// root of the page
+
+colorSlider.oninput = function() {
+	cssRoot.style.setProperty('--hue', this.value);
+}
 
 
 function sendRequest(req, callback) {
@@ -49,9 +55,9 @@ function resetCodeEditor(levelNumber) {
 executeButton.addEventListener("click", () => {
 	// CLEAN THE TEXT FROM EDITOR //
 	let query = editor.getValue();				// get editor text
-	query = query.replaceAll('\n', '\n ');	// add spaces after each line
+	query = query.replaceAll(['\n','\r\n'], '\n ');	// add spaces after each line
 	query = query.replace(/ *[Ss][Ee][Ll][Ee][Cc][Tt]/i, 'SELECT');	// put every select in start of line and uppercase
-	query = query.replaceAll(/\-\-.*\n/ig, '');	// remove all comment (start with '--' and have end of line)
+	query = query.replaceAll(/\-\-.*['\n','\r\n']/ig, '');	// remove all comment (start with '--' and have end of line)
 	//console.log(query);
 
 	// we call sendRequest whith a func that sendRequest will call that will edit the html in responseDiv
@@ -64,6 +70,7 @@ executeButton.addEventListener("click", () => {
 // reset content in code editor
 resetButton.addEventListener("click", () => {
 	resetCodeEditor(levelNumberHTML.innerHTML);
+	resultsDiv.innerHTML = "";
 })
 
 /* change level selected, reset code editor & edit buttons */
@@ -87,6 +94,10 @@ function changeLevel(id) {
 /* this part of code run itslef every refresh of the page, at the beginning */
 (
 	function main() {
+
+		/// SET COLOR VALUE ///
+		cssRoot.style.setProperty('--hue', 165);
+		colorSlider.value = "165";
 
 		/// ADD LISTENERS FOR LEVEL BUTTONS ///
 		/* get all levels */
