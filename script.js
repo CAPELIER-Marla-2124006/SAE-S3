@@ -1,4 +1,3 @@
-/// EDITOR ///
 // get editor from ace (for syntaxic colors etc)
 var editor = ace.edit("code-editor");
 // change theme
@@ -11,69 +10,72 @@ editor.setOptions({
 	fontSize: "14pt"
 })
 
+// defaults codes for every level
+var defaultCode = ["--insérer du code ici\nSELECT * FROM ENQUETE01;",
+				   "SELECT * FROM TEST;",
+				   "SELECT * FROM TEST;",
+				   "SELECT * FROM TEST;",
+				   "SELECT * FROM TEST;",
+				   "SELECT * FROM TEST;",
+				   "SELECT * FROM TEST;",
+				   "SELECT * FROM TEST;",
+				   "SELECT * FROM TEST;",
+				   "SELECT * FROM TEST;",
+				  ];
+// get button for query
+var exe = document.getElementById("execute");
+// get button for reset
+var rst = document.getElementById("restart");
+// get level number
+var levelNumber = document.getElementById("levelNumber");
+//get result place
+var results = document.getElementById("results");
+// deflaut query
+var query = "SELECT * FROM TEST;";
 
-/// GET AND STORE DIVS IN PAGE ///
-var executeButton = document.getElementById("execute");			// query button
-var resetButton = document.getElementById("restart");			// reset button
-var levelNumberHTML = document.getElementById("levelNumber");	// level number stored in page
-var instructionsDiv = document.getElementById("instructions");	// instructions div for exercice
-var resultsDiv = document.getElementById("results");			// results div
-
-
-function sendRequest(req, callback) {
-	let xmlhttp = new XMLHttpRequest();
-	// console.log(request);
-	// send request with query in GET
-	xmlhttp.open("GET", req, true);
-	xmlhttp.send();
-
-	// when result comes back
-	xmlhttp.onload = function () {
-		// get response)
-		let response = this.responseText;
-		// console.log(response);
-		// callback is a func declared when call this func, it's almost like return but we call a func that will do what we want
-		callback(response);
-	}
-}
-
-// change code editor content with db request
-function resetCodeEditor(levelNumber) {
-	sendRequest("sql.php?idLevel=" + levelNumber + "&type=codeInit", (code) => {
-		editor.setValue(code);
-	})
-}
-
-
-// when user press the execute button
-executeButton.addEventListener("click", () => {
-	// CLEAN THE TEXT FROM EDITOR //
-	let query = editor.getValue();				// get editor text
-	query = query.replaceAll('\n', '\n ');	// add spaces after each line
-	query = query.replace(/ *[Ss][Ee][Ll][Ee][Cc][Tt]/i, 'SELECT');	// put every select in start of line and uppercase
-	query = query.replaceAll(/\-\-.*\n/ig, '');	// remove all comment (start with '--' and have end of line)
+exe.addEventListener("click", ()=>{
+	query = editor.getValue();
+	// add spaces after each line
+	query = query.replaceAll('\n', '\n ')
+	// put every select in start of line and upper
+	query = query.replace(/ *[Ss][Ee][Ll][Ee][Cc][Tt]/i, 'SELECT')
+	// remove all comment (start with '--' and have end of line)
+	query = query.replaceAll(/\-\-.*\n/ig, '')
 	//console.log(query);
 
-	// we call sendRequest whith a func that sendRequest will call that will edit the html in responseDiv
-	sendRequest("sql.php?idLevel=" + levelNumberHTML.innerHTML + "&type=ex&request=" + query, (resp) => {
-		resultsDiv.innerHTML = resp;
-	});
+	let xmlhttp = new XMLHttpRequest();
 
+	// create request
+	let request = "sql.php?level=" + levelNumber.innerHTML + "&request=" + query;
+	//console.log(request);
+	// send request with query in GET
+	xmlhttp.open("GET", request, true);
+	xmlhttp.send();
+
+	// when result come back
+	xmlhttp.onload = function() {
+		// get response
+		let response = this.responseText;
+		//console.log(response);
+		// edit result div to show response
+		results.innerHTML = response;
+	}
 })
 
-// reset content in code editor
-resetButton.addEventListener("click", () => {
-	resetCodeEditor(levelNumberHTML.innerHTML);
+
+rst.addEventListener("click", ()=>{
+	// reset editor
+	editor.setValue(defaultCode[levelNumber.innerHTML -1]);
 })
 
 /* change level selected, reset code editor & edit buttons */
 function changeLevel(id) {
 	// change level number
-	levelNumberHTML.innerHTML = id + 1;
+	levelNumber.innerHTML = id+1;
 	// change default code
-	resetCodeEditor(levelNumberHTML.innerHTML);
-	// clear result div
-	resultsDiv.innerHTML = "";
+	editor.setValue(defaultCode[id]);
+	// reset result
+	results.innerHTML = "";
 	// get all buttons
 	let buttons = document.getElementsByClassName("level");
 	// remove all selected classes
@@ -85,22 +87,13 @@ function changeLevel(id) {
 }
 
 /* this part of code run itslef every refresh of the page, at the beginning */
-(
-	function main() {
-
-		/// ADD LISTENERS FOR LEVEL BUTTONS ///
-		/* get all levels */
-		let buttons = document.getElementsByClassName("level");
-		/* add event listeneer for every buttons in levels */
-		for (let i = 0; i < buttons.length; i++) {
-			buttons[i].addEventListener("click", () => {
-				changeLevel(i);
-			})
-		}
-
-		/// PUT INSTRUCTIONS ///
-		sendRequest("sql.php?idLevel=1&type=instructions", (inst)=>{
-			instructionsDiv.innerHTML = inst;
-		});
+(function addChangeLevelListeners() {
+	/* get all levels */
+	let buttons = document.getElementsByClassName("level");
+	/* add event listeneer for every buttons in levels */
+	for(let i = 0; i < buttons.length; i++) {
+		buttons[i].addEventListener("click", ()=>{
+			changeLevel(i);
+		})
 	}
-)();
+})();
