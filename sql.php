@@ -141,18 +141,20 @@ function getInstructions($idLevel) {
 
     // get instruction text and print it
     $instructions = $instructions[0][0];
-    echo $instructions;
+    echo $instructions."</br></br> Schéma des tables : </br>";
 
     // prepare to print tables fields
+    //echo $DB_NAME."-EX".$idLevel;
+    $db = connectDB($DB_NAME."-EX".$idLevel);
     $response = $db->prepare("show tables");
     $response->execute();
     $tables = $response->fetchAll();
+    $tables = $tables[0];
 
     // debug
     /* echo "<!--";
     print_r($tables);
 
-    $tables = $tables[0];
     print_r($tables);
     echo "--></br>"; */
 
@@ -161,23 +163,23 @@ function getInstructions($idLevel) {
 
         if(!ctype_digit($caseName) && !is_numeric($caseName)) {
 
-            echo "Table <b>".$tableName."</b> (</br>";
+            echo "</br>Table <b>".$tableName."</b> (</br>";
 
             // get columns from table
-            $response = $db->prepare("SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'IUT-SAE' AND TABLE_NAME = '".$tableName."'");
+            $response = $db->prepare("SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '".$DB_NAME."-EX".$idLevel."' AND TABLE_NAME = '".$tableName."'");
             $response->execute();
             $columns = $response->fetchAll();
-            $columns = $columns[0];
 
             // debug
-            /* echo "<!--";
+            echo "<!--";
             print_r($columns);
-            echo "--></br>"; */
+            //$columns = $columns[0];
+            //print_r($columns);
+            echo "-->";
 
-            // the array given by db has a strange output (doubles), so we take only wanted fields
-            for($i = 0; $i < count($columns)/2; $i++) {
-                echo "&emsp;".$columns[$i++].": ";
-                echo "<i>".$columns[$i]."</i>;</br>";
+            foreach($columns as $line) {
+                echo "&emsp;".$line[0].": ";
+                echo "<i>".$line[1]."</i>;</br>";
             }
             // end of one table in the db
             echo ");</br>";
