@@ -49,6 +49,7 @@ function resetCodeEditor(levelNumber) {
 	sendRequest("sql.php?idLevel=" + levelNumber + "&type=codeInit", (code) => {
 		editor.setValue(code);
 	})
+	resultsDiv.innerHTML = "";
 }
 
 
@@ -71,8 +72,13 @@ executeButton.addEventListener("click", () => {
 // reset content in code editor
 resetButton.addEventListener("click", () => {
 	resetCodeEditor(levelNumberHTML.innerHTML);
-	resultsDiv.innerHTML = "";
 })
+
+// when the user change level
+levelSelector.addEventListener("change", ()=>{
+	resetCodeEditor(levelSelector.value);
+})
+
 
 /* change level selected, reset code editor & edit buttons */
 function changeLevel(id) {
