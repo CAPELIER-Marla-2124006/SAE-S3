@@ -20,6 +20,31 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+/* scrollbars */
+/* personalize scrollbar */
+/* Firefox */
+* {
+    scrollbar-width: auto;
+    scrollbar-color: var(--accent-color) hsla(0, 0%, 0%, 0%);
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    border-radius: var(--border-radius);
+}
+
+*::-webkit-scrollbar-track {
+    background: hsla(0, 0%, 0%, 0%);
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--accent-color);
+    border-radius: 12px;
+    border: solid 3px var(--text-background);
+}
+
 /* general body */
 body {
     background: var(--background) url(/images/body.png);
@@ -112,11 +137,11 @@ legend {
 
 /* left column (todo and notes) */
 .left {
-    flex: 1;
+    flex: 2;
     display: flex;
     flex-direction: column;
     gap: var(--margin);
-    max-width: 450px;
+    max-width: 650px;
     min-width: 225px;
 }
 
@@ -154,10 +179,6 @@ legend {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
 }
-/* hide scrollbar in chrome */
-.left .todo .instructions::-webkit-scrollbar {
-    display: none;
-}
 
 /* notes the user can type */
 .left .notes {
@@ -181,16 +202,12 @@ legend {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
 }
-/* hide scrollbar in chrome */
-.left .notes textarea::-webkit-scrollbar {
-    display: none;
-}
 
 /* end of left column */
 
 /* right column, workspace, code section */
 .right {
-    flex: 1;
+    flex: 3;
     display: flex;
     flex-direction: column;
     gap: calc(var(--margin)/2);
@@ -245,6 +262,7 @@ legend {
     /* max-width: 1px; */
     max-width: calc(100vw/2 - var(--margin)*2);
 }
+
 .right .results table {
     border-collapse: collapse;
     width: min-content;
