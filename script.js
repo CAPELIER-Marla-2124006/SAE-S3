@@ -20,6 +20,7 @@ var instructionsDiv = document.querySelector("#instructions");	// instructions d
 var resultsDiv = document.querySelector("#results");			// results div
 var colorSlider = document.querySelector("#colorSlider");		// slider to choose color from
 var levelSelector = document.querySelector("#levels");			// level selector to trigger when changed
+var notesTextarea = document.querySelector("#notes");					// textarea where the user can type notes
 var cssRoot = document.querySelector(":root");					// root of the page
 
 colorSlider.oninput = function() {
@@ -72,12 +73,17 @@ executeButton.addEventListener("click", () => {
 // reset content in code editor
 resetButton.addEventListener("click", () => {
 	resetCodeEditor(levelNumberHTML.innerHTML);
-})
+});
 
 // when the user change level
 levelSelector.addEventListener("change", ()=>{
 	resetCodeEditor(levelSelector.value);
-})
+});
+
+// when the user exit notes textarea
+notesTextarea.addEventListener("focusout", ()=>{
+	sendRequest("accounts.php?type=note&text="+notesTextarea.innerHTML, ()=>{})
+});
 
 
 /* change level selected, reset code editor & edit buttons */
