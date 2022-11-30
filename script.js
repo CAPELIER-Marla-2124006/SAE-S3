@@ -13,12 +13,13 @@ editor.setOptions({
 
 
 /// GET AND STORE DIVS IN PAGE ///
-var executeButton = document.getElementById("execute");			// query button
-var resetButton = document.getElementById("restart");			// reset button
-var levelNumberHTML = document.getElementById("levelNumber");	// level number stored in page
-var instructionsDiv = document.getElementById("instructions");	// instructions div for exercice
-var resultsDiv = document.getElementById("results");			// results div
-var colorSlider = document.getElementById("colorSlider");		// slider to choose color from
+var executeButton = document.querySelector("#execute");			// query button
+var resetButton = document.querySelector("#restart");			// reset button
+var levelNumberHTML = document.querySelector("#levelNumber");	// level number stored in page
+var instructionsDiv = document.querySelector("#instructions");	// instructions div for exercice
+var resultsDiv = document.querySelector("#results");			// results div
+var colorSlider = document.querySelector("#colorSlider");		// slider to choose color from
+var levelSelector = document.querySelector("#levels");			// level selector to trigger when changed
 var cssRoot = document.querySelector(":root");					// root of the page
 
 colorSlider.oninput = function() {
@@ -82,7 +83,7 @@ function changeLevel(id) {
 	// clear result div
 	resultsDiv.innerHTML = "";
 	// get all buttons
-	let buttons = document.getElementsByClassName("level");
+	let buttons = document.querySelector("level");
 	// remove all selected classes
 	for (let i = 0; i < buttons.length; i++) {
 		buttons[i].classList.remove("selected");
@@ -93,7 +94,7 @@ function changeLevel(id) {
 
 /* this part of code run itslef every refresh of the page, at the beginning */
 (
-	function main() {
+	function start() {
 
 		/// SET COLOR VALUE ///
 		cssRoot.style.setProperty('--hue', 165);
