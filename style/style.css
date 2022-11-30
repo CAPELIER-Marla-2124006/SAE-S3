@@ -72,36 +72,17 @@ body {
 
 /* levels div */
 .header .levels {
-    display: flex;
-    flex-direction: row;
-    gap: var(--min-margin);
     font-size: 24px;
-    height: 100%;
-    --border-bottom: solid 2px var(--accent-color);
-    --big-border-bottom: solid 5px var(--accent-color);
-    --border-bottom-hiden: solid 2px hsla(0, 0%, 0%, 0%);
-    --big-border-bottom-hiden: solid 5px hsla(0, 0%, 0%, 0%);
+    height: calc(100% - 2*var(--min-margin));
+    margin: var(--min-margin);
+    background: var(--background);
+    color: var(--text-color);
+    border: var(--border);
+    border-radius: var(--border-radius);
 }
 /* buttons level */
 .header .levels .level {
-    width: 6vh;
-    background: none;
-    border: none;
-    color: var(--text-color);
     font-size: 18px;
-}
-.header .levels .level:hover {
-    border-bottom: var(--big-border-bottom);
-    border-top: var(--big-border-bottom-hiden);
-    cursor: pointer;
-}
-.header .levels .level:active {
-    border-bottom: var(--border-bottom);
-    border-top: var(--border-bottom-hiden);
-}
-.header .levels .level.selected {
-    border-bottom: var(--border-bottom);
-    border-top: var(--border-bottom-hiden);
 }
 
 /* full page and contents */
