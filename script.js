@@ -128,7 +128,12 @@ executeButton.addEventListener("click", () => {
 
 	// we call sendRequest whith a func that sendRequest will call that will edit the html in responseDiv
 	sendRequest("sql.php?idLevel=" + levelNumberHTML.innerHTML + "&type=ex&request=" + query, (resp) => {
-		resultsDiv.innerHTML = resp;
+		let win = resp.split('\n')[0];
+		let table = resp.split('\n')[1];
+		if(win == "true") {
+			console.log("reussi");
+		}
+		resultsDiv.innerHTML = table;
 	});
 
 })
