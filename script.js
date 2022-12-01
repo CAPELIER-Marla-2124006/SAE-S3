@@ -131,11 +131,11 @@ function displayWin() {
 // when user press the execute button
 executeButton.addEventListener("click", () => {
 	// CLEAN THE TEXT FROM EDITOR //
-	let query = editor.getValue();				// get editor text
-	query = query.replaceAll(['\n','\r\n'], '\n ');	// add spaces after each line
-	query = query.replace(/ *[Ss][Ee][Ll][Ee][Cc][Tt]/i, 'SELECT');	// put every select in start of line and uppercase
-	query = query.replaceAll(/\-\-.*['\n','\r\n']/ig, '');	// remove all comment (start with '--' and have end of line)
-	//console.log(query);
+	let query = editor.getValue();					// get editor text
+	query = query.replace(/\-\-.*\n?/ig, '');		// remove all comment (start with '--' and have end of line)
+	query = query.replace(/\n|\r\n/gm, ' ');		// replace new lines by space
+	query = query.replace(/select/gmi, 'SELECT');	// put every select in start of line and uppercase
+	console.log(query);
 
 	// we call sendRequest whith a func that sendRequest will call that will edit the html in responseDiv
 	sendRequest("sql.php?idLevel=" + levelNumberHTML.innerHTML + "&type=ex&request=" + query, (resp) => {
