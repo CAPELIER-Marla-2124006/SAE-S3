@@ -19,23 +19,23 @@ editor.setOptions({
 ///----------------------------///
 /// GET AND STORE DIVS IN PAGE ///
 ///----------------------------///
-var executeButton = document.querySelector("#execute");				// query button
-var resetButton = document.querySelector("#restart");				// reset button
-var levelNumberHTML = document.querySelector("#levelNumber");		// level number stored in page
-var instructionsDiv = document.querySelector("#instructions");		// instructions div for exercice
-var lessonButton = document.querySelector("#lesson");				// button to display the lesson
-var hintButton = document.querySelector("#hint");					// button to display the hint
-var resultsDiv = document.querySelector("#results");				// results div
-var colorSlider = document.querySelector("#colorSlider");			// slider to choose color from
-var levelSelector = document.querySelector("#levels");				// level selector to trigger when changed
-var notesTextarea = document.querySelector("#notes");				// textarea where the user can type notes
-var lessonDiv = document.querySelector("#popupLesson");				// where the lesson will be displayed
-var hintDiv = document.querySelector("#popupHint");					// where the hint will be displayed
-var endDiv = document.querySelector("#popupEnd");					// div with win message
-var closePopupButton = document.querySelectorAll(".exitButton")		// select all closePopup buttons
-var nextPopupButton = document.querySelector(".nextButton")			// next button in end popup
-var popupBackground = document.querySelector(".popupBackground")	// background of popups to remove them
-var cssRoot = document.querySelector(":root");						// root of the page
+const executeButton 	= document.querySelector("#execute");			// query button
+const resetButton 		= document.querySelector("#restart");			// reset button
+const levelNumberHTML 	= document.querySelector("#levelNumber");		// level number stored in page
+const instructionsDiv 	= document.querySelector("#instructions");		// instructions div for exercice
+const lessonButton 		= document.querySelector("#lesson");			// button to display the lesson
+const hintButton 		= document.querySelector("#hint");				// button to display the hint
+const resultsDiv 		= document.querySelector("#results");			// results div
+const colorSlider 		= document.querySelector("#colorSlider");		// slider to choose color from
+const levelSelector 	= document.querySelector("#levels");			// level selector to trigger when changed
+const notesTextarea 	= document.querySelector("#notes");				// textarea where the user can type notes
+const lessonDiv 		= document.querySelector("#popupLesson");		// where the lesson will be displayed
+const hintDiv 			= document.querySelector("#popupHint");			// where the hint will be displayed
+const endDiv 			= document.querySelector("#popupEnd");			// div with win message
+const closePopupButton 	= document.querySelectorAll(".exitButton");		// select all closePopup buttons
+const nextPopupButton 	= document.querySelector(".nextButton");		// next button in end popup
+const popupBackground 	= document.querySelector(".popupBackground");	// background of popups to remove them
+const cssRoot 			= document.querySelector(":root");				// root of the page
 
 
 
@@ -189,6 +189,82 @@ lessonButton.addEventListener("click", ()=>{
 hintButton.addEventListener("click", ()=>{
 	displayHint();
 });
+
+
+
+///----------------///
+/// RESIZABLE DIVS ///
+///----------------///
+// GET DIVS //
+const horizontalResizer = document.querySelector("#horizontalResizer");		// drag to resize horizontaly
+const leftSide 	= horizontalResizer.previousElementSibling;					// div on the left of drager
+const rightSide = horizontalResizer.nextElementSibling;						// div on the right of drager
+
+// where is the mouse?
+var mouseX = 0;
+var mouseY = 0;
+
+// width of the left side
+var leftWidth = 0;
+
+function mouseDownHandler(e) {
+	// updates global vars
+	mouseX = e.clientX;
+	mouseY = e.clientY;
+	leftWidth = leftSide.getBoundingClientRect().width;
+
+	// add listeners
+	document.addEventListener('mousemove', mouseMoveHandler);
+	document.addEventListener('mouseup', mouseUpHandler);
+}
+
+function mouseMoveHandler(e) {
+	// calc distance by mouse
+	const dx = e.clientX - mouseX;
+	const dy = e.clientY - mouseY;
+
+	// edit width of the left
+	const newLeftWidth = ((leftWidth + dx) * 100) / horizontalResizer.parentNode.getBoundingClientRect().width;
+	leftSide.style.width = newLeftWidth+'%';
+
+	// show mouse cursor everywhere on the page (to prevent flickering)
+	document.body.style.cursor = 'col-resize';
+
+	// prevent mouse from selecting anything on the page
+	leftSide.style.userSelect = 'none';
+    leftSide.style.pointerEvents = 'none';
+    rightSide.style.userSelect = 'none';
+    rightSide.style.pointerEvents = 'none';
+}
+
+function mouseUpHandler(e) {
+	// remove cursor style
+	horizontalResizer.style.removeProperty('cursor');
+	document.body.style.removeProperty('cursor');
+
+	// remove preventing selection
+	leftSide.style.removeProperty('user-select');
+    leftSide.style.removeProperty('pointer-events');
+    rightSide.style.removeProperty('user-select');
+    rightSide.style.removeProperty('pointer-events');
+
+	// remove handlers
+	document.removeEventListener('mousemove', mouseMoveHandler);
+    document.removeEventListener('mouseup', mouseUpHandler);
+}
+
+horizontalResizer.addEventListener('mousedown', mouseDownHandler);
+
+
+
+
+
+
+
+
+
+
+
 
 
 
