@@ -1,4 +1,6 @@
+///--------///
 /// EDITOR ///
+///--------///
 // get editor from ace (for syntaxic colors etc)
 var editor = ace.edit("code-editor");
 // change theme
@@ -12,7 +14,11 @@ editor.setOptions({
 })
 
 
+
+
+///----------------------------///
 /// GET AND STORE DIVS IN PAGE ///
+///----------------------------///
 var executeButton = document.querySelector("#execute");				// query button
 var resetButton = document.querySelector("#restart");				// reset button
 var levelNumberHTML = document.querySelector("#levelNumber");		// level number stored in page
@@ -23,14 +29,16 @@ var levelSelector = document.querySelector("#levels");				// level selector to t
 var notesTextarea = document.querySelector("#notes");				// textarea where the user can type notes
 var cssRoot = document.querySelector(":root");						// root of the page
 var closePopup = document.querySelectorAll(".exitButton")			// select all closePopup buttons
-var nextPopupButton = document.querySelector(".nextButton")				// next button in end popup
+var nextPopupButton = document.querySelector(".nextButton")			// next button in end popup
 var popupBackground = document.querySelector(".popupBackground")	// background of popups to remove them
 
-colorSlider.oninput = function() {
-	cssRoot.style.setProperty('--hue', this.value);
-}
 
 
+
+///------------------///
+/// GLOBAL FUNCTIONS ///
+///------------------///
+/* send a request from url, with a lambda in params (almost like the return) */
 function sendRequest(req, callback) {
 	let xmlhttp = new XMLHttpRequest();
 	// console.log(request);
@@ -48,13 +56,34 @@ function sendRequest(req, callback) {
 	}
 }
 
-// change code editor content with db request
+/* change code editor content with db request */
 function resetCodeEditor(levelNumber) {
 	sendRequest("sql.php?idLevel=" + levelNumber + "&type=codeInit", (code) => {
 		editor.setValue(code);
 	})
-	resultsDiv.innerHTML = "";
 }
+
+/* change level selected, reset code editor & edit buttons */
+function changeLevel(id) {
+	// change level number
+	levelNumberHTML.innerHTML = id;
+	// change default code
+	resetCodeEditor(levelNumberHTML.innerHTML);
+	// clear result div
+	resultsDiv.innerHTML = "";
+	// edit the level selector to have the right level selected
+	levelSelector.value=id;
+}
+
+function nextLevel() {
+	changeLevel(parseInt(levelNumberHTML.innerHTML)+1);
+}
+
+
+
+///-----------------///
+/// EVENT LISTENERS ///
+///-----------------///
 
 // when user press the execute button
 executeButton.addEventListener("click", () => {
@@ -77,28 +106,19 @@ resetButton.addEventListener("click", () => {
 	resetCodeEditor(levelNumberHTML.innerHTML);
 });
 
-// when the user change level
+// when the user change level from selector, load level
 levelSelector.addEventListener("change", ()=>{
 	changeLevel(levelSelector.value);
 });
 
-// when the user exit notes textarea
+// when the user exit notes textarea, store its data in db
 notesTextarea.addEventListener("focusout", ()=>{
 	sendRequest("accounts.php?type=note&text="+notesTextarea.innerHTML, ()=>{})
 });
 
-
-/* change level selected, reset code editor & edit buttons */
-function changeLevel(id) {
-	id = parseInt(id);
-	// change level number
-	levelNumberHTML.innerHTML = id;
-	// change default code
-	resetCodeEditor(levelNumberHTML.innerHTML);
-	// clear result div
-	resultsDiv.innerHTML = "";
-	// edit the level selector to have the right level selected
-	levelSelector.value=id;
+// when the user change slider value
+colorSlider.oninput = function() {
+	cssRoot.style.setProperty('--hue', this.value);
 }
 
 /* close end popup and get next level */
@@ -109,43 +129,48 @@ nextPopupButton.addEventListener("click", ()=>{
 		p.classList.remove("display");
 	}
 
-	changeLevel(parseInt(levelNumberHTML.innerHTML)+1);
+	nextLevel();
 });
 
+
+
+
+///------///
+/// MAIN ///
+///------///
 /* this part of code run itslef every refresh of the page, at the beginning */
 (
-	function start() {
+function start() {
 
-		/// SET COLOR VALUE ///
-		cssRoot.style.setProperty('--hue', 165);
-		colorSlider.value = "165";
+	/// SET COLOR VALUE ///
+	cssRoot.style.setProperty('--hue', 165);
+	colorSlider.value = "165";
 
-		/// ADD LISTENERS FOR LEVEL BUTTONS ///
-		/* get all levels */
-		let buttons = document.getElementsByClassName("level");
-		/* add event listeneer for every buttons in levels */
-		for (let i = 0; i < buttons.length; i++) {
-			buttons[i].addEventListener("click", () => {
-				changeLevel(i);
-			})
-		}
-
-		/// PUT INSTRUCTIONS ///
-		sendRequest("sql.php?idLevel=1&type=instructions", (inst)=>{
-			instructionsDiv.innerHTML = inst;
-		});
-
-		/// CLOSE POPUP TRIGGER ///
-		// for each popup close button
-		closePopup.forEach(b => {
-			// when clicked
-			b.addEventListener("click", ()=>{
-				// get all children of popupBackground
-				for(const p of popupBackground.children) {
-					// remove their class display
-					p.classList.remove("display");
-				}
-			});
-		});
+	/// ADD LISTENERS FOR LEVEL BUTTONS ///
+	/* get all levels */
+	let buttons = document.getElementsByClassName("level");
+	/* add event listeneer for every buttons in levels */
+	for (let i = 0; i < buttons.length; i++) {
+		buttons[i].addEventListener("click", () => {
+			changeLevel(i);
+		})
 	}
-)();
+
+	/// PUT INSTRUCTIONS ///
+	sendRequest("sql.php?idLevel=1&type=instructions", (inst)=>{
+		instructionsDiv.innerHTML = inst;
+	});
+
+	/// CLOSE POPUP TRIGGER ///
+	// for each popup close button
+	closePopup.forEach(b => {
+		// when clicked
+		b.addEventListener("click", ()=>{
+			// get all children of popupBackground
+			for(const p of popupBackground.children) {
+				// remove their class display
+				p.classList.remove("display");
+			}
+		});
+	});
+})();
