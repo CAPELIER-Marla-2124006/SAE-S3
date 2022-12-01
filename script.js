@@ -70,12 +70,17 @@ function resetCodeEditor(levelNumber) {
 
 /* change level selected, reset code editor & edit buttons */
 function changeLevel(id) {
+	// hide everything
+	resultsDiv.innerHTML = "";
+	lessonDiv.querySelector(".text").innerHTML = "";
+	hintDiv.querySelector(".text").innerHTML = "";
+	instructionsDiv.innerHTML = "";
+	editor.setValue("");
+
 	// change level number
 	levelNumberHTML.innerHTML = id;
 	// change default code
 	resetCodeEditor(levelNumberHTML.innerHTML);
-	// clear result div
-	resultsDiv.innerHTML = "";
 	// edit the level selector to have the right level selected
 	levelSelector.value=id;
 	sendRequest("sql.php?idLevel="+id+"&type=instructions", (i)=>{
