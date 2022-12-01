@@ -31,6 +31,7 @@ var levelSelector = document.querySelector("#levels");				// level selector to t
 var notesTextarea = document.querySelector("#notes");				// textarea where the user can type notes
 var lessonDiv = document.querySelector("#popupLesson");				// where the lesson will be displayed
 var hintDiv = document.querySelector("#popupHint");					// where the hint will be displayed
+var endDiv = document.querySelector("#popupEnd");					// div with win message
 var closePopupButton = document.querySelectorAll(".exitButton")		// select all closePopup buttons
 var nextPopupButton = document.querySelector(".nextButton")			// next button in end popup
 var popupBackground = document.querySelector(".popupBackground")	// background of popups to remove them
@@ -98,16 +99,21 @@ function nextLevel() {
 	displayLesson();
 }
 
-/* display the lesson in the popup from db */
+/* display the lesson in the popup */
 function displayLesson() {
 	// display lesson div
 	lessonDiv.classList.add("display");
 }
 
-/* display the hint in the popup from db */
+/* display the hint in the popup */
 function displayHint() {
 	// display hint div
 	hintDiv.classList.add("display");
+}
+
+/* display win message in the popup */
+function displayWin() {
+	endDiv.classList.add("display");
 }
 
 
@@ -131,7 +137,7 @@ executeButton.addEventListener("click", () => {
 		let win = resp.split('\n')[0];
 		let table = resp.split('\n')[1];
 		if(win == "true") {
-			console.log("reussi");
+			displayWin();
 		}
 		resultsDiv.innerHTML = table;
 	});
@@ -219,6 +225,11 @@ function start() {
 		// put hint in the text div
 		hintDiv.querySelector(".text").innerHTML = hint;
 	});
+
+	/// GET WIN MESSAGE ///
+	sendRequest("sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=success", (msg)=> {
+		endDiv.querySelector(".text").innerHTML = msg;
+	})
 
 	/// CLOSE POPUP TRIGGER ///
 	// for each popup close button
