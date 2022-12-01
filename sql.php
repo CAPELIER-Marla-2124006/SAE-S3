@@ -141,6 +141,7 @@ function getInstructions($idLevel) {
 
     // get instruction text and print it
     $instructions = $instructions[0][0];
+    if($instructions == "") exit();
     echo $instructions."</br></br> Schéma des tables : </br>";
 
     // prepare to print tables fields
