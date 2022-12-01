@@ -7,6 +7,7 @@
     --accent-color: hsl(var(--hue), 95%, 43%);
     --accent-color-darker: hsl(var(--hue), 95%, 20%);
     --text-background: hsl(0, 0%, 20%);
+    --text-background-semi-transparent: hsla(var(--hue), 10%, 20%, 0.5);
     --text-color: hsl(0, 0%, 100%);
     --margin: 25px;
     --little-margin: 12px;
@@ -279,3 +280,61 @@ legend {
     white-space: nowrap;
 }
 /* end of right column */
+
+
+
+/* Background of popups */
+.popupBackground {
+    display: none;
+}
+.popupBackground:has(.displayed) {
+    z-index: 8;
+    position: fixed;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background: var(--text-background-semi-transparent);
+}
+.popupBackground > * {
+    display: none;
+}
+.popupBackground > *.displayed {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--margin);
+    background: var(--text-background);
+    padding: var(--margin);
+    margin: 200px;
+    min-width: 450px;
+    max-width: 600px;
+    min-height: 300px;
+    max-height: 600px;
+    border: var(--border);
+    border-radius: var(--border-radius);
+    position: relative;
+    color: var(--text-color);
+    overflow: auto;
+}
+.popupBackground *:is(#popupLesson, #popupHint) button {
+    background: none;
+    border: none;
+    position: absolute;
+    top: var(--little-margin); right: var(--little-margin);
+    padding: 0;
+}
+.popupBackground *:is(#popupLesson, #popupHint) button img{
+    width: 32px;
+}
+.popupBackground #popupEnd button {
+    background: none;
+    border: none;
+    position: absolute;
+    bottom: var(--little-margin); right: var(--little-margin);
+    padding: 0;
+}
+.popupBackground #popupEnd button img{
+    width: 42px;
+}
