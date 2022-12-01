@@ -9,7 +9,7 @@
     --text-background: hsl(0, 0%, 20%);
     --text-background-semi-transparent: hsla(var(--hue), 10%, 20%, 0.5);
     --text-color: hsl(0, 0%, 100%);
-    --margin: 25px;
+    --margin: 16px;
     --little-margin: 12px;
     --min-margin: 6px;
     --border: solid 1px var(--accent-color);
@@ -137,7 +137,7 @@ body {
     display: flex;
     flex-direction: row;
     gap: var(--margin);
-    margin: var(--margin);
+    margin: calc(var(--margin)*3/2);
     justify-content: space-between;
 }
 fieldset {
@@ -158,11 +158,12 @@ legend {
 
 /* left column (todo and notes) */
 .left {
-    flex: 2;
+    /*flex: 1;*/
     display: flex;
     flex-direction: column;
     gap: var(--margin);
     max-width: 650px;
+    width: 34%;
     min-width: 225px;
 }
 
@@ -228,10 +229,10 @@ legend {
 
 /* right column, workspace, code section */
 .right {
-    flex: 3;
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: calc(var(--margin)/2);
+    gap: var(--margin);
 }
 
 .right .code {
@@ -255,7 +256,7 @@ legend {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    gap: calc(var(--margin)/2);
+    gap: var(--margin);
 }
 .right .buttons button {
     flex: 1;
@@ -357,4 +358,26 @@ legend {
 }
 .popupBackground #popupEnd button img{
     width: 42px;
+}
+
+
+/* DRAGERS */
+.horizontalResizer {
+    margin-top: 8px;
+    width: 3px;
+    background: var(--accent-color);
+    border: solid 2px var(--background);
+    border-radius: var(--border-radius);
+}
+.horizontalResizer:hover {
+    cursor: col-resize;
+}
+.verticalResizer {
+    height: 3px;
+    background: var(--accent-color);
+    border: solid 2px var(--background);
+    border-radius: var(--border-radius);
+}
+.verticalResizer:hover {
+    cursor: row-resize;
 }
