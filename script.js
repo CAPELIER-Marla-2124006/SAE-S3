@@ -13,15 +13,17 @@ editor.setOptions({
 
 
 /// GET AND STORE DIVS IN PAGE ///
-var executeButton = document.querySelector("#execute");			// query button
-var resetButton = document.querySelector("#restart");			// reset button
-var levelNumberHTML = document.querySelector("#levelNumber");	// level number stored in page
-var instructionsDiv = document.querySelector("#instructions");	// instructions div for exercice
-var resultsDiv = document.querySelector("#results");			// results div
-var colorSlider = document.querySelector("#colorSlider");		// slider to choose color from
-var levelSelector = document.querySelector("#levels");			// level selector to trigger when changed
-var notesTextarea = document.querySelector("#notes");					// textarea where the user can type notes
-var cssRoot = document.querySelector(":root");					// root of the page
+var executeButton = document.querySelector("#execute");				// query button
+var resetButton = document.querySelector("#restart");				// reset button
+var levelNumberHTML = document.querySelector("#levelNumber");		// level number stored in page
+var instructionsDiv = document.querySelector("#instructions");		// instructions div for exercice
+var resultsDiv = document.querySelector("#results");				// results div
+var colorSlider = document.querySelector("#colorSlider");			// slider to choose color from
+var levelSelector = document.querySelector("#levels");				// level selector to trigger when changed
+var notesTextarea = document.querySelector("#notes");				// textarea where the user can type notes
+var cssRoot = document.querySelector(":root");						// root of the page
+var closePopup = document.querySelectorAll(".exitButton")			// select all closePopup buttons
+var popupBackground = document.querySelector(".popupBackground")	// background of popups to remove them
 
 colorSlider.oninput = function() {
 	cssRoot.style.setProperty('--hue', this.value);
@@ -125,6 +127,19 @@ function changeLevel(id) {
 		/// PUT INSTRUCTIONS ///
 		sendRequest("sql.php?idLevel=1&type=instructions", (inst)=>{
 			instructionsDiv.innerHTML = inst;
+		});
+
+		/// CLOSE POPUP TRIGGER ///
+		// for each popup close button
+		closePopup.forEach(b => {
+			// when clicked
+			b.addEventListener("click", ()=>{
+				// get all children of popupBackground
+				for(const p of popupBackground.children) {
+					// remove their class display
+					p.classList.remove("display");
+				}
+			});
 		});
 	}
 )();

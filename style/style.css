@@ -287,7 +287,7 @@ legend {
 .popupBackground {
     display: none;
 }
-.popupBackground:has(.displayed) {
+.popupBackground:has(.display) {
     z-index: 8;
     position: fixed;
     display: flex;
@@ -300,7 +300,7 @@ legend {
 .popupBackground > * {
     display: none;
 }
-.popupBackground > *.displayed {
+.popupBackground > *.display {
     display: flex;
     flex-direction: column;
     align-items: center;
