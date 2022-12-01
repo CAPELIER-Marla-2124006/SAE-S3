@@ -95,6 +95,7 @@ function changeLevel(id) {
 /* select next level */
 function nextLevel() {
 	changeLevel(parseInt(levelNumberHTML.innerHTML)+1);
+	displayLesson();
 }
 
 /* display the lesson in the popup from db */
