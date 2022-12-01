@@ -23,12 +23,14 @@ var executeButton = document.querySelector("#execute");				// query button
 var resetButton = document.querySelector("#restart");				// reset button
 var levelNumberHTML = document.querySelector("#levelNumber");		// level number stored in page
 var instructionsDiv = document.querySelector("#instructions");		// instructions div for exercice
+var hintButton = document.querySelector("#hint");					// button to display the hint
 var resultsDiv = document.querySelector("#results");				// results div
 var colorSlider = document.querySelector("#colorSlider");			// slider to choose color from
 var levelSelector = document.querySelector("#levels");				// level selector to trigger when changed
 var notesTextarea = document.querySelector("#notes");				// textarea where the user can type notes
 var lessonDiv = document.querySelector("#popupLesson");				// where the lesson will be displayed
-var closePopup = document.querySelectorAll(".exitButton")			// select all closePopup buttons
+var hintDiv = document.querySelector("#popupHint");					// where the hint will be displayed
+var closePopupButton = document.querySelectorAll(".exitButton")		// select all closePopup buttons
 var nextPopupButton = document.querySelector(".nextButton")			// next button in end popup
 var popupBackground = document.querySelector(".popupBackground")	// background of popups to remove them
 var cssRoot = document.querySelector(":root");						// root of the page
@@ -86,11 +88,26 @@ function nextLevel() {
 
 /* display the lesson in the popup from db */
 function displayLesson() {
+	// ask db for the lesson
 	sendRequest("sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=lesson", (lesson)=>{
+		// put lesson in the text div
 		lessonDiv.querySelector(".text").innerHTML = lesson;
+		// display the popup
 		lessonDiv.classList.add("display");
 	});
 }
+
+/* display the hint in the popup from db */
+function displayHint() {
+	// ask the db for the hint
+	sendRequest("sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=hint", (hint)=>{
+		// put hint in the text div
+		hintDiv.querySelector(".text").innerHTML = hint;
+		// display the popup
+		hintDiv.classList.add("display");
+	});
+}
+
 
 
 
@@ -145,6 +162,10 @@ nextPopupButton.addEventListener("click", ()=>{
 	nextLevel();
 });
 
+hintButton.addEventListener("click", ()=>{
+	console.log("1");
+	displayHint();
+});
 
 
 
@@ -179,7 +200,7 @@ function start() {
 
 	/// CLOSE POPUP TRIGGER ///
 	// for each popup close button
-	closePopup.forEach(b => {
+	closePopupButton.forEach(b => {
 		// when clicked
 		b.addEventListener("click", ()=>{
 			// get all children of popupBackground
