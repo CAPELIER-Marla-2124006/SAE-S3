@@ -23,6 +23,7 @@ var executeButton = document.querySelector("#execute");				// query button
 var resetButton = document.querySelector("#restart");				// reset button
 var levelNumberHTML = document.querySelector("#levelNumber");		// level number stored in page
 var instructionsDiv = document.querySelector("#instructions");		// instructions div for exercice
+var lessonButton = document.querySelector("#lesson");				// button to display the lesson
 var hintButton = document.querySelector("#hint");					// button to display the hint
 var resultsDiv = document.querySelector("#results");				// results div
 var colorSlider = document.querySelector("#colorSlider");			// slider to choose color from
@@ -79,6 +80,16 @@ function changeLevel(id) {
 	sendRequest("sql.php?idLevel="+id+"&type=instructions", (i)=>{
 		instructionsDiv.innerHTML = i;
 	});
+	// edit lesson div to put new text
+	sendRequest("sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=lesson", (lesson)=>{
+		// put lesson in the text div
+		lessonDiv.querySelector(".text").innerHTML = lesson;
+	});
+	// edit hint div to put new text
+	sendRequest("sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=hint", (hint)=>{
+		// put hint in the text div
+		hintDiv.querySelector(".text").innerHTML = hint;
+	});
 }
 
 /* select next level */
@@ -88,24 +99,14 @@ function nextLevel() {
 
 /* display the lesson in the popup from db */
 function displayLesson() {
-	// ask db for the lesson
-	sendRequest("sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=lesson", (lesson)=>{
-		// put lesson in the text div
-		lessonDiv.querySelector(".text").innerHTML = lesson;
-		// display the popup
-		lessonDiv.classList.add("display");
-	});
+	// display lesson div
+	lessonDiv.classList.add("display");
 }
 
 /* display the hint in the popup from db */
 function displayHint() {
-	// ask the db for the hint
-	sendRequest("sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=hint", (hint)=>{
-		// put hint in the text div
-		hintDiv.querySelector(".text").innerHTML = hint;
-		// display the popup
-		hintDiv.classList.add("display");
-	});
+	// display hint div
+	hintDiv.classList.add("display");
 }
 
 
@@ -162,8 +163,13 @@ nextPopupButton.addEventListener("click", ()=>{
 	nextLevel();
 });
 
+/* display lesson when clicking lesson */
+lessonButton.addEventListener("click", ()=>{
+	displayLesson();
+})
+
+/* display hint when clicking hint */
 hintButton.addEventListener("click", ()=>{
-	console.log("1");
 	displayHint();
 });
 
@@ -190,13 +196,23 @@ function start() {
 		})
 	}
 
-	/// PUT INSTRUCTIONS ///
+	/// GET INSTRUCTIONS ///
 	sendRequest("sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=instructions", (inst)=>{
 		instructionsDiv.innerHTML = inst;
 	});
 
 	/// DISPLAY LESSON ///
-	displayLesson();
+	sendRequest("sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=lesson", (lesson)=>{
+		// put lesson in the text div
+		lessonDiv.querySelector(".text").innerHTML = lesson;
+		displayLesson();
+	});
+
+	/// GET HINT ///
+	sendRequest("sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=hint", (hint)=>{
+		// put hint in the text div
+		hintDiv.querySelector(".text").innerHTML = hint;
+	});
 
 	/// CLOSE POPUP TRIGGER ///
 	// for each popup close button
