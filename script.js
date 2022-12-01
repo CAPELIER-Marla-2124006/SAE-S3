@@ -73,6 +73,9 @@ function changeLevel(id) {
 	resultsDiv.innerHTML = "";
 	// edit the level selector to have the right level selected
 	levelSelector.value=id;
+	sendRequest("sql.php?idLevel="+id+"&type=instructions", (i)=>{
+		instructionsDiv.innerHTML = i;
+	});
 }
 
 function nextLevel() {
