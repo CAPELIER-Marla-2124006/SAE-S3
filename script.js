@@ -23,6 +23,7 @@ var levelSelector = document.querySelector("#levels");				// level selector to t
 var notesTextarea = document.querySelector("#notes");				// textarea where the user can type notes
 var cssRoot = document.querySelector(":root");						// root of the page
 var closePopup = document.querySelectorAll(".exitButton")			// select all closePopup buttons
+var nextPopupButton = document.querySelector(".nextButton")				// next button in end popup
 var popupBackground = document.querySelector(".popupBackground")	// background of popups to remove them
 
 colorSlider.oninput = function() {
@@ -55,7 +56,6 @@ function resetCodeEditor(levelNumber) {
 	resultsDiv.innerHTML = "";
 }
 
-
 // when user press the execute button
 executeButton.addEventListener("click", () => {
 	// CLEAN THE TEXT FROM EDITOR //
@@ -79,7 +79,7 @@ resetButton.addEventListener("click", () => {
 
 // when the user change level
 levelSelector.addEventListener("change", ()=>{
-	resetCodeEditor(levelSelector.value);
+	changeLevel(levelSelector.value);
 });
 
 // when the user exit notes textarea
@@ -90,21 +90,27 @@ notesTextarea.addEventListener("focusout", ()=>{
 
 /* change level selected, reset code editor & edit buttons */
 function changeLevel(id) {
+	id = parseInt(id);
 	// change level number
-	levelNumberHTML.innerHTML = id + 1;
+	levelNumberHTML.innerHTML = id;
 	// change default code
 	resetCodeEditor(levelNumberHTML.innerHTML);
 	// clear result div
 	resultsDiv.innerHTML = "";
-	// get all buttons
-	let buttons = document.querySelector("level");
-	// remove all selected classes
-	for (let i = 0; i < buttons.length; i++) {
-		buttons[i].classList.remove("selected");
-	}
-	// edit button selected
-	buttons[id].classList.add("selected");
+	// edit the level selector to have the right level selected
+	levelSelector.value=id;
 }
+
+/* close end popup and get next level */
+nextPopupButton.addEventListener("click", ()=>{
+	// get all popupBackground children and remove their class display
+	for(const p of popupBackground.children) {
+		// remove their class display
+		p.classList.remove("display");
+	}
+
+	changeLevel(parseInt(levelNumberHTML.innerHTML)+1);
+});
 
 /* this part of code run itslef every refresh of the page, at the beginning */
 (
