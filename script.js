@@ -27,10 +27,11 @@ var resultsDiv = document.querySelector("#results");				// results div
 var colorSlider = document.querySelector("#colorSlider");			// slider to choose color from
 var levelSelector = document.querySelector("#levels");				// level selector to trigger when changed
 var notesTextarea = document.querySelector("#notes");				// textarea where the user can type notes
-var cssRoot = document.querySelector(":root");						// root of the page
+var lessonDiv = document.querySelector("#popupLesson");				// where the lesson will be displayed
 var closePopup = document.querySelectorAll(".exitButton")			// select all closePopup buttons
 var nextPopupButton = document.querySelector(".nextButton")			// next button in end popup
 var popupBackground = document.querySelector(".popupBackground")	// background of popups to remove them
+var cssRoot = document.querySelector(":root");						// root of the page
 
 
 
@@ -78,8 +79,17 @@ function changeLevel(id) {
 	});
 }
 
+/* select next level */
 function nextLevel() {
 	changeLevel(parseInt(levelNumberHTML.innerHTML)+1);
+}
+
+/* display the lesson in the popup from db */
+function displayLesson() {
+	sendRequest("sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=lesson", (lesson)=>{
+		lessonDiv.querySelector(".text").innerHTML = lesson;
+		lessonDiv.classList.add("display");
+	});
 }
 
 
@@ -160,9 +170,12 @@ function start() {
 	}
 
 	/// PUT INSTRUCTIONS ///
-	sendRequest("sql.php?idLevel=1&type=instructions", (inst)=>{
+	sendRequest("sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=instructions", (inst)=>{
 		instructionsDiv.innerHTML = inst;
 	});
+
+	/// DISPLAY LESSON ///
+	displayLesson();
 
 	/// CLOSE POPUP TRIGGER ///
 	// for each popup close button
