@@ -55,7 +55,22 @@ function checkArguments() {
 function exercice($idLevel, $userRequest) {
     // get db connexion from function
     global $DB_NAME;
+
+    // connect to first DB to get request the user have to do
+    $db = connectDB($DB_NAME);
+    $response = $db->prepare("SELECT response FROM EXERCICES where idLevel=".$idLevel);
+    $response->execute();
+    // $levelRequestResponse store what the user should do
+    $levelRequestResponse = $response->fetchAll();
+    $levelRequestResponse = $levelRequestResponse[0][0];
+
+
     $db = connectDB($DB_NAME . "-EX" . $idLevel);
+
+    $response = $db->prepare($levelRequestResponse);
+    $response->execute();
+    // $levelResponse store the right result
+    $levelResponse = $response->fetchAll();
 
     // query db
     $response = $db->prepare($userRequest);
@@ -63,6 +78,12 @@ function exercice($idLevel, $userRequest) {
 
     // store result in result
     $result = $response->fetchAll();
+
+    if($result == $levelResponse) {
+        echo "true\n";
+    } else {
+        echo "false\n";
+    }
 
     //DEBUG
     /* echo "<!--";
