@@ -50,7 +50,7 @@
                 <button id="hint"><img src="/images/hint.svg" alt="hint" width="32px"></button>
             </fieldset>
 
-            <div class="verticalResizer" id="verticalResizerLeft" resizeDirection="vertical"></div>
+            <div class="verticalResizer resizer" id="verticalResizerLeft" resizeDirection="vertical"></div>
 
             <fieldset class="notes">
                 <legend>Notes</legend>
@@ -59,22 +59,26 @@
 
         </div>
 
-        <div class="horizontalResizer" id="horizontalResizer" resizeDirection="horizontal"></div>
+        <div class="horizontalResizer resizer" id="horizontalResizer" resizeDirection="horizontal"></div>
 
         <div class="right">
-
-            <fieldset class="code">
-                <legend>Code</legend>
-                <div id="code-container">
-                    <div id="code-editor">--insérer du code ici
+            <div class="code-buttons">
+                <fieldset class="code">
+                    <legend>Code</legend>
+                    <div id="code-container">
+                        <div id="code-editor">--insérer du code ici
 SELECT * FROM ENQUETE01;</div>
-                </div>
-            </fieldset>
+                    </div>
+                </fieldset>
 
-            <div class="buttons">
-                <button id="restart">Restart</button>
-                <button id="execute">Execute</button>
+                <div class="buttons">
+                    <button id="restart">Restart</button>
+                    <button id="execute">Execute</button>
+                </div>
             </div>
+
+
+            <div class="verticalResizer resizer" id="verticalResizerRight" resizeDirection="vertical"></div>
 
             <fieldset class="results">
                 <legend>Results</legend>
