@@ -193,11 +193,11 @@ function getInstructions($idLevel) {
             $columns = $response->fetchAll();
 
             // debug
-            echo "<!--";
+            /* echo "<!--";
             print_r($columns);
             //$columns = $columns[0];
             //print_r($columns);
-            echo "-->";
+            echo "-->"; */
 
             foreach($columns as $line) {
                 echo "&emsp;".$line[0].": ";
