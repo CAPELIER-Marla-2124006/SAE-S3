@@ -312,6 +312,21 @@ legend {
 .popupBackground {
     display: none;
 }
+.popupBackground table {
+    border-collapse: collapse;
+    width: min-content;
+}
+.popupBackground table *:is(th, td) {
+    border: solid 1px var(--text-color);
+    border-radius: var(--border-radius);
+}
+.popupBackground table th {
+    padding: 6px;
+}
+.popupBackground table td {
+    padding: 4px;
+    white-space: nowrap;
+}
 .popupBackground:has(.display) {
     z-index: 8;
     position: fixed;
