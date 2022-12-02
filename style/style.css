@@ -311,6 +311,13 @@ legend {
 /* Background of popups */
 .popupBackground {
     display: none;
+    z-index: 8;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background: var(--text-background-semi-transparent);
 }
 .popupBackground table {
     border-collapse: collapse;
@@ -327,15 +334,9 @@ legend {
     padding: 4px;
     white-space: nowrap;
 }
-.popupBackground:has(.display) {
-    z-index: 8;
-    position: fixed;
+.popupBackground.display {
     display: flex;
-    width: 100vw;
-    height: 100vh;
-    justify-content: center;
-    align-items: center;
-    background: var(--text-background-semi-transparent);
+
 }
 .popupBackground > * {
     display: none;

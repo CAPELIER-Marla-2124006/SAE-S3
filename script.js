@@ -108,17 +108,20 @@ function nextLevel() {
 function displayLesson() {
 	// display lesson div
 	lessonDiv.classList.add("display");
+	popupBackground.classList.add("display");
 }
 
 /* display the hint in the popup */
 function displayHint() {
 	// display hint div
 	hintDiv.classList.add("display");
+	popupBackground.classList.add("display");
 }
 
 /* display win message in the popup */
 function displayWin() {
 	endDiv.classList.add("display");
+	popupBackground.classList.add("display");
 }
 
 
@@ -172,6 +175,7 @@ colorSlider.oninput = function() {
 /* close end popup and get next level */
 nextPopupButton.addEventListener("click", ()=>{
 	// get all popupBackground children and remove their class display
+	popupBackground.classList.remove("display");
 	for(const p of popupBackground.children) {
 		// remove their class display
 		p.classList.remove("display");
@@ -332,6 +336,7 @@ function start() {
 		// when clicked
 		b.addEventListener("click", ()=>{
 			// get all children of popupBackground
+			popupBackground.classList.remove("display");
 			for(const p of popupBackground.children) {
 				// remove their class display
 				p.classList.remove("display");
