@@ -167,7 +167,7 @@ notesTextarea.addEventListener("focusout", ()=>{
 // when the user change slider value
 colorSlider.oninput = function() {
 	cssRoot.style.setProperty('--hue', this.value);
-}
+};
 
 /* close end popup and get next level */
 nextPopupButton.addEventListener("click", ()=>{
@@ -183,7 +183,7 @@ nextPopupButton.addEventListener("click", ()=>{
 /* display lesson when clicking lesson */
 lessonButton.addEventListener("click", ()=>{
 	displayLesson();
-})
+});
 
 /* display hint when clicking hint */
 hintButton.addEventListener("click", ()=>{
@@ -197,44 +197,66 @@ hintButton.addEventListener("click", ()=>{
 ///----------------///
 // GET DIVS //
 const horizontalResizer = document.querySelector("#horizontalResizer");		// drag to resize horizontaly
-const leftSide 	= horizontalResizer.previousElementSibling;					// div on the left of drager
-const rightSide = horizontalResizer.nextElementSibling;						// div on the right of drager
+const verticalResizerLeft = document.querySelector("#verticalResizerLeft");	// left vertical resizer
+const verticalResizerRight = document.querySelector("#verticalResizerRight");// right vertical resizer
 
 // where is the mouse?
 var mouseX = 0;
 var mouseY = 0;
 
-// width of the left side
-var leftWidth = 0;
+// sides of the resizer
+var prevSide;
+var nextSide;
+
+var direction;
+var resizer;
+
+var prevHeight;
+var prevWidth;
 
 function mouseDownHandler(e) {
 	// updates global vars
 	mouseX = e.clientX;
 	mouseY = e.clientY;
-	leftWidth = leftSide.getBoundingClientRect().width;
+	resizer = this;
+	//console.log(resizer);
+	//console.log(resizer.previousElementSibling);
+	prevSide = resizer.previousElementSibling;
+	nextSide = resizer.nextElementSibling;
+	direction = resizer.getAttribute('resizeDirection');
 
 	// add listeners
 	document.addEventListener('mousemove', mouseMoveHandler);
 	document.addEventListener('mouseup', mouseUpHandler);
+
+	// prevent mouse from selecting anything on the page
+	document.body.style.userSelect = 'none';
+    document.body.style.pointerEvents = 'none';
+
+	prevHeight = prevSide.getBoundingClientRect().height;
+	prevWidth = prevSide.getBoundingClientRect().width;
 }
 
 function mouseMoveHandler(e) {
 	// calc distance by mouse
 	const dx = e.clientX - mouseX;
 	const dy = e.clientY - mouseY;
+	//console.log(resizer);
 
-	// edit width of the left
-	const newLeftWidth = ((leftWidth + dx) * 100) / horizontalResizer.parentNode.getBoundingClientRect().width;
-	leftSide.style.width = newLeftWidth+'%';
+	switch (direction) {
+		case 'vertical':
+			const h = ((prevHeight + dy) * 100) / resizer.parentNode.getBoundingClientRect().height;
+			prevSide.style.height = h + '%';
+			document.body.style.cursor = 'row-resize';
+			break;
+		case 'horizontal':
+			const w = ((prevWidth + dx) * 100) / resizer.parentNode.getBoundingClientRect().width;
+			prevSide.style.width = w + '%';
+			document.body.style.cursor = 'col-resize';
+		default:
+			break;
+	}
 
-	// show mouse cursor everywhere on the page (to prevent flickering)
-	document.body.style.cursor = 'col-resize';
-
-	// prevent mouse from selecting anything on the page
-	leftSide.style.userSelect = 'none';
-    leftSide.style.pointerEvents = 'none';
-    rightSide.style.userSelect = 'none';
-    rightSide.style.pointerEvents = 'none';
 }
 
 function mouseUpHandler(e) {
@@ -243,10 +265,8 @@ function mouseUpHandler(e) {
 	document.body.style.removeProperty('cursor');
 
 	// remove preventing selection
-	leftSide.style.removeProperty('user-select');
-    leftSide.style.removeProperty('pointer-events');
-    rightSide.style.removeProperty('user-select');
-    rightSide.style.removeProperty('pointer-events');
+	document.body.style.removeProperty('user-select');
+    document.body.style.removeProperty('pointer-events');
 
 	// remove handlers
 	document.removeEventListener('mousemove', mouseMoveHandler);
@@ -254,14 +274,8 @@ function mouseUpHandler(e) {
 }
 
 horizontalResizer.addEventListener('mousedown', mouseDownHandler);
-
-
-
-
-
-
-
-
+verticalResizerLeft.addEventListener('mousedown', mouseDownHandler);
+verticalResizerRight.addEventListener('mousedown', mouseDownHandler);
 
 
 
