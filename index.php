@@ -1,3 +1,10 @@
+<?php
+    include ($_SERVER['DOCUMENT_ROOT']."/php/login.php");
+    $logged = isLogin();
+    if($logged){
+        // do something
+    }
+?>
 <!DOCTYPE html>
 <html lang="fr">
 
