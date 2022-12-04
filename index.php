@@ -3,7 +3,6 @@
     $notes;
     $levels;
     $colorHue;
-
     require("db.php");
 
     if($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -73,8 +72,7 @@
 
     if($logged){
         $db = connectDB("IUT-SAE");
-        $ps = $db->prepare("SELECT username, notes, levels, colorHue FROM USERS WHERE id=?");
-
+        $ps = $db->prepare("SELECT username, notes, 'levels', colorHue FROM USERS WHERE id=?");
         $ps->bindParam(1, $_SESSION["id"]);
         $ps->execute();
 
@@ -147,6 +145,7 @@
         <div class="connect">
         <?php
         if(isset($username)) {
+
             echo('<div class="connexion">
                 <button id="accountButton">'.$username.'</button>
                 <form action="/index.php" method="post" id="accountForm">
