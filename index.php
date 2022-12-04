@@ -35,6 +35,45 @@
             <option value="9" class="level" id="level9" type="button">Level 9</option>
             <option value="10" class="level" id="level10" type="button">Level 10</option>
         </select>
+        <div class="connect">
+
+            <div class="connexion">
+                <button id="connexionButton">Connexion</button>
+                <form action="/index.html" method="get" id="connexionForm">
+                    <h1>Connection</h1>
+                    <fieldset>
+                        <legend>Nom d'utilisateur</legend>
+                        <input type="text" name="username" id="connexionUsername">
+                    </fieldset>
+                    <fieldset>
+                        <legend>Mot de passe</legend>
+                        <input type="password" name="password" id="connexionPassword">
+                    </fieldset>
+                    <input type="submit" value="Se connecter">
+                </form>
+            </div>
+
+            <div class="connexion">
+                <button id="registerButton">Inscription</button>
+                <form action="/index.html" method="get" id="registerForm">
+                    <h1>Inscription</h1>
+                    <fieldset>
+                        <legend>Nom d'utilisateur</legend>
+                        <input type="text" name="username" id="registerUsername">
+                    </fieldset>
+                    <fieldset>
+                        <legend>Mot de passe</legend>
+                        <input type="password" name="password" id="registerPassword">
+                    </fieldset>
+                    <fieldset>
+                        <legend>Confirmer le mot de passe</legend>
+                        <input type="password" name="password" id="registerPassword">
+                    </fieldset>
+                    <input type="submit" value="S'inscrire">
+                </form>
+        </div>
+
+        </div>
     </div>
 
 
