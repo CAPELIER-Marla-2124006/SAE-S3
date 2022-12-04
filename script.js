@@ -36,7 +36,10 @@ const closePopupButton 	= document.querySelectorAll(".exitButton");		// select a
 const nextPopupButton 	= document.querySelector(".nextButton");		// next button in end popup
 const popupBackground 	= document.querySelector(".popupBackground");	// background of popups to remove them
 const cssRoot 			= document.querySelector(":root");				// root of the page
-
+const connexionButton	= document.querySelector("#connexionButton");	// button to show connexion form
+const connexionForm		= document.querySelector("#connexionForm");		// connexion form
+const registerButton	= document.querySelector("#registerButton");	// button to show register form
+const registerForm		= document.querySelector("#registerForm");		// register form
 
 
 
@@ -124,6 +127,31 @@ function displayWin() {
 	popupBackground.classList.add("display");
 }
 
+function displayConnexionForm() {
+	connexionForm.style.display = "flex";
+	connexionButton.removeEventListener('click', displayConnexionForm);
+	connexionButton.addEventListener('click', hideConnexionForm);
+	hideRegisterForm();
+}
+
+function hideConnexionForm() {
+	connexionForm.style.display = "none";
+	connexionButton.removeEventListener('click', hideConnexionForm);
+	connexionButton.addEventListener('click', displayConnexionForm);
+}
+
+function displayRegisterForm() {
+	registerForm.style.display = "flex";
+	registerButton.removeEventListener('click', displayRegisterForm);
+	registerButton.addEventListener('click', hideRegisterForm);
+	hideConnexionForm();
+}
+
+function hideRegisterForm() {
+	registerForm.style.display = "none";
+	registerButton.removeEventListener('click', hideRegisterForm);
+	registerButton.addEventListener('click', displayRegisterForm);
+}
 
 
 
@@ -193,6 +221,10 @@ lessonButton.addEventListener("click", ()=>{
 hintButton.addEventListener("click", ()=>{
 	displayHint();
 });
+
+connexionButton.addEventListener("click", displayConnexionForm);
+
+registerButton.addEventListener("click", displayRegisterForm);
 
 
 
@@ -291,7 +323,7 @@ verticalResizerRight.addEventListener('mousedown', mouseDownHandler);
 ///------///
 /* this part of code run itslef every refresh of the page, at the beginning */
 (
-function start() {
+function main() {
 
 	/// SET COLOR VALUE ///
 	cssRoot.style.setProperty('--hue', 165);
