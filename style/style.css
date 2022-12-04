@@ -131,6 +131,58 @@ body {
     font-size: 18px;
 }
 
+/* connexion and registration */
+.header .connect {
+    display: flex;
+    flex-direction: row;
+    gap: var(--little-margin);
+    height: calc(100% - 2*var(--min-margin));
+    margin: var(--min-margin);
+}
+.header .connect .connexion > button {
+    font-size: 18px;
+    color: var(--background);
+    padding: var(--min-margin);
+    border: var(--border-darker);
+    border-radius: var(--border-radius);
+    background: var(--accent-color);
+    cursor: pointer;
+}
+.header .connect .connexion > form {
+    z-index: 9;
+    position: absolute;
+    top: 48px;
+    right: 0;
+    margin: var(--margin);
+    background: var(--text-background);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    padding: var(--little-margin);
+    display: none;
+    flex-direction: column;
+    gap: var(--little-margin);
+}
+.header .connect .connexion > form > fieldset {
+    border: var(--border-darker);
+    border-radius: var(--border-radius);
+    padding: var(--min-margin);
+}
+.header .connect .connexion > form > fieldset > input {
+    padding: var(--min-margin);
+    color: var(--text-color);
+    background: var(--text-background);
+    outline: none;
+    border: var(--border);
+    border-radius: var(--border-radius);
+}
+.header .connect .connexion > form > input[type="submit"] {
+    color: var(--text-color);
+    background: var(--text-background);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    padding: var(--min-margin);
+}
+
 /* full page and contents */
 .page {
     flex: 1;
@@ -144,7 +196,7 @@ fieldset {
     position: relative;
     color: var(--text-color);
 }
-fieldset > *:not(legend, button) {
+fieldset > *:not(legend, button, input) {
     position: absolute;
     top: 0;
     bottom: 0;
