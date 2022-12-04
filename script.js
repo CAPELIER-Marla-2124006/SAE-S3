@@ -40,6 +40,8 @@ const connexionButton	= document.querySelector("#connexionButton");	// button to
 const connexionForm		= document.querySelector("#connexionForm");		// connexion form
 const registerButton	= document.querySelector("#registerButton");	// button to show register form
 const registerForm		= document.querySelector("#registerForm");		// register form
+const accountButton		= document.querySelector("#accountButton");		// button to disconect
+const accountForm		= document.querySelector("#accountForm");		// form to disconect
 
 
 
@@ -99,6 +101,10 @@ function changeLevel(id) {
 		// put hint in the text div
 		hintDiv.querySelector(".text").innerHTML = hint;
 	});
+	console.log(levelSelector.children);
+	for (let i = 0; i < id; i++) {
+		levelSelector.children[i].disabled = false;
+	}
 }
 
 /* select next level */
@@ -153,7 +159,17 @@ function hideRegisterForm() {
 	registerButton.addEventListener('click', displayRegisterForm);
 }
 
+function displayAccountForm() {
+	accountForm.style.display = "flex";
+	accountButton.removeEventListener('click', displayAccountForm);
+	accountButton.addEventListener('click', hideAccountForm);
+}
 
+function hideAccountForm() {
+	accountForm.style.display = "none";
+	accountButton.removeEventListener('click', hideAccountForm);
+	accountButton.addEventListener('click', displayAccountForm);
+}
 
 ///-----------------///
 /// EVENT LISTENERS ///
@@ -222,9 +238,17 @@ hintButton.addEventListener("click", ()=>{
 	displayHint();
 });
 
-connexionButton.addEventListener("click", displayConnexionForm);
+if(connexionButton != null) {
+	connexionButton.addEventListener("click", displayConnexionForm);
+}
 
-registerButton.addEventListener("click", displayRegisterForm);
+if(registerButton != null) {
+	registerButton.addEventListener("click", displayRegisterForm);
+}
+
+if(accountButton != null) {
+	accountButton.addEventListener("click", displayAccountForm);
+}
 
 
 
@@ -326,18 +350,10 @@ verticalResizerRight.addEventListener('mousedown', mouseDownHandler);
 function main() {
 
 	/// SET COLOR VALUE ///
-	cssRoot.style.setProperty('--hue', 165);
-	colorSlider.value = "165";
+	cssRoot.style.setProperty('--hue', colorSlider.value);
 
-	/// ADD LISTENERS FOR LEVEL BUTTONS ///
-	/* get all levels */
-	let buttons = document.getElementsByClassName("level");
-	/* add event listeneer for every buttons in levels */
-	for (let i = 0; i < buttons.length; i++) {
-		buttons[i].addEventListener("click", () => {
-			changeLevel(i);
-		})
-	}
+	/// SET LEVEL SELECTOR ///
+	levelSelector.value = levelNumberHTML.innerHTML;
 
 	/// GET INSTRUCTIONS ///
 	sendRequest("sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=instructions", (inst)=>{
