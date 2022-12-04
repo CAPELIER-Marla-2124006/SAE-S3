@@ -1,8 +1,90 @@
 <?php
+    $username;
+    $notes;
+    $level;
+    $colorHue;
+
+    require("db.php");
+
+    if($_SERVER['REQUEST_METHOD'] == "POST") {
+        switch($_POST['type']) {
+            case "connect":
+                $db = connectDB("IUT-SAE");
+                $ps = $db->prepare("SELECT id, passwd from USERS where username=?");
+                $ps->bindParam(1, $_POST["username"]);
+                $ps->execute();
+                if($row = $ps->fetch()) {
+                    if(password_verify($_POST["password"], $row["passwd"])) {
+                        session_start();
+                        $_SESSION["logintime"] = time();
+                        $_SESSION["id"] = $row["id"];
+                    } else {
+                        $connexionError = "Mauvais mot de passe";
+                    }
+                } else {
+                    $connexionError = "Utilisateur non reconnu";
+                }
+                break;
+            case "register":
+                $db = connectDB("IUT-SAE");
+                $ps = $db->prepare("SELECT id from USERS where username=?");
+                $ps->bindParam(1, $_POST["username"]);
+                $ps->execute();
+                if($row = $ps->fetch()) {
+                    $connexionError = "Ce nom d'utilisateur existe déjà";
+                }
+                $forbidden_username = ["index", "login", "register", "account", "sounds", "css", "img", "js", "php"];
+                if(in_array($_POST["username"],$forbidden_username) || $_POST["username"][0] == ".") {
+                    $connexionError = "Ce nom d'utilisateur n'est pas disponible";
+                }
+                if($_POST["password"] != "" && $_POST["password"] == $_POST["confirm-password"]) {
+                    $connexionError = "Les mots de passe ne correspondent pas";
+                }
+
+                $hash = password_hash($_POST["password"], PASSWORD_BCRYPT);
+                $db = carefulConnectDB();
+                $ps = $db->prepare("INSERT INTO USERS (username, passwd, notes) VALUES (?, ?, \"Notes pour plus tard\")");
+                $ps->bindParam(1, $_POST["username"]);
+                $ps->bindParam(2, $hash);
+                $ps->execute();
+                if($ps->rowCount()==1) {
+                    $ps = $db->prepare("SELECT id from USERS where username=?");
+                    $ps->bindParam(1, $_POST["username"]);
+                    $ps->execute();
+                    if($row = $ps->fetch()) {
+                        session_start();
+                        $_SESSION["logintime"] = time();
+                        $_SESSION["id"] = $row["id"];
+                    }
+                } else {
+                    $connexionError = "Erreur de création du compte";
+                }
+                break;
+            case "disconnect":
+                session_destroy();
+                unset($_COOKIE["PHPSESSID"]);
+            default:
+                break;
+        }
+    }
+
     include ($_SERVER['DOCUMENT_ROOT']."/php/login.php");
-    $logged = isLogin();
+    $logged = isLogged();
+
     if($logged){
-        // do something
+        $db = connectDB("IUT-SAE");
+        $ps = $db->prepare("SELECT username, notes, level, colorHue FROM USERS WHERE id=?");
+
+        $ps->bindParam(1, $_SESSION["id"]);
+        $ps->execute();
+
+        if($row = $ps->fetchAll()) {
+            //print_r($row[0]);
+            $username = $row[0]["username"];
+            $notes = $row[0]["notes"];
+            $level = $row[0]["level"];
+            $colorHue = $row[0]["colorHue"];
+        }
     }
 ?>
 <!DOCTYPE html>
@@ -27,45 +109,75 @@
 
 
     <div class="header">
-        <div id="levelNumber" style="display: none;">1</div>
+        <?php
+            if(isset($level))
+                echo('<div id="levelNumber" style="display: none;">'.$level.'</div>');
+            else
+                echo('<div id="levelNumber" style="display: none;">1</div>');
+        ?>
         <h1>MySQLearn</h1>
-        <input type="range" min="0" max="360" class="slider" id="colorSlider">
+        <?php
+            if (isset($colorHue))
+                echo('<input type="range" min="0" max="360" class="slider" id="colorSlider" value="'.$colorHue.'">');
+            else
+                echo('<input type="range" min="0" max="360" class="slider" id="colorSlider" value="164">');
+        ?>
+
         <select class="levels" id="levels">
-            <option value="1" class="level selected" id="level1" type="button">Level 1</option>
-            <option value="2" class="level" id="level2" type="button">Level 2</option>
-            <option value="3" class="level" id="level3" type="button">Level 3</option>
-            <option value="4" class="level" id="level4" type="button">Level 4</option>
-            <option value="5" class="level" id="level5" type="button">Level 5</option>
-            <option value="6" class="level" id="level6" type="button">Level 6</option>
-            <option value="7" class="level" id="level7" type="button">Level 7</option>
-            <option value="8" class="level" id="level8" type="button">Level 8</option>
-            <option value="9" class="level" id="level9" type="button">Level 9</option>
-            <option value="10" class="level" id="level10" type="button">Level 10</option>
+        <?php
+            $i = 2;
+            echo('<option value="1" class="level" id="level1" type="button">Level 1</option>');
+            if(isset($level)) {
+                while($i <= $level && $i <= 10) {
+                    echo('<option value="'.$i.'" class="level" id="level'.$i.'" type="button">Level '.$i.'</option>\n');
+                    $i++;
+                }
+                while($i <= 10) {
+                    echo('<option value="'.$i.'" class="level" id="level'.$i.'" type="button" disabled>Level '.$i.'</option>\n');
+                    $i++;
+                }
+            } else {
+                while($i <= 10) {
+                    echo('<option value="'.$i.'" class="level" id="level'.$i.'" type="button" disabled>Level '.$i.'</option>\n');
+                    $i++;
+                }
+            }
+        ?>
         </select>
         <div class="connect">
-
-            <div class="connexion">
+        <?php
+        if(isset($username)) {
+            echo('<div class="connexion">
+                <button id="accountButton">'.$username.'</button>
+                <form action="/index.php" method="post" id="accountForm">
+                    <input type="hidden" name="type" value="disconnect">
+                    <input type="submit" value="Se déconnecter">
+                </form>
+                 </div>');
+        } else {
+            echo('<div class="connexion">
                 <button id="connexionButton">Connexion</button>
-                <form action="/index.html" method="get" id="connexionForm">
+                <form action="/index.php" method="post" id="connexionForm">
                     <h1>Connection</h1>
                     <fieldset>
-                        <legend>Nom d'utilisateur</legend>
+                        <legend>Nom d\'utilisateur</legend>
                         <input type="text" name="username" id="connexionUsername">
                     </fieldset>
                     <fieldset>
                         <legend>Mot de passe</legend>
                         <input type="password" name="password" id="connexionPassword">
                     </fieldset>
+                    <input type="hidden" name="type" value="connect">
                     <input type="submit" value="Se connecter">
                 </form>
             </div>
 
             <div class="connexion">
                 <button id="registerButton">Inscription</button>
-                <form action="/index.html" method="get" id="registerForm">
+                <form action="/index.php" method="post" id="registerForm">
                     <h1>Inscription</h1>
                     <fieldset>
-                        <legend>Nom d'utilisateur</legend>
+                        <legend>Nom d\'utilisateur</legend>
                         <input type="text" name="username" id="registerUsername">
                     </fieldset>
                     <fieldset>
@@ -74,11 +186,16 @@
                     </fieldset>
                     <fieldset>
                         <legend>Confirmer le mot de passe</legend>
-                        <input type="password" name="password" id="registerPassword">
-                    </fieldset>
-                    <input type="submit" value="S'inscrire">
+                        <input type="password" name="confirm-password" id="registerPassword">
+                        </fieldset>
+                    <input type="hidden" name="type" value="register">
+                    <input type="submit" value="S\'inscrire">
                 </form>
-        </div>
+            </div>');
+        }
+        ?>
+
+
 
         </div>
     </div>
@@ -100,7 +217,13 @@
 
             <fieldset class="notes">
                 <legend>Notes</legend>
-                <textarea name="notes" id="notes">Notes pour plus tard</textarea>
+                <?php
+                if(isset($notes))
+                    echo('<textarea name="notes" id="notes">'.$notes.'</textarea>');
+                else
+                    echo('<textarea name="notes" id="notes">Notes pour plus tard</textarea>');
+                ?>
+
             </fieldset>
 
         </div>
@@ -112,8 +235,22 @@
                 <fieldset class="code">
                     <legend>Code</legend>
                     <div id="code-container">
-                        <div id="code-editor">--insérer du code ici
-SELECT * FROM ENQUETE01;</div>
+                        <div id="code-editor"><?php
+                        $db = connectDB("IUT-SAE");
+                        $ps = $db->prepare("SELECT codeInit FROM EXERCICES where idLevel=?");
+                        if(isset($level)) {
+                            $ps->bindParam(1, $level);
+                        } else {
+                            $n = 1;
+                            $ps->bindParam(1, $n);
+                        }
+                        $ps->execute();
+                        if($row = $ps->fetch()) {
+                            echo $row[0];
+                        } else {
+                            echo "--insérer du code ici\nSELECT * FROM ENQUETE01;";
+                        }
+                        ?></div>
                     </div>
                 </fieldset>
 
