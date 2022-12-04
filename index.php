@@ -1,7 +1,7 @@
 <?php
     $username;
     $notes;
-    $level;
+    $levels;
     $colorHue;
 
     require("db.php");
@@ -73,7 +73,7 @@
 
     if($logged){
         $db = connectDB("IUT-SAE");
-        $ps = $db->prepare("SELECT username, notes, level, colorHue FROM USERS WHERE id=?");
+        $ps = $db->prepare("SELECT username, notes, levels, colorHue FROM USERS WHERE id=?");
 
         $ps->bindParam(1, $_SESSION["id"]);
         $ps->execute();
@@ -82,7 +82,7 @@
             //print_r($row[0]);
             $username = $row[0]["username"];
             $notes = $row[0]["notes"];
-            $level = $row[0]["level"];
+            $levels = $row[0]["levels"];
             $colorHue = $row[0]["colorHue"];
         }
     }
@@ -110,8 +110,8 @@
 
     <div class="header">
         <?php
-            if(isset($level))
-                echo('<div id="levelNumber" style="display: none;">'.$level.'</div>');
+            if(isset($levels))
+                echo('<div id="levelNumber" style="display: none;">'.$levels.'</div>');
             else
                 echo('<div id="levelNumber" style="display: none;">1</div>');
         ?>
@@ -127,8 +127,8 @@
         <?php
             $i = 2;
             echo('<option value="1" class="level" id="level1" type="button">Level 1</option>');
-            if(isset($level)) {
-                while($i <= $level && $i <= 10) {
+            if(isset($levels)) {
+                while($i <= $levels && $i <= 10) {
                     echo('<option value="'.$i.'" class="level" id="level'.$i.'" type="button">Level '.$i.'</option>\n');
                     $i++;
                 }
@@ -238,8 +238,8 @@
                         <div id="code-editor"><?php
                         $db = connectDB("IUT-SAE");
                         $ps = $db->prepare("SELECT codeInit FROM EXERCICES where idLevel=?");
-                        if(isset($level)) {
-                            $ps->bindParam(1, $level);
+                        if(isset($levels)) {
+                            $ps->bindParam(1, $levels);
                         } else {
                             $n = 1;
                             $ps->bindParam(1, $n);

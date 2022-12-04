@@ -105,6 +105,9 @@ function changeLevel(id) {
 	for (let i = 0; i < id; i++) {
 		levelSelector.children[i].disabled = false;
 	}
+	sendRequest("update.php?type=levels&value="+id, (e)=>{
+		console.log(e);
+	});
 }
 
 /* select next level */
@@ -208,7 +211,9 @@ levelSelector.addEventListener("change", ()=>{
 
 // when the user exit notes textarea, store its data in db
 notesTextarea.addEventListener("focusout", ()=>{
-	sendRequest("accounts.php?type=note&text="+notesTextarea.innerHTML, ()=>{})
+	sendRequest("update.php?type=note&value="+notesTextarea.innerHTML, (e)=>{
+		console.log(e);
+	})
 });
 
 // when the user change slider value
