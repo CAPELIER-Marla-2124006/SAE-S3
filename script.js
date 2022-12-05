@@ -243,6 +243,19 @@ hintButton.addEventListener("click", ()=>{
 	displayHint();
 });
 
+/* CLOSE POPUP TRIGGER */
+closePopupButton.forEach(b => {
+	// when clicked
+	b.addEventListener("click", ()=>{
+		// get all children of popupBackground
+		popupBackground.classList.remove("display");
+		for(const p of popupBackground.children) {
+			// remove their class display
+			p.classList.remove("display");
+		}
+	});
+});
+
 if(connexionButton != null) {
 	connexionButton.addEventListener("click", displayConnexionForm);
 }
@@ -350,50 +363,32 @@ verticalResizerRight.addEventListener('mousedown', mouseDownHandler);
 ///------///
 /// MAIN ///
 ///------///
-/* this part of code run itslef every refresh of the page, at the beginning */
-(
-function main() {
+/* initialize web page */
+/// SET COLOR VALUE ///
+cssRoot.style.setProperty('--hue', colorSlider.value);
 
-	/// SET COLOR VALUE ///
-	cssRoot.style.setProperty('--hue', colorSlider.value);
+/// SET LEVEL SELECTOR ///
+levelSelector.value = levelNumberHTML.innerHTML;
 
-	/// SET LEVEL SELECTOR ///
-	levelSelector.value = levelNumberHTML.innerHTML;
+/// GET INSTRUCTIONS ///
+sendRequest("sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=instructions", (inst)=>{
+	instructionsDiv.innerHTML = inst;
+});
 
-	/// GET INSTRUCTIONS ///
-	sendRequest("sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=instructions", (inst)=>{
-		instructionsDiv.innerHTML = inst;
-	});
+/// DISPLAY LESSON ///
+sendRequest("sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=lesson", (lesson)=>{
+	// put lesson in the text div
+	lessonDiv.querySelector(".text").innerHTML = lesson;
+	displayLesson();
+});
 
-	/// DISPLAY LESSON ///
-	sendRequest("sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=lesson", (lesson)=>{
-		// put lesson in the text div
-		lessonDiv.querySelector(".text").innerHTML = lesson;
-		displayLesson();
-	});
+/// GET HINT ///
+sendRequest("sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=hint", (hint)=>{
+	// put hint in the text div
+	hintDiv.querySelector(".text").innerHTML = hint;
+});
 
-	/// GET HINT ///
-	sendRequest("sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=hint", (hint)=>{
-		// put hint in the text div
-		hintDiv.querySelector(".text").innerHTML = hint;
-	});
-
-	/// GET WIN MESSAGE ///
-	sendRequest("sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=success", (msg)=> {
-		endDiv.querySelector(".text").innerHTML = msg;
-	})
-
-	/// CLOSE POPUP TRIGGER ///
-	// for each popup close button
-	closePopupButton.forEach(b => {
-		// when clicked
-		b.addEventListener("click", ()=>{
-			// get all children of popupBackground
-			popupBackground.classList.remove("display");
-			for(const p of popupBackground.children) {
-				// remove their class display
-				p.classList.remove("display");
-			}
-		});
-	});
-})();
+/// GET WIN MESSAGE ///
+sendRequest("sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=success", (msg)=> {
+	endDiv.querySelector(".text").innerHTML = msg;
+})
