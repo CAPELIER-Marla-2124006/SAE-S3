@@ -80,7 +80,7 @@
             //print_r($row[0]);
             $username = $row[0]["username"];
             $notes = $row[0]["notes"];
-            $levels = $row[0]["levels"];
+            $levels = $row[0]["'levels'"];
             $colorHue = $row[0]["colorHue"];
         }
     }
