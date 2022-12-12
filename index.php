@@ -32,40 +32,40 @@
                 }
                 break;
             case "register":
+                $forbidden_username = ["index", "login", "register", "account", "sounds", "css", "img", "js", "php"];
                 $db = connectDB("IUT-SAE");
                 $ps = $db->prepare("SELECT id from USERS where username=?");
                 $ps->bindParam(1, $_POST["username"]);
                 $ps->execute();
                 if($row = $ps->fetch()) {
                     $connexionError = "Ce nom d'utilisateur existe déjà";
-                }
-                $forbidden_username = ["index", "login", "register", "account", "sounds", "css", "img", "js", "php"];
-                if(in_array($_POST["username"],$forbidden_username) || $_POST["username"][0] == ".") {
+                } else if(in_array($_POST["username"],$forbidden_username) || $_POST["username"][0] == ".") {
                     $connexionError = "Ce nom d'utilisateur n'est pas disponible";
-                }
-                if($_POST["password"] != "" && $_POST["password"] == $_POST["confirm-password"]) {
+                } else if($_POST["password"] != "" && $_POST["password"] != $_POST["confirm-password"]) {
                     $connexionError = "Les mots de passe ne correspondent pas";
-                }
-
-                $hash = password_hash($_POST["password"], PASSWORD_BCRYPT);
-                $db = carefulConnectDB();
-                $ps = $db->prepare("INSERT INTO USERS (username, passwd, notes) VALUES (?, ?, \"Notes pour plus tard\")");
-                $ps->bindParam(1, $_POST["username"]);
-                $ps->bindParam(2, $hash);
-                $ps->execute();
-                if($ps->rowCount()==1) {
-                    $ps = $db->prepare("SELECT id from USERS where username=?");
-                    $ps->bindParam(1, $_POST["username"]);
-                    $ps->execute();
-                    if($row = $ps->fetch()) {
-                        session_start();
-                        $_SESSION["logintime"] = time();
-                        $_SESSION["id"] = $row["id"];
-                    }
                 } else {
-                    $connexionError = "Erreur de création du compte";
+                    require("sensible.php");
+                    $hash = password_hash($_POST["password"], PASSWORD_BCRYPT);
+                    $db = carefulConnectDB();
+                    $ps = $db->prepare("INSERT INTO USERS (username, passwd, notes) VALUES (?, ?, \"Notes pour plus tard\")");
+                    $ps->bindParam(1, $_POST["username"]);
+                    $ps->bindParam(2, $hash);
+                    $ps->execute();
+                    if($ps->rowCount()==1) {
+                        $ps = $db->prepare("SELECT id from USERS where username=?");
+                        $ps->bindParam(1, $_POST["username"]);
+                        $ps->execute();
+                        if($row = $ps->fetch()) {
+                            session_start();
+                            $_SESSION["logintime"] = time();
+                            $_SESSION["id"] = $row["id"];
+                            $logged = true;
+                        }
+                    } else {
+                        $connexionError = "Erreur de création du compte";
+                    }
+                    break;
                 }
-                break;
             case "disconnect":
                 session_destroy();
                 unset($_COOKIE["PHPSESSID"]);
@@ -181,6 +181,7 @@
                 <button id="registerButton">Inscription</button>
                 <form action="/index.php" method="post" id="registerForm">
                     <h1>Inscription</h1>
+                    <h2>'.$connexionError.'</h2>
                     <fieldset>
                         <legend>Nom d\'utilisateur</legend>
                         <input type="text" name="username" id="registerUsername">
