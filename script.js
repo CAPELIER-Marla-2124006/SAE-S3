@@ -274,9 +274,9 @@ if(accountButton != null) {
 /// RESIZABLE DIVS ///
 ///----------------///
 // GET DIVS //
-const horizontalResizer = document.querySelector("#horizontalResizer");		// drag to resize horizontaly
-const verticalResizerLeft = document.querySelector("#verticalResizerLeft");	// left vertical resizer
-const verticalResizerRight = document.querySelector("#verticalResizerRight");// right vertical resizer
+const horizontalResizer 	= document.querySelector("#horizontalResizer");		// drag to resize horizontaly
+const verticalResizerLeft 	= document.querySelector("#verticalResizerLeft");	// left vertical resizer
+const verticalResizerRight 	= document.querySelector("#verticalResizerRight");	// right vertical resizer
 
 // where is the mouse?
 var mouseX = 0;
