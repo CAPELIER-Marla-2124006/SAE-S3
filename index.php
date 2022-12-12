@@ -3,6 +3,11 @@
     $notes;
     $levels;
     $colorHue;
+    $connexionError;
+
+    include ($_SERVER['DOCUMENT_ROOT']."/php/login.php");
+    $logged = isLogged();
+
     require("db.php");
 
     if($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -17,6 +22,8 @@
                         session_start();
                         $_SESSION["logintime"] = time();
                         $_SESSION["id"] = $row["id"];
+                        $logged = true;
+                        //$connexionError = "reussi";
                     } else {
                         $connexionError = "Mauvais mot de passe";
                     }
@@ -66,9 +73,6 @@
                 break;
         }
     }
-
-    include ($_SERVER['DOCUMENT_ROOT']."/php/login.php");
-    $logged = isLogged();
 
     if($logged){
         $db = connectDB("IUT-SAE");
@@ -149,6 +153,7 @@
             echo('<div class="connexion">
                 <button id="accountButton">'.$username.'</button>
                 <form action="/index.php" method="post" id="accountForm">
+                    <h2>'.$connexionError.'</h2>
                     <input type="hidden" name="type" value="disconnect">
                     <input type="submit" value="Se déconnecter">
                 </form>
@@ -158,6 +163,7 @@
                 <button id="connexionButton">Connexion</button>
                 <form action="/index.php" method="post" id="connexionForm">
                     <h1>Connection</h1>
+                    <h2>'.$connexionError.'</h2>
                     <fieldset>
                         <legend>Nom d\'utilisateur</legend>
                         <input type="text" name="username" id="connexionUsername">
