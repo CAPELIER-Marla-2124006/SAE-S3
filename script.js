@@ -68,7 +68,7 @@ function sendRequest(req, callback) {
 
 /* change code editor content with db request */
 function resetCodeEditor(levelNumber) {
-	sendRequest("sql.php?idLevel=" + levelNumber + "&type=codeInit", (code) => {
+	sendRequest("php/sql.php?idLevel=" + levelNumber + "&type=codeInit", (code) => {
 		editor.setValue(code);
 	})
 }
@@ -88,16 +88,16 @@ function changeLevel(id) {
 	resetCodeEditor(levelNumberHTML.innerHTML);
 	// edit the level selector to have the right level selected
 	levelSelector.value=id;
-	sendRequest("sql.php?idLevel="+id+"&type=instructions", (i)=>{
+	sendRequest("php/sql.php?idLevel="+id+"&type=instructions", (i)=>{
 		instructionsDiv.innerHTML = i;
 	});
 	// edit lesson div to put new text
-	sendRequest("sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=lesson", (lesson)=>{
+	sendRequest("php/sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=lesson", (lesson)=>{
 		// put lesson in the text div
 		lessonDiv.querySelector(".text").innerHTML = lesson;
 	});
 	// edit hint div to put new text
-	sendRequest("sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=hint", (hint)=>{
+	sendRequest("php/sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=hint", (hint)=>{
 		// put hint in the text div
 		hintDiv.querySelector(".text").innerHTML = hint;
 	});
@@ -105,7 +105,7 @@ function changeLevel(id) {
 	for (let i = 0; i < id; i++) {
 		levelSelector.children[i].disabled = false;
 	}
-	sendRequest("update.php?type=levels&value="+id, (e)=>{
+	sendRequest("php/update.php?type=levels&value="+id, (e)=>{
 		console.log(e);
 	});
 }
@@ -188,7 +188,7 @@ executeButton.addEventListener("click", () => {
 	console.log(query);
 
 	// we call sendRequest whith a func that sendRequest will call that will edit the html in responseDiv
-	sendRequest("sql.php?idLevel=" + levelNumberHTML.innerHTML + "&type=ex&request=" + query, (resp) => {
+	sendRequest("php/sql.php?idLevel=" + levelNumberHTML.innerHTML + "&type=ex&request=" + query, (resp) => {
 		let win = resp.split('\n')[0];
 		let table = resp.split('\n')[1];
 		if(win == "true") {
@@ -211,7 +211,7 @@ levelSelector.addEventListener("change", ()=>{
 
 // when the user exit notes textarea, store its data in db
 notesTextarea.addEventListener("focusout", ()=>{
-	sendRequest("update.php?type=note&value="+notesTextarea.innerHTML, (e)=>{
+	sendRequest("php/update.php?type=note&value="+notesTextarea.innerHTML, (e)=>{
 		console.log(e);
 	})
 });
@@ -371,24 +371,24 @@ cssRoot.style.setProperty('--hue', colorSlider.value);
 levelSelector.value = levelNumberHTML.innerHTML;
 
 /// GET INSTRUCTIONS ///
-sendRequest("sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=instructions", (inst)=>{
+sendRequest("php/sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=instructions", (inst)=>{
 	instructionsDiv.innerHTML = inst;
 });
 
 /// DISPLAY LESSON ///
-sendRequest("sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=lesson", (lesson)=>{
+sendRequest("php/sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=lesson", (lesson)=>{
 	// put lesson in the text div
 	lessonDiv.querySelector(".text").innerHTML = lesson;
 	displayLesson();
 });
 
 /// GET HINT ///
-sendRequest("sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=hint", (hint)=>{
+sendRequest("php/sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=hint", (hint)=>{
 	// put hint in the text div
 	hintDiv.querySelector(".text").innerHTML = hint;
 });
 
 /// GET WIN MESSAGE ///
-sendRequest("sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=success", (msg)=> {
+sendRequest("php/sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=success", (msg)=> {
 	endDiv.querySelector(".text").innerHTML = msg;
 })

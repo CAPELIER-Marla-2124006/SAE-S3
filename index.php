@@ -8,7 +8,7 @@
     include ($_SERVER['DOCUMENT_ROOT']."/php/login.php");
     $logged = isLogged();
 
-    require("db.php");
+    require("php/db.php");
 
     if($_SERVER['REQUEST_METHOD'] == "POST") {
         switch($_POST['type']) {
@@ -44,7 +44,7 @@
                 } else if($_POST["password"] != "" && $_POST["password"] != $_POST["confirm-password"]) {
                     $connexionError = "Les mots de passe ne correspondent pas";
                 } else {
-                    require("sensible.php");
+                    require("php/sensible.php");
                     $hash = password_hash($_POST["password"], PASSWORD_BCRYPT);
                     $db = carefulConnectDB();
                     $ps = $db->prepare("INSERT INTO USERS (username, passwd, notes) VALUES (?, ?, \"Notes pour plus tard\")");
@@ -192,7 +192,7 @@
                     </fieldset>
                     <fieldset>
                         <legend>Confirmer le mot de passe</legend>
-                        <input type="password" name="confirm-password" id="registerPassword">
+                        <input type="password" name="confirm-password" id="confirmPassword">
                         </fieldset>
                     <input type="hidden" name="type" value="register">
                     <input type="submit" value="S\'inscrire">

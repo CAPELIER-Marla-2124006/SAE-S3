@@ -5,11 +5,11 @@ name: gitSync
 on:
   push:
     branches: '**'
-    
+
 jobs:
   deployment:
     runs-on: ubuntu-latest
     steps:
     - name: syncDistantRepo
       run:
-        curl https://sae.kap.wtf/gitSync.php/
+        curl https://sae.kap.wtf/php/gitSync.php/
