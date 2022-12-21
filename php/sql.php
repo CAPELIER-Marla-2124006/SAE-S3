@@ -1,5 +1,6 @@
 <?php
 require "db.php";
+require "update.php";
 
 $MAX_LEVELS = 10;
 $DB_NAME = "IUT-SAE";
@@ -54,7 +55,7 @@ function checkArguments() {
 // request from user
 function exercice($idLevel, $userRequest) {
     // get db connexion from function
-    global $DB_NAME;
+    global $DB_NAME, $ID_LEVEL;
 
     // connect to first DB to get request the user have to do
     $db = connectDB($DB_NAME);
@@ -81,6 +82,20 @@ function exercice($idLevel, $userRequest) {
 
     if($result == $levelResponse) {
         echo "true\n";
+
+        $db = connectDB($DB_NAME);
+
+        $userLevel = $db->prepare("SELECT `'levels'` from USERS where id=?");
+        $userLevel->bindParam(1, $_SESSION["id"]);
+        $userLevel->execute();
+        $response = $userLevel->fetchAll();
+
+
+        $userLevel = $response[0][0];
+        // if the user won a new level
+        if($ID_LEVEL < $userLevel+1) {
+            print_r(updateDB('levels', $userLevel+1));
+        }
     } else {
         echo "false\n";
     }

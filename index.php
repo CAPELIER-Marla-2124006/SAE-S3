@@ -76,7 +76,7 @@
 
     if($logged){
         $db = connectDB("IUT-SAE");
-        $ps = $db->prepare("SELECT username, notes, 'levels', colorHue FROM USERS WHERE id=?");
+        $ps = $db->prepare("SELECT `username`, `notes`, `'levels'`, `colorHue` FROM USERS WHERE id=?");
         $ps->bindParam(1, $_SESSION["id"]);
         $ps->execute();
 
@@ -153,7 +153,7 @@
             echo('<div class="connexion">
                 <button id="accountButton">'.$username.'</button>
                 <form action="/index.php" method="post" id="accountForm">
-                    <h2>'.$connexionError.'</h2>
+                    <h2>'.(isset($connexionError)? print($connexionError):"").'</h2>
                     <input type="hidden" name="type" value="disconnect">
                     <input type="submit" value="Se déconnecter">
                 </form>
@@ -163,7 +163,7 @@
                 <button id="connexionButton">Connexion</button>
                 <form action="/index.php" method="post" id="connexionForm">
                     <h1>Connection</h1>
-                    <h2>'.$connexionError.'</h2>
+                    <h2>'.(isset($connexionError)? print($connexionError):"").'</h2>
                     <fieldset>
                         <legend>Nom d\'utilisateur</legend>
                         <input type="text" name="username" id="connexionUsername">
@@ -181,7 +181,7 @@
                 <button id="registerButton">Inscription</button>
                 <form action="/index.php" method="post" id="registerForm">
                     <h1>Inscription</h1>
-                    <h2>'.$connexionError.'</h2>
+                    <h2>'.(isset($connexionError)? print($connexionError):"").'</h2>
                     <fieldset>
                         <legend>Nom d\'utilisateur</legend>
                         <input type="text" name="username" id="registerUsername">

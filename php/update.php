@@ -1,18 +1,20 @@
 <?php
-require("db.php");
-$db = carefulConnectDB("IUT-SAE");
-$ps = $db->prepare("UPDATE USERS SET `?` =? where USERS.`id`=?");
-
+require("sensible.php");
+global $db;
+$db = carefulConnectDB();
 session_start();
-if (!isset($_GET["type"])) exit();
 
-print_r($_GET);
-print_r($_SESSION);
+function updateDB($column, $value) {
+    global $db;
+    $ps = $db->prepare("UPDATE USERS SET `?` =? where USERS.`id`=?");
 
-if (isset($_GET["type"])) {
-    $ps->bindParam(1, $_GET["type"], PDO::PARAM_STR);
-    $ps->bindParam(2, $_GET["value"], PDO::PARAM_STR);
+    print($_SESSION["id"]);
+    print($column);
+    print($value);
+
+    $ps->bindParam(1, $column, PDO::PARAM_STR);
+    $ps->bindParam(2, $value, PDO::PARAM_STR);
     $ps->bindParam(3, $_SESSION["id"], PDO::PARAM_INT);
     $ps->execute();
+    return($ps->fetchAll());
 }
-print_r($ps->fetchAll());
