@@ -117,7 +117,10 @@
             else
                 echo('<div id="levelNumber" style="display: none;">1</div>');
         ?>
-        <h1>MySQLearn</h1>
+        <div class="webName">
+            <img src="/images/wlicon.png" alt="MySQLearn logo" height="38px" width="38px">
+            <h1>MySQLearn</h1>
+        </div>
         <?php
             if (isset($colorHue))
                 echo('<input type="range" min="0" max="360" class="slider" id="colorSlider" value="'.$colorHue.'">');

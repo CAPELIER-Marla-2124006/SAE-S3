@@ -92,8 +92,10 @@ body {
     border-bottom: solid 2px var(--accent-color);
 }
 /* header title */
-.header h1 {
+.header .webName {
+    display: flex;
     margin: var(--min-margin);
+    gap: var(--min-margin);
 }
 
 /* slider */
