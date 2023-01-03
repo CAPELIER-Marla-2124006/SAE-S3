@@ -101,7 +101,7 @@ function changeLevel(id) {
 		// put hint in the text div
 		hintDiv.querySelector(".text").innerHTML = hint;
 	});
-	console.log(levelSelector.children);
+	//console.log(levelSelector.children);
 	for (let i = 0; i < id; i++) {
 		levelSelector.children[i].disabled = false;
 	}
@@ -189,6 +189,7 @@ executeButton.addEventListener("click", () => {
 
 	// we call sendRequest whith a func that sendRequest will call that will edit the html in responseDiv
 	sendRequest("php/sql.php?idLevel=" + levelNumberHTML.innerHTML + "&type=ex&request=" + query, (resp) => {
+		console.log(resp);
 		let win = resp.split('\n')[0];
 		let table = resp.split('\n')[1];
 		if(win == "true") {
@@ -211,7 +212,7 @@ levelSelector.addEventListener("change", ()=>{
 
 // when the user exit notes textarea, store its data in db
 notesTextarea.addEventListener("focusout", ()=>{
-	sendRequest("php/update.php?type=note&value="+notesTextarea.innerHTML, (e)=>{
+	sendRequest("php/update.php?column=notes&value="+notesTextarea.value, (e)=>{
 		console.log(e);
 	})
 });

@@ -85,7 +85,7 @@ function exercice($idLevel, $userRequest) {
 
         $db = connectDB($DB_NAME);
 
-        $userLevel = $db->prepare("SELECT `'levels'` from USERS where id=?");
+        $userLevel = $db->prepare("SELECT `levels` from USERS where id=?");
         $userLevel->bindParam(1, $_SESSION["id"]);
         $userLevel->execute();
         $response = $userLevel->fetchAll();
@@ -93,8 +93,8 @@ function exercice($idLevel, $userRequest) {
 
         $userLevel = $response[0][0];
         // if the user won a new level
-        if($ID_LEVEL < $userLevel+1) {
-            print_r(updateDB('levels', $userLevel+1));
+        if($ID_LEVEL == $userLevel) {
+            /* print_r( */updateDB("levels", $userLevel+1)/* ) */;
         }
     } else {
         echo "false\n";
