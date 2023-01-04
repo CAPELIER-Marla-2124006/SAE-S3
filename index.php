@@ -10,7 +10,7 @@
 
     require("php/db.php");
 
-    if($_SERVER['REQUEST_METHOD'] == "POST") {
+    if($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['type'])) {
         switch($_POST['type']) {
             case "connect":
                 $db = connectDB("IUT-SAE");
@@ -64,11 +64,13 @@
                     } else {
                         $connexionError = "Erreur de création du compte";
                     }
-                    break;
                 }
+                break;
             case "disconnect":
                 session_destroy();
                 unset($_COOKIE["PHPSESSID"]);
+                $logged = false;
+                break;
             default:
                 break;
         }
