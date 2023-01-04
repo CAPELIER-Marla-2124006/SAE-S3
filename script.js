@@ -212,15 +212,17 @@ levelSelector.addEventListener("change", ()=>{
 
 // when the user exit notes textarea, store its data in db
 notesTextarea.addEventListener("focusout", ()=>{
-	sendRequest("php/update.php?column=notes&value="+notesTextarea.value, (e)=>{
-		console.log(e);
-	})
+	sendRequest("php/update.php?column=notes&value="+notesTextarea.value, (e)=>{});
 });
 
 // when the user change slider value
 colorSlider.oninput = function() {
 	cssRoot.style.setProperty('--hue', this.value);
 };
+
+colorSlider.addEventListener("change", ()=> {
+	sendRequest("php/update.php?column=colorHue&value="+colorSlider.value, (e)=>{});
+});
 
 /* close end popup and get next level */
 nextPopupButton.addEventListener("click", ()=>{

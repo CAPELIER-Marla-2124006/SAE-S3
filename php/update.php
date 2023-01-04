@@ -11,12 +11,14 @@ function updateDB($column, $value) {
     switch ($column) {
         case 'levels':
             $ps = $db->prepare("UPDATE USERS SET levels =? where USERS.`id`=?");
-            /* print("levels"); */
             break;
 
         case 'notes':
             $ps = $db->prepare("UPDATE USERS SET notes =? where USERS.`id`=?");
-            /* print("notes"); */
+            break;
+
+        case 'colorHue':
+            $ps = $db->prepare("UPDATE USERS SET colorHue =? where USERS.`id`=?");
             break;
 
         default:
