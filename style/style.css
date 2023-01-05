@@ -150,6 +150,16 @@ body {
     background: var(--accent-color);
     cursor: pointer;
 }
+.header .connect .connexion > button:hover {
+    box-shadow: 0px 0px 0px 2px var(--accent-color-darker) inset;
+    -webkit-box-shadow: 0px 0px 0px 2px var(--accent-color-darker) inset;
+    -moz-box-shadow: 0px 0px 0px 2px var(--accent-color-darker) inset;
+}
+.header .connect .connexion:has(form[style*="display: flex"]) > button {
+    box-shadow: 0px 0px 0px 2px var(--accent-color-darker) inset;
+    -webkit-box-shadow: 0px 0px 0px 2px var(--accent-color-darker) inset;
+    -moz-box-shadow: 0px 0px 0px 2px var(--accent-color-darker) inset;
+}
 .header .connect .connexion > form {
     display: none;
     z-index: 9;
@@ -246,7 +256,13 @@ legend {
 .left .todo > button {
     background: none;
     border: none;
+    border-radius: var(--border-radius);
     padding: 0;
+}
+.left .todo > button:hover {
+    box-shadow: 0px 0px 0px 1.5px var(--accent-color) inset;
+    -webkit-box-shadow: 0px 0px 0px 1.5px var(--accent-color) inset;
+    -moz-box-shadow: 0px 0px 0px 1.5px var(--accent-color) inset;
 }
 .left .todo .instructions {
     padding-left: 32px;
