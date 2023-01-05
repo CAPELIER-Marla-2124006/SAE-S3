@@ -304,7 +304,7 @@ function mouseDownHandler(e) {
 	//console.log(resizer.previousElementSibling);
 	prevSide = resizer.previousElementSibling;
 	nextSide = resizer.nextElementSibling;
-	direction = resizer.getAttribute('resizeDirection');
+	direction = resizer.getAttribute('class').split(" ")[0];
 
 	// add listeners
 	document.addEventListener('mousemove', mouseMoveHandler);
@@ -325,12 +325,12 @@ function mouseMoveHandler(e) {
 	//console.log(resizer);
 
 	switch (direction) {
-		case 'vertical':
+		case 'verticalResizer':
 			const h = ((prevHeight + dy) * 100) / resizer.parentNode.getBoundingClientRect().height;
 			prevSide.style.height = h + '%';
 			document.body.style.cursor = 'row-resize';
 			break;
-		case 'horizontal':
+		case 'horizontalResizer':
 			const w = ((prevWidth + dx) * 100) / resizer.parentNode.getBoundingClientRect().width;
 			prevSide.style.width = w + '%';
 			document.body.style.cursor = 'col-resize';

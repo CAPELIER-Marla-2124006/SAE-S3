@@ -99,8 +99,8 @@
     <title>MySQLearn</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="style/style.css">
-    <script src="ace/ace.js" type="text/javascript" charset="utf-8"></script>
-    <script src="script.js" type="module" charset="utf-8" defer></script>
+    <script src="ace/ace.js"></script>
+    <script src="script.js" defer></script>
 
 </head>
 
@@ -120,7 +120,7 @@
                 echo('<div id="levelNumber" style="display: none;">1</div>');
         ?>
         <div class="webName">
-            <img src="/images/wlicon.png" alt="MySQLearn logo" height="38px" width="38px">
+            <img src="/images/wlicon.png" alt="MySQLearn logo" height="38" width="38">
             <h1>MySQLearn</h1>
         </div>
         <?php
@@ -133,19 +133,19 @@
         <select class="levels" id="levels">
         <?php
             $i = 2;
-            echo('<option value="1" class="level" id="level1" type="button">Level 1</option>');
+            echo('<option value="1" class="level" id="level1">Level 1</option>');
             if(isset($levels)) {
                 while($i <= $levels && $i <= 10) {
-                    echo('<option value="'.$i.'" class="level" id="level'.$i.'" type="button">Level '.$i.'</option>\n');
+                    echo('<option value="'.$i.'" class="level" id="level'.$i.'">Level '.$i.'</option>');
                     $i++;
                 }
                 while($i <= 10) {
-                    echo('<option value="'.$i.'" class="level" id="level'.$i.'" type="button" disabled>Level '.$i.'</option>\n');
+                    echo('<option value="'.$i.'" class="level" id="level'.$i.'" disabled>Level '.$i.'</option>');
                     $i++;
                 }
             } else {
                 while($i <= 10) {
-                    echo('<option value="'.$i.'" class="level" id="level'.$i.'" type="button" disabled>Level '.$i.'</option>\n');
+                    echo('<option value="'.$i.'" class="level" id="level'.$i.'" disabled>Level '.$i.'</option>');
                     $i++;
                 }
             }
@@ -186,7 +186,7 @@
                 <button id="registerButton">Inscription</button>
                 <form action="/index.php" method="post" id="registerForm">
                     <h1>Inscription</h1>
-                    <h2>'.(isset($connexionError)? print($connexionError):"").'</h2>
+                    '.(isset($connexionError)? print('<h2>'.$connexionError.'</h2>'):"").'
                     <fieldset>
                         <legend>Nom d\'utilisateur</legend>
                         <input type="text" name="username" id="registerUsername">
@@ -220,11 +220,11 @@
                 <legend>Instructions</legend>
                 <div class="instructions" id="instructions">
                 </div>
-                <button id="lesson"><img src="/images/lesson.svg" alt="lesson" width="32px"></button>
-                <button id="hint"><img src="/images/hint.svg" alt="hint" width="32px"></button>
+                <button id="lesson"><img src="/images/lesson.svg" alt="lesson" width="32"></button>
+                <button id="hint"><img src="/images/hint.svg" alt="hint" width="32"></button>
             </fieldset>
 
-            <div class="verticalResizer resizer" id="verticalResizerLeft" resizeDirection="vertical"></div>
+            <div class="verticalResizer resizer" id="verticalResizerLeft"></div>
 
             <fieldset class="notes">
                 <legend>Notes</legend>
@@ -239,7 +239,7 @@
 
         </div>
 
-        <div class="horizontalResizer resizer" id="horizontalResizer" resizeDirection="horizontal"></div>
+        <div class="horizontalResizer resizer" id="horizontalResizer"></div>
 
         <div class="right">
             <div class="code-buttons">
@@ -272,7 +272,7 @@
             </div>
 
 
-            <div class="verticalResizer resizer" id="verticalResizerRight" resizeDirection="vertical"></div>
+            <div class="verticalResizer resizer" id="verticalResizerRight"></div>
 
             <fieldset class="results">
                 <legend>Results</legend>
