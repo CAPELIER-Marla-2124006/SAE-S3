@@ -433,6 +433,13 @@ legend {
 .popupBackground #popupEnd button img{
     width: 42px;
 }
+.popupBackground #popupEnd .reminder {
+    text-align: center;
+    position: absolute;
+    bottom: var(--margin);
+    right: 60px;
+    left: 60px;
+}
 
 
 /* DRAGERS */

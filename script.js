@@ -80,12 +80,12 @@ function changeLevel(id) {
 	lessonDiv.querySelector(".text").innerHTML = "";
 	hintDiv.querySelector(".text").innerHTML = "";
 	instructionsDiv.innerHTML = "";
-	editor.setValue("");
+	//editor.setValue("");
 
 	// change level number
 	levelNumberHTML.innerHTML = id;
 	// change default code
-	resetCodeEditor(levelNumberHTML.innerHTML);
+	//resetCodeEditor(levelNumberHTML.innerHTML);
 	// edit the level selector to have the right level selected
 	levelSelector.value=id;
 	sendRequest("php/sql.php?idLevel="+id+"&type=instructions", (i)=>{
