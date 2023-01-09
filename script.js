@@ -136,6 +136,7 @@ function displayWin() {
 	popupBackground.classList.add("display");
 }
 
+/* display the connexion form and set the button to hide it */
 function displayConnexionForm() {
 	connexionForm.style.display = "flex";
 	connexionButton.removeEventListener('click', displayConnexionForm);
@@ -143,12 +144,16 @@ function displayConnexionForm() {
 	hideRegisterForm();
 }
 
+// ↑ != ↓
+
+/* hide the connexion form and set the button to display it */
 function hideConnexionForm() {
 	connexionForm.style.display = "none";
 	connexionButton.removeEventListener('click', hideConnexionForm);
 	connexionButton.addEventListener('click', displayConnexionForm);
 }
 
+/* display the register form and set the button to hide it */
 function displayRegisterForm() {
 	registerForm.style.display = "flex";
 	registerButton.removeEventListener('click', displayRegisterForm);
@@ -156,23 +161,31 @@ function displayRegisterForm() {
 	hideConnexionForm();
 }
 
+// ↑ != ↓
+
+/* hide the register form and set the button to display it */
 function hideRegisterForm() {
 	registerForm.style.display = "none";
 	registerButton.removeEventListener('click', hideRegisterForm);
 	registerButton.addEventListener('click', displayRegisterForm);
 }
 
+/* display the account form and set the button to hide it */
 function displayAccountForm() {
 	accountForm.style.display = "flex";
 	accountButton.removeEventListener('click', displayAccountForm);
 	accountButton.addEventListener('click', hideAccountForm);
 }
+// ↑ != ↓
 
+/* display the account form and set the button to hide it */
 function hideAccountForm() {
 	accountForm.style.display = "none";
 	accountButton.removeEventListener('click', hideAccountForm);
 	accountButton.addEventListener('click', displayAccountForm);
 }
+
+
 
 ///-----------------///
 /// EVENT LISTENERS ///
@@ -220,6 +233,7 @@ colorSlider.oninput = function() {
 	cssRoot.style.setProperty('--hue', this.value);
 };
 
+// when the user slected the value, it's updated in DB
 colorSlider.addEventListener("change", ()=> {
 	sendRequest("php/update.php?column=colorHue&value="+colorSlider.value, (e)=>{});
 });
@@ -259,6 +273,8 @@ closePopupButton.forEach(b => {
 	});
 });
 
+// add listeners for account buttons only if displayed
+
 if(connexionButton != null) {
 	connexionButton.addEventListener("click", displayConnexionForm);
 }
@@ -295,15 +311,16 @@ var resizer;
 var prevHeight;
 var prevWidth;
 
+// when the user start clicking on one resizer
 function mouseDownHandler(e) {
-	// updates global vars
+	// get the position of the mouse in global vars
 	mouseX = e.clientX;
 	mouseY = e.clientY;
-	resizer = this;
 	//console.log(resizer);
 	//console.log(resizer.previousElementSibling);
+	// set the global vars to the element that called the func and its previous element
+	resizer = this;
 	prevSide = resizer.previousElementSibling;
-	nextSide = resizer.nextElementSibling;
 	direction = resizer.getAttribute('class').split(" ")[0];
 
 	// add listeners
@@ -314,10 +331,12 @@ function mouseDownHandler(e) {
 	document.body.style.userSelect = 'none';
     document.body.style.pointerEvents = 'none';
 
+	// store height and width of previous side in gloabl vars
 	prevHeight = prevSide.getBoundingClientRect().height;
 	prevWidth = prevSide.getBoundingClientRect().width;
 }
 
+// this funct is called everytime the mouse move in the page, to resize the divs
 function mouseMoveHandler(e) {
 	// calc distance by mouse
 	const dx = e.clientX - mouseX;
@@ -325,11 +344,13 @@ function mouseMoveHandler(e) {
 	//console.log(resizer);
 
 	switch (direction) {
+		// if the slider has class "verticalResizer"
 		case 'verticalResizer':
 			const h = ((prevHeight + dy) * 100) / resizer.parentNode.getBoundingClientRect().height;
 			prevSide.style.height = h + '%';
 			document.body.style.cursor = 'row-resize';
 			break;
+		// if the slider has class "horizontalResizer"
 		case 'horizontalResizer':
 			const w = ((prevWidth + dx) * 100) / resizer.parentNode.getBoundingClientRect().width;
 			prevSide.style.width = w + '%';
@@ -340,6 +361,7 @@ function mouseMoveHandler(e) {
 
 }
 
+// when the user release mouse, we remove listeners
 function mouseUpHandler(e) {
 	// remove cursor style
 	horizontalResizer.style.removeProperty('cursor');
@@ -354,6 +376,7 @@ function mouseUpHandler(e) {
     document.removeEventListener('mouseup', mouseUpHandler);
 }
 
+// add all listeners to sliders
 horizontalResizer.addEventListener('mousedown', mouseDownHandler);
 verticalResizerLeft.addEventListener('mousedown', mouseDownHandler);
 verticalResizerRight.addEventListener('mousedown', mouseDownHandler);
@@ -363,9 +386,9 @@ verticalResizerRight.addEventListener('mousedown', mouseDownHandler);
 
 
 
-///------///
-/// MAIN ///
-///------///
+///--------------///
+/// SORT OF MAIN ///
+///--------------///
 /* initialize web page */
 /// SET COLOR VALUE ///
 cssRoot.style.setProperty('--hue', colorSlider.value);

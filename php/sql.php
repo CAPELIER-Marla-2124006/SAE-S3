@@ -15,9 +15,13 @@ $REQUEST;
 print_r($_REQUEST);
 echo "-->"; */
 
-// verify numbers of arguments and that are true arguments
+/**
+ * Verify numbers of arguments and that are true arguments, stop script in case of error
+ * @return void but uses "echo" to send data to the js that requested it
+ */
 function checkArguments() {
 
+    // link global vars to vars in script
     global $MAX_LEVELS, $ALL_TYPES, $TYPE, $ID_LEVEL, $REQUEST;
 
     // if idLevel doesn't exist or is incoherent
@@ -52,7 +56,12 @@ function checkArguments() {
     $ID_LEVEL = $_REQUEST["idLevel"];
 }
 
-// request from user
+/**
+ * Execute the request from the user
+ * @param int/string $idLevel the level in question
+ * @param string $userRequest the request from the user
+ * @return void but uses "echo" to send data to the js that requested it
+ */
 function exercice($idLevel, $userRequest) {
     // get db connexion from function
     global $DB_NAME, $ID_LEVEL;
@@ -137,7 +146,12 @@ function exercice($idLevel, $userRequest) {
 
 }
 
-// get basic text from code, lesson, hint and success
+/**
+ * Get basic text from code, lesson, hint and success
+ * @param int/string $idLevel the level in question
+ * @param string $type the type of data we want (see $ALL_TYPES)
+ * @return void but uses "echo" to send data to the js that requested it
+ */
 function getTexts($idLevel, $type) {
 
     //get global variables
@@ -158,7 +172,11 @@ function getTexts($idLevel, $type) {
     echo $result[0][0];
 }
 
-// get instructions and tables
+/**
+ * Get instruction for a level and the tables in the database
+ * @param int/string $idLevel the level we want everything of
+ * @return void but uses "echo" to send data to the js that requested it
+ */
 function getInstructions($idLevel) {
 
     //get global variables

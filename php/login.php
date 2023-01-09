@@ -1,4 +1,8 @@
 <?php
+    /**
+     * Check if the user is already logged in, or destroy the session if it's been to long since last connexion
+     * @return bool true only if the user is connected since less than 4 hours
+     */
     function isLogged(): bool
     {
         if(isset($_COOKIE["PHPSESSID"])) { // has a session cookie ?

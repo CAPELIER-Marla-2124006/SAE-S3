@@ -4,6 +4,12 @@ global $db;
 $db = carefulConnectDB();
 session_start();
 
+/**
+ * Update DB from the data sent from js
+ * @param string $column name the column to edit
+ * @param string $value the value to put in the right place
+ * @return array what the DB anwser after executing the update
+ */
 function updateDB($column, $value) {
     global $db;
     global $ps;
@@ -38,7 +44,8 @@ function updateDB($column, $value) {
     return($ps->fetchAll());
 }
 
-//
+/// MAIN ///
+// If the page has been requested from JS with values, execute the function with the vars getted
 if(isset($_REQUEST["column"])) {
     print_r($_REQUEST);
     updateDB($_REQUEST["column"], $_REQUEST["value"]);

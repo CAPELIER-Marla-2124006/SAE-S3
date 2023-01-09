@@ -4,8 +4,8 @@
     $USER="IUT-SAE-USER";
     $PASS="iut-sae-user";
 
-    // Connect to DB
 
+    // Connect to DB
     function connectDB(string $db_name)
     {
         global $HOST, $USER, $PASS;
