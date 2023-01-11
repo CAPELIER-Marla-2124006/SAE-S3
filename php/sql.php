@@ -4,6 +4,7 @@ require "update.php";
 
 $MAX_LEVELS = 10;
 $DB_NAME = "IUT-SAE";
+$DB_EXERCICES_NAME;
 $ALL_TYPES = ["ex", "codeInit", "instructions", "lesson", "hint", "success"];
 $TYPE;
 $ID_LEVEL;
@@ -22,7 +23,7 @@ echo "-->"; */
 function checkArguments() {
 
     // link global vars to vars in script
-    global $MAX_LEVELS, $ALL_TYPES, $TYPE, $ID_LEVEL, $REQUEST;
+    global $DB_NAME, $DB_EXERCICES_NAME, $MAX_LEVELS, $ALL_TYPES, $TYPE, $ID_LEVEL, $REQUEST;
 
     // if idLevel doesn't exist or is incoherent
     if(!isset($_REQUEST["idLevel"]) ||
@@ -47,13 +48,19 @@ function checkArguments() {
             echo "La demande d'exercice a besoin d'une requette";
             exit();
         } else {
-            $REQUEST = $_REQUEST["request"];
+            $REQUEST = strtoupper($_REQUEST["request"]);
         }
     }
 
     // if everything is fine edit $TYPE and $ID_LEVEL
     $TYPE = $_REQUEST["type"];
     $ID_LEVEL = $_REQUEST["idLevel"];
+
+    $db = connectDB($DB_NAME);
+    $response = $db->prepare("SELECT dbName FROM EXERCICES where idLevel=".$ID_LEVEL);
+    $response->execute();
+    $DB_EXERCICES_NAME = $response->fetchAll()[0][0];
+    //print_r($DB_EXERCICES_NAME);
 }
 
 /**
@@ -64,7 +71,7 @@ function checkArguments() {
  */
 function exercice($idLevel, $userRequest) {
     // get db connexion from function
-    global $DB_NAME, $ID_LEVEL;
+    global $DB_NAME, $DB_EXERCICES_NAME, $ID_LEVEL;
 
     // connect to first DB to get request the user have to do
     $db = connectDB($DB_NAME);
@@ -75,12 +82,14 @@ function exercice($idLevel, $userRequest) {
     $levelRequestResponse = $levelRequestResponse[0][0];
 
 
-    $db = connectDB($DB_NAME . "-EX" . $idLevel);
+    //print_r($DB_EXERCICES_NAME);
+    $db = connectDB($DB_EXERCICES_NAME);
 
     $response = $db->prepare($levelRequestResponse);
     $response->execute();
     // $levelResponse store the right result
     $levelResponse = $response->fetchAll();
+    //print_r($levelResponse);
 
     // query db
     $response = $db->prepare($userRequest);
@@ -88,6 +97,7 @@ function exercice($idLevel, $userRequest) {
 
     // store result in result
     $result = $response->fetchAll();
+    //print_r($result);
 
     if($result == $levelResponse) {
         echo "true\n";
@@ -180,7 +190,7 @@ function getTexts($idLevel, $type) {
 function getInstructions($idLevel) {
 
     //get global variables
-    global $DB_NAME;
+    global $DB_NAME, $DB_EXERCICES_NAME;
 
     // ask db the instructions of the level
     $db = connectDB($DB_NAME);
@@ -199,8 +209,7 @@ function getInstructions($idLevel) {
     echo $instructions."</br></br> Schéma des tables : </br>";
 
     // prepare to print tables fields
-    //echo $DB_NAME."-EX".$idLevel;
-    $db = connectDB($DB_NAME."-EX".$idLevel);
+    $db = connectDB($DB_EXERCICES_NAME);
     $response = $db->prepare("show tables");
     $response->execute();
     $tables = $response->fetchAll();
@@ -221,7 +230,7 @@ function getInstructions($idLevel) {
             echo "</br>Table <b>".$tableName."</b> (</br>";
 
             // get columns from table
-            $response = $db->prepare("SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '".$DB_NAME."-EX".$idLevel."' AND TABLE_NAME = '".$tableName."'");
+            $response = $db->prepare("SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '".$DB_EXERCICES_NAME."' AND TABLE_NAME = '".$tableName."'");
             $response->execute();
             $columns = $response->fetchAll();
 

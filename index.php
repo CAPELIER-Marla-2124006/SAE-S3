@@ -283,8 +283,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['type'])) {
                 <fieldset class="code">
                     <legend>Code</legend>
                     <div id="code-container">
-                        <div id="code-editor">
-                            <?php
+                        <div id="code-editor"><?php
                             // connect to DB to get default code for the level the user is at
                             $db = connectDB("IUT-SAE");
                             $ps = $db->prepare("SELECT codeInit FROM EXERCICES where idLevel=?");
@@ -298,10 +297,9 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['type'])) {
                             if($row = $ps->fetch()) {
                                 echo $row[0];
                             } else {
-                                echo "--insérer du code ici\nSELECT * FROM ENQUETE01;";
+                                echo ("--insérer du code ici\nSELECT * FROM ENQUETE01;");
                             }
-                            ?>
-                        </div>
+                            ?></div>
                     </div>
                 </fieldset>
 
