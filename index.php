@@ -195,7 +195,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['type'])) {
                 <button id="accountButton">'.$username.'</button>
                 <form action="/index.php" method="post" id="accountForm">
                     '.(isset($connexionError)? print("<h2>".$connexionError."</h2>"):"").'
-                    <h1>Score : '.$userPoints.'</h1>
+                    <h1 id="userPoints">Points : '.$userPoints.'</h1>
                     <input type="hidden" name="type" value="disconnect">
                     <input type="submit" value="Se déconnecter">
                 </form>

@@ -27,6 +27,10 @@ function updateDB($column, $value) {
             $ps = $db->prepare("UPDATE USERS SET colorHue =? where USERS.`id`=?");
             break;
 
+        case 'points':
+            $ps = $db->prepare("UPDATE USERS SET points =? WHERE USERS.`id` =?");
+            break;
+
         default:
             print("error");
             break;

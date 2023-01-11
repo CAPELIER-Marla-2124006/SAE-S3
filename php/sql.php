@@ -57,7 +57,8 @@ function checkArguments() {
     $ID_LEVEL = $_REQUEST["idLevel"];
 
     $db = connectDB($DB_NAME);
-    $response = $db->prepare("SELECT dbName FROM EXERCICES where idLevel=".$ID_LEVEL);
+    $response = $db->prepare("SELECT dbName FROM EXERCICES where idLevel=?");
+    $response->bindParam(1, $ID_LEVEL);
     $response->execute();
     $DB_EXERCICES_NAME = $response->fetchAll()[0][0];
     //print_r($DB_EXERCICES_NAME);
@@ -75,11 +76,13 @@ function exercice($idLevel, $userRequest) {
 
     // connect to first DB to get request the user have to do
     $db = connectDB($DB_NAME);
-    $response = $db->prepare("SELECT response FROM EXERCICES where idLevel=".$idLevel);
+    $response = $db->prepare("SELECT response, points FROM EXERCICES where idLevel=?");
+    $response->bindParam(1, $idLevel);
     $response->execute();
     // $levelRequestResponse store what the user should do
-    $levelRequestResponse = $response->fetchAll();
-    $levelRequestResponse = $levelRequestResponse[0][0];
+    $levelRequest = $response->fetchAll();
+    $levelRequestResponse = $levelRequest[0][0];
+    $levelRequestPoints = $levelRequest[0][1];
 
 
     //print_r($DB_EXERCICES_NAME);
@@ -104,19 +107,39 @@ function exercice($idLevel, $userRequest) {
 
         $db = connectDB($DB_NAME);
 
-        $userLevel = $db->prepare("SELECT `levels` from USERS where id=?");
+        $response = $db->prepare("SELECT levels, points from USERS where id=?");
+        $response->bindParam(1, $_SESSION["id"]);
+        $response->execute();
+        $response = $response->fetchAll();
+
+
+        $userLevel = $response[0][0];
+        $userPoints = $response[0][1];
+        // if the user won a new level
+        if($ID_LEVEL == $userLevel) {
+            /* print_r( */updateDB("levels", $userLevel+1)/* ) */;
+            $userPoints = intval($userPoints) + intval($levelRequestPoints);
+            echo $userPoints."\n";
+            updateDB("points", $userPoints);
+        } else {
+            echo intval($userPoints)."\n";
+        }
+    } else {
+        echo "false\n";
+
+        $db = connectDB($DB_NAME);
+
+        $userLevel = $db->prepare("SELECT `points` from USERS where id=?");
         $userLevel->bindParam(1, $_SESSION["id"]);
         $userLevel->execute();
         $response = $userLevel->fetchAll();
 
+        $userPoints = $response[0][0];
+        $userPoints = intval($userPoints) - (intval($levelRequestPoints)/5);
 
-        $userLevel = $response[0][0];
-        // if the user won a new level
-        if($ID_LEVEL == $userLevel) {
-            /* print_r( */updateDB("levels", $userLevel+1)/* ) */;
-        }
-    } else {
-        echo "false\n";
+        updateDB("points", $userPoints);
+
+        echo intval($userPoints) . "\n";
     }
 
     //DEBUG

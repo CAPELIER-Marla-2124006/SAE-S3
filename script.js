@@ -42,7 +42,7 @@ const registerButton	= document.querySelector("#registerButton");	// button to s
 const registerForm		= document.querySelector("#registerForm");		// register form
 const accountButton		= document.querySelector("#accountButton");		// button to disconect
 const accountForm		= document.querySelector("#accountForm");		// form to disconect
-
+const userPoints		= document.querySelector("#userPoints");		// where the points are displayed
 
 
 ///------------------///
@@ -204,11 +204,13 @@ executeButton.addEventListener("click", () => {
 	sendRequest("php/sql.php?idLevel=" + levelNumberHTML.innerHTML + "&type=ex&request=" + query, (resp) => {
 		console.log(resp);
 		let win = resp.split('\n')[0];
-		let table = resp.split('\n')[1];
+		let points = resp.split('\n')[1];
+		let table = resp.split('\n')[2];
+		resultsDiv.innerHTML = table;
 		if(win == "true") {
 			displayWin();
 		}
-		resultsDiv.innerHTML = table;
+		userPoints.innerHTML = "Points : " + points;
 	});
 
 })
