@@ -104,7 +104,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['type'])) {
         // If the user is logged in, retrieve their username, notes, levels, and colorHue from the database
         if($logged){
             $db = connectDB("IUT-SAE");
-            $ps = $db->prepare("SELECT `username`, `notes`, `levels`, `colorHue` FROM USERS WHERE id=?");
+            $ps = $db->prepare("SELECT `username`, `notes`, `levels`, `colorHue`, `points` FROM USERS WHERE id=?");
             $ps->bindParam(1, $_SESSION["id"]);
             $ps->execute();
 
@@ -114,6 +114,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['type'])) {
                 $notes = $row[0]["notes"];
                 $levels = $row[0]["levels"];
                 $colorHue = $row[0]["colorHue"];
+                $userPoints = $row[0]["points"];
             }
         }
 ?>
@@ -194,6 +195,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['type'])) {
                 <button id="accountButton">'.$username.'</button>
                 <form action="/index.php" method="post" id="accountForm">
                     '.(isset($connexionError)? print("<h2>".$connexionError."</h2>"):"").'
+                    <h1>Score : '.$userPoints.'</h1>
                     <input type="hidden" name="type" value="disconnect">
                     <input type="submit" value="Se déconnecter">
                 </form>
