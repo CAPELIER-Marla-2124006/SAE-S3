@@ -49,8 +49,9 @@ function updateDB($column, $value) {
 }
 
 /// MAIN ///
-// If the page has been requested from JS with values, execute the function with the vars getted
-if(isset($_REQUEST["column"])) {
+// If the page has been requested from JS with values and the requested column is available,
+// execute the function with the vars getted
+if(isset($_REQUEST["column"]) && in_array($_REQUEST["column"], ["notes", "colorHue"])) {
     print_r($_REQUEST);
     updateDB($_REQUEST["column"], $_REQUEST["value"]);
 }

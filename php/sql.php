@@ -236,19 +236,26 @@ function getInstructions($idLevel) {
     $response = $db->prepare("show tables");
     $response->execute();
     $tables = $response->fetchAll();
-    $tables = $tables[0];
-
     // debug
     /* echo "<!--";
-    print_r($tables);
-
+    print("----------\n");
     print_r($tables);
     echo "--></br>"; */
 
+
     // for each table in database, get columns names and types and print it
     foreach($tables as $caseName => $tableName) {
+        /* echo "<!--";
+        print_r($tableName);
+        echo "-->"; */
 
-        if(!ctype_digit($caseName) && !is_numeric($caseName)) {
+        $tableName = $tableName[0];
+        /* echo "<!--";
+        echo "--------------------------";
+        print_r($tableName);
+        echo "-->"; */
+
+        if(!ctype_digit($tableName) && !is_numeric($tableName)) {
 
             echo "</br>Table <b>".$tableName."</b> (</br>";
 

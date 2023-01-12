@@ -89,6 +89,7 @@ function changeLevel(id) {
 	// edit the level selector to have the right level selected
 	levelSelector.value=id;
 	sendRequest("php/sql.php?idLevel="+id+"&type=instructions", (i)=>{
+		console.log(i);
 		instructionsDiv.innerHTML = i;
 	});
 	// edit lesson div to put new text
@@ -105,9 +106,6 @@ function changeLevel(id) {
 	for (let i = 0; i < id; i++) {
 		levelSelector.children[i].disabled = false;
 	}
-	sendRequest("php/update.php?type=levels&value="+id, (e)=>{
-		console.log(e);
-	});
 }
 
 /* select next level */
