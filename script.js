@@ -89,7 +89,7 @@ function changeLevel(id) {
 	// edit the level selector to have the right level selected
 	levelSelector.value=id;
 	sendRequest("php/sql.php?idLevel="+id+"&type=instructions", (i)=>{
-		console.log(i);
+		//console.log(i);
 		instructionsDiv.innerHTML = i;
 	});
 	// edit lesson div to put new text
@@ -196,11 +196,11 @@ executeButton.addEventListener("click", () => {
 	query = query.replace(/\-\-.*\n?/ig, '');		// remove all comment (start with '--' and have end of line)
 	query = query.replace(/\n|\r\n/gm, ' ');		// replace new lines by space
 	query = query.replace(/select/gmi, 'SELECT');	// put every select in start of line and uppercase
-	console.log(query);
+	//console.log(query);
 
 	// we call sendRequest whith a func that sendRequest will call that will edit the html in responseDiv
 	sendRequest("php/sql.php?idLevel=" + levelNumberHTML.innerHTML + "&type=ex&request=" + query, (resp) => {
-		console.log(resp);
+		//console.log(resp);
 		let win = resp.split('\n')[0];
 		let points = resp.split('\n')[1];
 		let table = resp.split('\n')[2];
