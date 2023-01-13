@@ -102,6 +102,11 @@ function changeLevel(id) {
 		// put hint in the text div
 		hintDiv.querySelector(".text").innerHTML = hint;
 	});
+	// edit end popup to display the success message
+	sendRequest("php/sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=success", (success)=>{
+		// put html code in success popup
+		endDiv.querySelector(".text").innerHTML = success;
+	})
 	//console.log(levelSelector.children);
 	for (let i = 0; i < id; i++) {
 		levelSelector.children[i].disabled = false;
