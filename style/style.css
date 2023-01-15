@@ -378,7 +378,7 @@ legend {
 
 
 
-/* Background of popups */
+/* Background of s */
 .popupBackground {
     display: none;
     z-index: 8;
@@ -429,14 +429,14 @@ legend {
     color: var(--text-color);
     overflow: auto;
 }
-.popupBackground *:is(#popupLesson, #popupHint) button {
+.popupBackground *:is(#popupLesson, #popupHint, #popupTheEnd) button {
     background: none;
     border: none;
     position: absolute;
     top: var(--little-margin); right: var(--little-margin);
     padding: 0;
 }
-.popupBackground *:is(#popupLesson, #popupHint) button img{
+.popupBackground *:is(#popupLesson, #popupHint, #popupTheEnd) button img{
     width: 32px;
 }
 .popupBackground #popupEnd button {

@@ -117,7 +117,8 @@ function exercice($idLevel, $userRequest) {
         $userPoints = $response[0][1];
         // if the user won a new level
         if($ID_LEVEL == $userLevel) {
-            /* print_r( */updateDB("levels", $userLevel+1)/* ) */;
+            if($userLevel < 8)
+                /* print_r( */updateDB("levels", $userLevel+1)/* ) */;
             $userPoints = intval($userPoints) + intval($levelRequestPoints);
             echo $userPoints."\n";
             updateDB("points", $userPoints);

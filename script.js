@@ -30,6 +30,7 @@ const colorSlider 		= document.querySelector("#colorSlider");		// slider to choo
 const levelSelector 	= document.querySelector("#levels");			// level selector to trigger when changed
 const notesTextarea 	= document.querySelector("#notes");				// textarea where the user can type notes
 const lessonDiv 		= document.querySelector("#popupLesson");		// where the lesson will be displayed
+const popupTheEnd		= document.querySelector("#popupTheEnd");		// the final popup of the game, when the user finished everything
 const hintDiv 			= document.querySelector("#popupHint");			// where the hint will be displayed
 const endDiv 			= document.querySelector("#popupEnd");			// div with win message
 const closePopupButton 	= document.querySelectorAll(".exitButton");		// select all closePopup buttons
@@ -115,8 +116,13 @@ function changeLevel(id) {
 
 /* select next level */
 function nextLevel() {
-	changeLevel(parseInt(levelNumberHTML.innerHTML)+1);
-	displayLesson();
+	if(parseInt(levelNumberHTML.innerHTML) < 8) {
+		changeLevel(parseInt(levelNumberHTML.innerHTML)+1);
+		displayLesson();
+	}
+	else
+		popupTheEnd.classList.add("display");
+		popupBackground.classList.add("display");
 }
 
 /* display the lesson in the popup */

@@ -168,7 +168,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['type'])) {
             // so we disable only the levels the user cannot access to
             if(isset($levels)) {
                 // avaliable levels
-                while($i <= $levels && $i <= 10) {
+                while($i <= $levels && $i <= 8) {
                     echo('<option value="'.$i.'" class="level" id="level'.$i.'">Level '.$i.'</option>');
                     $i++;
                 }
@@ -179,7 +179,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['type'])) {
                 }
             // not connected so only level 1 is enabled
             } else {
-                while($i <= 10) {
+                while($i <= 8) {
                     echo('<option value="'.$i.'" class="level" id="level'.$i.'" disabled>Level '.$i.'</option>');
                     $i++;
                 }
@@ -335,6 +335,13 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['type'])) {
                 <button class="exitButton"><img src="/images/exit.png" alt="close page"></button>
                 <h1>Indice</h1>
                 <div class="text"></div>
+            </div>
+
+
+            <div id="popupTheEnd">
+                <button class="exitButton"><img src="/images/exit.png" alt="close page"></button>
+                <h1>Fin du jeu !</h1>
+                <div class="text">Merci d'avoir joué à ce jeu, j'espère que tu as bien compris comment le MySQL fonctionne. Si tu veux, tu peux recommencer le jeu et essayer d'avoir plus de points.</div>
             </div>
 
 
