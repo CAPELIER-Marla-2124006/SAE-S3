@@ -2,7 +2,7 @@
 
 class HTTPSpecialCaseException extends MVCException {
 
-    protected $httpCode;
+    protected string|int $httpCode;
 
     public function __construct(string|int $httpCode, string $msg = "")
     {
@@ -10,7 +10,8 @@ class HTTPSpecialCaseException extends MVCException {
         $this->httpCode = $httpCode;
     }
 
-    public function getHTTPCode(){
+    public function getHTTPCode(): int|string
+	{
         return $this->httpCode;
     }
 

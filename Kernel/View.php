@@ -2,7 +2,8 @@
 
 final class View {
 
-    public static function show (string $path, Array $params = array()){
+    public static function show (string $path, Array $params = array()): void
+    {
         $S_file = Constants::viewsDir() . $path . '.php';
         $A_view = $params;
 
@@ -11,5 +12,3 @@ final class View {
         ob_end_flush();
     }
 }
-
-?>

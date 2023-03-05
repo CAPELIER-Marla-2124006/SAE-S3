@@ -6,7 +6,8 @@ final class AutoLoad {
 
     const AUTOLOAD_FOLDERS = array("/Kernel/", "/Controllers/", "/Utils/", "/Exceptions/");
 
-    public static function loadClass(string $className){
+    public static function loadClass(string $className): void
+	{
 
         foreach(AutoLoad::AUTOLOAD_FOLDERS as $S_folder){
 
