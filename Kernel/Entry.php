@@ -3,14 +3,15 @@ class Entry {
 
     private array $urlParams, $getParams, $postParams;
 
-    public function __construct(string $url, Array $getParams, Array $postParams){
+    public function __construct(string $url, Array $getParams, Array $postParams)
+	{
 
         // process url into urlParams
-        if ('/' == substr($url, -1, 1)) {
+        if (str_ends_with($url, '/')) {
             $url = substr($url, 0, strlen($url) - 1);
         }
 
-        if ('/' == substr($url, 0, 1)) {
+        if (str_starts_with($url, '/')) {
             $url = substr($url, 1, strlen($url));
         }
 
@@ -19,25 +20,26 @@ class Entry {
         $this->postParams = $postParams;
     }
 
-    public function execute(){
+    public function execute(): void
+	{
         $O_baseCtr = new RootController();
         $O_baseCtr->init($this->urlParams, $this->getParams, $this->postParams);
 
         $I_err_httpCode = null;
         $S_err_msg = null;
 
-        try{
+        try {
             $O_baseCtr->process();
-        }catch(HTTPSpecialCaseException $O_except){
+        } catch(HTTPSpecialCaseException $O_except) {
             $I_err_httpCode = $O_except->getHTTPCode();
             $S_err_msg = $O_except->getMessage();
-        }catch(MVCException $O_except){
+        } catch(MVCException $O_except) {
             $I_err_httpCode = 500;
             $S_err_msg = $O_except->getMessage();
         }
 
 
-        if($I_err_httpCode !== null){
+        if($I_err_httpCode !== null) {
             // do not disable redirects
             if(http_response_code() !== 302) {
                 http_response_code($I_err_httpCode);

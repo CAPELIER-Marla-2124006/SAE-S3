@@ -7,6 +7,7 @@ class RootController extends AController {
             case '':
             case 'game':
             case 'index.php':{
+				$this->callController(new GameController());
                 echo "home page";
                 break;
             }
