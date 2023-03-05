@@ -25,10 +25,10 @@
             <h1>MySQLearn</h1>
         </div>
 
-        <label for="colorSlider">Choix de la couleur :</label>
+        <label for="colorSlider" class="uselessLabel">Choix de la couleur :</label>
         <input type="range" min="0" max="360" class="slider" id="colorSlider" value="<?= $A_view['colorHue'] ?>">
 
-        <label for="levels">Choix du niveau</label>
+        <label for="levels" class="uselessLabel">Choix du niveau</label>
         <select class="levels" id="levels">
 			<?php
 			// add options of level, start at 1 and have a loop from 2

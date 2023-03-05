@@ -45,6 +45,10 @@
     border-radius: 12px;
     border: solid 3px var(--text-background);
 }
+/* remove useless labels in the page */
+.uselessLabel {
+    display: none;
+}
 
 /* general body */
 body {
