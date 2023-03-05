@@ -4,13 +4,37 @@ class GameController
 {
 	private array $A_GameInfo;
     public function __construct() {
-		$this->A_GameInfo = [
-			'colorHue'=>360,
-			'levels'=>1,
-			'maxLevels'=>10,
-			'notes'=>'Notes pour plus tard',
-			'code'=>'SELECT * FROM test'
-		];
+		$data = new DataAccess();
+
+		if(Session::is_login()) {
+			$user = $data->getUser($_SESSION['ID']);
+			$exercice = $data->getExercice($user->getLevel());
+
+			$this->A_GameInfo = [
+				'username'=>$user->getUsername(),
+				'points'=>$user->getPoints(),
+				'colorHue'=>$user->getColorHue(),
+				'levels'=>$user->getLevel(),
+				'maxLevels'=>8,
+				'notes'=>$user->getNotes(),
+				'code'=>$exercice->getCodeInit(),
+				'hint'=>$exercice->getHint(),
+				'lesson'=>$exercice->getLesson()
+			];
+
+		} else {
+			$exercice = $data->getExercice(1);
+			$this->A_GameInfo = [
+				'colorHue'=>164,
+				'levels'=>1,
+				'maxLevels'=>8,
+				'notes'=>'Notes pour plus tard',
+				'code'=>$exercice->getCodeInit(),
+				'hint'=>$exercice->getHint(),
+				'lesson'=>$exercice->getLesson()
+			];
+		}
+
     }
 
 	public function display(): void
