@@ -2,7 +2,7 @@
 
 namespace Model;
 
-class Exercice
+class Exercise
 {
 	private string $code_init, $instructions, $lesson, $hint, $success, $answer;
 	private int $id, $points;
