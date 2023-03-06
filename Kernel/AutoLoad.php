@@ -4,7 +4,7 @@ require 'Kernel/Constants.php';
 
 final class AutoLoad {
 
-    const AUTOLOAD_FOLDERS = array("/Kernel/", "/Controllers/", "/Utils/", "/Exceptions/");
+    const AUTOLOAD_FOLDERS = array("/Kernel/", "/Controllers/", "/Utils/", "/Exceptions/", "/Model/");
 
     public static function loadClass(string $className): void
 	{
