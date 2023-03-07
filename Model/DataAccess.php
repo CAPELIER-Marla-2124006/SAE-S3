@@ -7,6 +7,7 @@ class DataAccess implements DataAccessInterface {
 	private $prepStmtGetExercise;
 	private $prepStmtIsUser;
 	private $prepStmtGetUser;
+	private $prepStmtUpdateUsername;
 	private $prepStmtUpdateUser;
 
 	public function __construct(Pdo $data) {
@@ -22,6 +23,7 @@ class DataAccess implements DataAccessInterface {
 		$this->prepStmtGetExercise = $this->data->prepare('SELECT * FROM EXERCISE WHERE ID=:id');
 		$this->prepStmtIsUser = $this->data->prepare('SELECT * FROM USER WHERE USERNAME=:username AND PASSWORD=:password');
 		$this->prepStmtGetUser = $this->data->prepare('SELECT * FROM USER WHERE USERNAME=:username');
+		$this->prepStmtUpdateUsername = $this->data->prepare('UPDATE USER SET USERNAME=? WHERE USERNAME=?');
 		$this->prepStmtUpdateUser = $this->data->prepare('UPDATE USER SET PASSWORD=:password, NOTES=:notes, LEVEL=:level, COLOR_HUE=:hue, POINTS=:pts WHERE USERNAME=:username');
 	}
 
@@ -61,6 +63,18 @@ class DataAccess implements DataAccessInterface {
 		$row = $this->prepStmtGetUser->fetch();
 		return new User($row['USERNAME'], $row['PASSWORD'], $row['NOTES'],
 			$row['LEVEL'], $row['COLOR_HUE'], $row['POINTS']);
+	}
+
+	/**
+	 * Update an username in the database and give its reference back in `$user
+	 * param
+	 * @param User $user The user to update
+	 * @param string $username The new username
+	 */
+	public function updateUsername(User $user, string $username): void {
+		$this->prepStmtUpdateUsername->execute([$username, $user->getUsername()]);
+		$user = new User($username, $user->getPassword(), $user->getNotes(),
+			$user->getLevel(), $user->getColorHue(), $user->getPoints());
 	}
 
 	/**

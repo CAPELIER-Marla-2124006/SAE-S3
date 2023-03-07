@@ -27,14 +27,6 @@ class User
 	}
 
 	/**
-	 * @param string $username
-	 */
-	public function setUsername(string $username): void
-	{
-		$this->username = $username;
-	}
-
-	/**
 	 * @return string
 	 */
 	public function getPassword(): string
