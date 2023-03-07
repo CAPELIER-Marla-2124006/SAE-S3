@@ -3,13 +3,6 @@
 abstract class ADataAccess
 {
 
-    protected $data;
-
-    public function __construct(Pdo $data) {
-        $this->data = $data;
-        $this->prepareStatements();
-    }
-
     /**
      * Prepare all statements needed for the other abstract methods
      * The function is only called by the constructor of the abstract class
@@ -28,7 +21,7 @@ abstract class ADataAccess
      * @param string $username The username to check
      * @param string $password The password to check
      * @return bool Returns true if the pair (username, password) exists in the
-     * USER table
+     * USER table (false in the other case)
      */
     public abstract function isUser(string $username, string $password): bool;
 
