@@ -2,14 +2,12 @@
 
 namespace Model;
 
-class User
-{
-	private string $username, $password, $notes;
-	private int $id, $level, $colorHue, $points;
+class User {
 
-	public function __construct(int $id, string $username, string $password, string $notes,
-								int $level, int $colorHue, int $points) {
-		$this->id = $id;
+	private string $username, $password, $notes;
+	private int $level, $colorHue, $points;
+
+	public function __construct(string $username, string $password, string $notes, int $level, int $colorHue, int $points) {
 		$this->username = $username;
 		$this->password = $password;
 		$this->notes = $notes;
@@ -19,101 +17,91 @@ class User
 	}
 
 	/**
-	 * @return string
+	 * Username getter
+	 * @return string The username of the user
 	 */
-	public function getUsername(): string
-	{
+	public function getUsername(): string {
 		return $this->username;
 	}
 
 	/**
-	 * @return string
+	 * Password getter
+	 * @return string The password of the user
 	 */
-	public function getPassword(): string
-	{
+	public function getPassword(): string {
 		return $this->password;
 	}
 
 	/**
-	 * @param string $password
+	 * Password setter
+	 * @param string $password The new password
 	 */
-	public function setPassword(string $password): void
-	{
+	public function setPassword(string $password): void {
 		$this->password = $password;
 	}
 
 	/**
-	 * @return string
+	 * Notes getter
+	 * @return string The notes of the user
 	 */
-	public function getNotes(): string
-	{
+	public function getNotes(): string {
 		return $this->notes;
 	}
 
 	/**
-	 * @param string $notes
+	 * Notes setter
+	 * @param string $notes The new notes
 	 */
-	public function setNotes(string $notes): void
-	{
+	public function setNotes(string $notes): void {
 		$this->notes = $notes;
 	}
 
 	/**
-	 * @return int
+	 * Level getter
+	 * @return int The level of the user
 	 */
-	public function getId(): int
-	{
-		return $this->id;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getLevel(): int
-	{
+	public function getLevel(): int {
 		return $this->level;
 	}
 
 	/**
-	 * @param int $level
+	 * Level setter
+	 * @param int $level The new level
 	 */
-	public function setLevel(int $level): void
-	{
+	public function setLevel(int $level): void {
 		$this->level = $level;
 	}
 
 	/**
-	 * @return int
+	 * Hue getter
+	 * @return int The hue of the user
 	 */
-	public function getColorHue(): int
-	{
+	public function getColorHue(): int {
 		return $this->colorHue;
 	}
 
 	/**
-	 * @param int $colorHue
+	 * Hue setter
+	 * @param int $colorHue The new hue
 	 */
-	public function setColorHue(int $colorHue): void
-	{
+	public function setColorHue(int $colorHue): void {
 		$this->colorHue = $colorHue;
 	}
 
 	/**
-	 * @return int
+	 * Points getter
+	 * @return int The points of the user
 	 */
-	public function getPoints(): int
-	{
+	public function getPoints(): int {
 		return $this->points;
 	}
 
 	/**
-	 * @param int $points
+	 * Ponts setter
+	 * @param int $points The new points
 	 */
-	public function setPoints(int $points): void
-	{
+	public function setPoints(int $points): void {
 		$this->points = $points;
 	}
-
-
 
 }
