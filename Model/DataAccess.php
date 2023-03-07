@@ -1,6 +1,6 @@
 <?php
 
-class DataAccess extends ADataAccess {
+class DataAccess implements DataAccessInterface {
 
 	private $data;
 
