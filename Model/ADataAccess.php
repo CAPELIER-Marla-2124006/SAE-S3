@@ -5,7 +5,7 @@ abstract class ADataAccess
 
     protected $data;
 
-    public function __construct($data) {
+    public function __construct(Pdo $data) {
         $this->data = $data;
         $this->prepareStatements();
     }
