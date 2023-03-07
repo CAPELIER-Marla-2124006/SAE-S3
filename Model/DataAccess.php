@@ -1,24 +1,28 @@
 <?php
 
 class DataAccess extends ADataAccess {
-	private $prepReqGetExercise;
-	private $prepReqIsUser;
-	private $prepReqGetUser;
-	private $prepReqUpdateUser;
 
-	public function __construct(PDO $data) {
-		parent::__construct($data);
+	private $data;
+
+	private $prepStmtGetExercise;
+	private $prepStmtIsUser;
+	private $prepStmtGetUser;
+	private $prepStmtUpdateUser;
+
+	public function __construct(Pdo $data) {
+		$this->data = $data;
+		$this->prepareStatements();
 	}
 
 	/**
 	 * Prepare all statements needed for the other abstract methods
 	 * The function is only called by the constructor of the abstract class
 	 */
-	public function prepareStatements(): void {
-		$this->prepReqGetExercise = $this->data->prepare('SELECT * FROM EXERCISE WHERE ID=:id');
-		$this->prepReqIsUser = $this->data->prepare('SELECT * FROM USER WHERE USERNAME=:username AND PASSWORD=:password');
-		$this->prepReqGetUser = $this->data->prepare('SELECT * FROM USER WHERE USERNAME=:username');
-		$this->prepReqUpdateUser = $this->data->prepare('UPDATE USER SET PASSWORD=:password, NOTES=:notes, LEVEL=:level, COLOR_HUE=:hue, POINTS=:pts WHERE USERNAME=:username');
+	private function prepareStatements(): void {
+		$this->prepStmtGetExercise = $this->data->prepare('SELECT * FROM EXERCISE WHERE ID=:id');
+		$this->prepStmtIsUser = $this->data->prepare('SELECT * FROM USER WHERE USERNAME=:username AND PASSWORD=:password');
+		$this->prepStmtGetUser = $this->data->prepare('SELECT * FROM USER WHERE USERNAME=:username');
+		$this->prepStmtUpdateUser = $this->data->prepare('UPDATE USER SET PASSWORD=:password, NOTES=:notes, LEVEL=:level, COLOR_HUE=:hue, POINTS=:pts WHERE USERNAME=:username');
 	}
 
 	/**
@@ -27,14 +31,12 @@ class DataAccess extends ADataAccess {
 	 * @return Exercise An instance that holds exercise attributes
 	 */
 	public function getExercise(int $id): Exercise {
-		$result = $this->prepReqGetExercise->execute(['id' => $id])->fetch();
-		$row = $result->fetch();
-		$exercise = new Exercise(
+		$this->prepStmtGetExercise->execute(['id' => $id]);
+		$row = $this->prepStmtGetExercise->fetch();
+		return new Exercise(
 			$row['ID'], $row['NAME'], $row['CODE_INIT'], $row['LESSON'],
 			$row['HINT'], $row['SUCCESS'], $row['ANSWER'], $row['POINTS']
 		);
-		$row->closeCursor();
-		return $exercise;
 	}
 
 	/**
@@ -42,14 +44,11 @@ class DataAccess extends ADataAccess {
 	 * @param string $username The username to check
 	 * @param string $password The password to check
 	 * @return bool Returns true if the pair (username, password) exists in the
-	 * USER table
+	 * USER table (false in the other case)
 	 */
 	public function isUser(string $username, string $password): bool {
-		$result = $this->prepReqIsUser->execute(['username' => $username,
-			'password' => $password]);
-		$isUser = $result->rowCount() != 0;
-		$result->closeCursor();
-		return $isUser;
+		$this->prepStmtIsUser->execute(['username' => $username, 'password' => $password]);
+		return $this->prepStmtIsUser->rowCount() != 0;
 	}
 
 	/**
@@ -58,12 +57,10 @@ class DataAccess extends ADataAccess {
 	 * @return User An instance that holds user attributes
 	 */
 	public function getUser(string $username): User {
-		$result = $this->prepReqGetUser->execute(['username' => $username]);
-		$row = $result->fetch();
-		$user = new User($row['USERNAME'], $row['PASSWORD'], $row['NOTES'],
-			$row['LEVEL'], $row['COLOR_HUE'], $row['POINTS'], );
-		$result->closeCursor();
-		return $user;
+		$this->prepStmtGetUser->execute(['username' => $username]);
+		$row = $this->prepStmtGetUser->fetch();
+		return new User($row['USERNAME'], $row['PASSWORD'], $row['NOTES'],
+			$row['LEVEL'], $row['COLOR_HUE'], $row['POINTS']);
 	}
 
 	/**
@@ -71,7 +68,7 @@ class DataAccess extends ADataAccess {
 	 * @param User $user The model to take values
 	 */
 	public function updateUser(User $user): void {
-		$this->prepReqUpdateUser->execute([
+		$this->prepStmtUpdateUser->execute([
 			'username' => $user->getUsername(),
 			'password' => $user->getPassword(),
 			'notes' => $user->getNotes(),
