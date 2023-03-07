@@ -66,14 +66,14 @@ class DataAccess implements DataAccessInterface {
 	}
 
 	/**
-	 * Update an username in the database and give its reference back in `$user
-	 * param
-	 * @param User $user The user to update
-	 * @param string $username The new username
-	 */
-	public function updateUsername(User $user, string $username): void {
+     * Change a username in database and return a new user with its values
+     * @param User $user The model to take values
+     * @param string $username The new username
+     * @return User A new user holding new data
+     */
+    public function updateUsername(User $user, string $username): User {
 		$this->prepStmtUpdateUsername->execute([$username, $user->getUsername()]);
-		$user = new User($username, $user->getPassword(), $user->getNotes(),
+		return new User($username, $user->getPassword(), $user->getNotes(),
 			$user->getLevel(), $user->getColorHue(), $user->getPoints());
 	}
 
