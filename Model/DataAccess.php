@@ -2,15 +2,15 @@
 
 class DataAccess implements DataAccessInterface {
 
-	private $data;
+	private PDO $data;
 
-	private $prepStmtGetExercise;
-	private $prepStmtIsUser;
-	private $prepStmtGetUser;
-	private $prepStmtUpdateUsername;
-	private $prepStmtUpdateUser;
+	private PDOStatement $prepStmtGetExercise;
+	private PDOStatement $prepStmtIsUser;
+	private PDOStatement $prepStmtGetUser;
+	private PDOStatement $prepStmtUpdateUsername;
+	private PDOStatement $prepStmtUpdateUser;
 
-	public function __construct(Pdo $data) {
+	public function __construct(PDO $data) {
 		$this->data = $data;
 		$this->prepareStatements();
 	}
