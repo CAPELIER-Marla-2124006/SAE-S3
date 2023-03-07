@@ -20,7 +20,8 @@ class Exercise
 	}
 
 	/**
-	 * @return int
+	 * Id getter
+	 * @return int The id of the exercise
 	 */
 	public function getId(): int
 	{
@@ -28,7 +29,8 @@ class Exercise
 	}
 
 	/**
-	 * @return string
+	 * CodeInit getter
+	 * @return string The initial code of the exercise
 	 */
 	public function getCodeInit(): string
 	{
@@ -36,7 +38,8 @@ class Exercise
 	}
 
 	/**
-	 * @param string $code_init
+	 * CodeInit setter
+	 * @param string $code_init The new initial code
 	 */
 	public function setCodeInit(string $code_init): void
 	{
@@ -44,7 +47,8 @@ class Exercise
 	}
 
 	/**
-	 * @return string
+	 * Instructions getter
+	 * @return string The instructions of the exercise
 	 */
 	public function getInstructions(): string
 	{
@@ -52,7 +56,8 @@ class Exercise
 	}
 
 	/**
-	 * @param string $instructions
+	 * Instructions setter
+	 * @param string $instructions The new instructions
 	 */
 	public function setInstructions(string $instructions): void
 	{
@@ -60,7 +65,8 @@ class Exercise
 	}
 
 	/**
-	 * @return string
+	 * Lesson getter
+	 * @return string The lesson of the exercise
 	 */
 	public function getLesson(): string
 	{
@@ -68,7 +74,8 @@ class Exercise
 	}
 
 	/**
-	 * @param string $lesson
+	 * Lesson setter
+	 * @param string $lesson The new lesson
 	 */
 	public function setLesson(string $lesson): void
 	{
@@ -76,7 +83,8 @@ class Exercise
 	}
 
 	/**
-	 * @return string
+	 * Hint getter
+	 * @return string The hint of the exercise
 	 */
 	public function getHint(): string
 	{
@@ -84,7 +92,8 @@ class Exercise
 	}
 
 	/**
-	 * @param string $hint
+	 * Hint setter
+	 * @param string $hint The new hint
 	 */
 	public function setHint(string $hint): void
 	{
@@ -92,7 +101,8 @@ class Exercise
 	}
 
 	/**
-	 * @return string
+	 * Success getter
+	 * @return string The success of the exercise
 	 */
 	public function getSuccess(): string
 	{
@@ -100,7 +110,8 @@ class Exercise
 	}
 
 	/**
-	 * @param string $success
+	 * Success setter
+	 * @param string $success The new success
 	 */
 	public function setSuccess(string $success): void
 	{
@@ -108,7 +119,8 @@ class Exercise
 	}
 
 	/**
-	 * @return string
+	 * Answer getter
+	 * @return string The answer of the exercise
 	 */
 	public function getAnswer(): string
 	{
@@ -116,7 +128,8 @@ class Exercise
 	}
 
 	/**
-	 * @param string $answer
+	 * Answer setter
+	 * @param string $answer The new answer
 	 */
 	public function setAnswer(string $answer): void
 	{
@@ -124,7 +137,8 @@ class Exercise
 	}
 
 	/**
-	 * @return int
+	 * Points getter
+	 * @return int The points of the exercise
 	 */
 	public function getPoints(): int
 	{
@@ -132,13 +146,12 @@ class Exercise
 	}
 
 	/**
-	 * @param int $points
+	 * Ponts setter
+	 * @param int $points The new points
 	 */
 	public function setPoints(int $points): void
 	{
 		$this->points = $points;
 	}
-
-
 
 }
