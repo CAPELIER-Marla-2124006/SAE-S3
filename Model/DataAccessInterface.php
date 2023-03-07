@@ -27,6 +27,14 @@ interface DataAccessInterface
     public function getUser(string $username): User;
 
     /**
+     * Update an username in the database and give its reference back in `$user
+     * param
+     * @param User $user The user to update
+     * @param string $username The new username
+     */
+    public function updateUsername(User $user, string $username): void;
+
+    /**
      * Update an user in the database
      * @param User $user The model to take values
      */
