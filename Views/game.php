@@ -7,7 +7,8 @@
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="/style/style.css">
 	<script src="/ace/ace.js" defer></script>
-	<script src="/script/script.js" defer></script>
+	<script src="/script/game.js" defer></script>
+    <script src="/script/page.js"></script>
 
 </head>
 
