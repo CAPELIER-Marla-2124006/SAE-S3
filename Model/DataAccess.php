@@ -14,11 +14,11 @@ class DataAccess implements DataAccessInterface {
 	 * @return Exercise An instance that holds exercise attributes
 	 */
 	 public function getExercise(int $id): Exercise {
-		$statement = $this->data->prepare('SELECT * FROM EXERCISE WHERE ID=?');
+		$statement = $this->data->prepare('SELECT * FROM APP_EXERCISE WHERE ID=?');
 		$statement->execute([$id]);
 		$row = $statement->fetch();
 		return new Exercise(
-			$row['ID'], $row['NAME'], $row['CODE_INIT'], $row['LESSON'],
+			$row['ID'], $row['CODE_INIT'], $row['DESCRIPTION'], $row['LESSON'],
 			$row['HINT'], $row['SUCCESS'], $row['ANSWER'], $row['POINTS']
 		);
 	}
@@ -31,7 +31,7 @@ class DataAccess implements DataAccessInterface {
 	 * USER table (false in the other case)
 	 */
 	public function isUser(string $username, string $password): bool {
-		$statement = $this->data->prepare('SELECT * FROM USER WHERE USERNAME=? AND PASSWORD=?');
+		$statement = $this->data->prepare('SELECT * FROM APP_USER WHERE USERNAME=? AND PASSWORD=?');
 		$statement->execute([$username, $password]);
 		return $statement->rowCount() != 0;
 	}
@@ -42,7 +42,7 @@ class DataAccess implements DataAccessInterface {
 	 * @return User An instance that holds user attributes
 	 */
 	public function getUser(string $username): User {
-		$statement = $this->data->prepare('SELECT * FROM USER WHERE USERNAME=?');
+		$statement = $this->data->prepare('SELECT * FROM APP_USER WHERE USERNAME=?');
 		$statement->execute([$username]);
 		$row = $statement->fetch();
 		return new User($row['USERNAME'], $row['PASSWORD'], $row['NOTES'],
@@ -56,7 +56,7 @@ class DataAccess implements DataAccessInterface {
      * @return User A new user holding new data
      */
     public function updateUsername(User $user, string $username): User {
-		$this->data->prepare('UPDATE USER SET USERNAME=? WHERE USERNAME=?')->execute([$username, $user->getUsername()]);
+		$this->data->prepare('UPDATE APP_USER SET USERNAME=? WHERE USERNAME=?')->execute([$username, $user->getUsername()]);
 		return new User($username, $user->getPassword(), $user->getNotes(),
 			$user->getLevel(), $user->getColorHue(), $user->getPoints());
 	}
@@ -66,7 +66,7 @@ class DataAccess implements DataAccessInterface {
 	 * @param User $user The model to take values
 	 */
 	public function updateUser(User $user): void {
-		$this->data->prepare('UPDATE USER SET PASSWORD=:password, NOTES=:notes, LEVEL=:level, COLOR_HUE=:hue, POINTS=:pts WHERE USERNAME=:username')->execute([
+		$this->data->prepare('UPDATE APP_USER SET PASSWORD=:password, NOTES=:notes, LEVEL=:level, COLOR_HUE=:hue, POINTS=:pts WHERE USERNAME=:username')->execute([
 			'username' => $user->getUsername(),
 			'password' => $user->getPassword(),
 			'notes' => $user->getNotes(),
