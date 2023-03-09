@@ -1,7 +1,7 @@
 ///--------///
 /// EDITOR ///
 ///--------///
-// get editor from ace (for syntaxic colors etc)
+// get editor from ace (for syntax colors etc.)
 const editor = ace.edit("code-editor");
 // change theme
 editor.setTheme("ace/theme/perso");
@@ -97,6 +97,72 @@ function hideAccountForm() {
     accountForm.style.display = "none";
     accountButton.removeEventListener('click', hideAccountForm);
     accountButton.addEventListener('click', displayAccountForm);
+}
+
+////////////////////
+/// SORT OF MAIN ///
+////////////////////
+// when the user exit notes textarea, store its data in db
+notesTextarea.addEventListener("focusout", ()=>{
+    sendApiRequests("saveUser", levelNumber, ()=>{}, 'notes=>'+notesTextarea.value);
+});
+
+// when the user change slider value
+colorSlider.oninput = function() {
+    cssRoot.style.setProperty('--hue', this.value);
+};
+
+// when the user selected the value, it's updated in DB
+colorSlider.addEventListener("change", ()=> {
+    sendApiRequests("saveUser", levelNumber, ()=>{}, 'colorHue=>'+colorSlider.value);
+});
+
+/* close end popup and get next level */
+nextPopupButton.addEventListener("click", ()=>{
+    // get all popupBackground children and remove their class display
+    popupBackground.classList.remove("display");
+    for(const p of popupBackground.children) {
+        // remove their class display
+        p.classList.remove("display");
+    }
+
+    nextLevel();
+});
+
+/* display lesson when clicking lesson */
+lessonButton.addEventListener("click", ()=>{
+    displayLesson();
+});
+
+/* display hint when clicking hint */
+hintButton.addEventListener("click", ()=>{
+    displayHint();
+});
+
+/* CLOSE POPUP TRIGGER */
+closePopupButton.forEach(b => {
+    // when clicked
+    b.addEventListener("click", ()=>{
+        // get all children of popupBackground
+        popupBackground.classList.remove("display");
+        for(const p of popupBackground.children) {
+            // remove their class display
+            p.classList.remove("display");
+        }
+    });
+});
+
+// add listeners for account buttons only if displayed
+if(connexionButton != null) {
+    connexionButton.addEventListener("click", displayConnexionForm);
+}
+
+if(registerButton != null) {
+    registerButton.addEventListener("click", displayRegisterForm);
+}
+
+if(accountButton != null) {
+    accountButton.addEventListener("click", displayAccountForm);
 }
 
 

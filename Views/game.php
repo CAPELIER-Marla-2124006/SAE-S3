@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="/style/style.css">
 	<script src="/ace/ace.js" defer></script>
 	<script src="/script/game.js" defer></script>
-    <script src="/script/page.js"></script>
+    <script src="/script/page.js" defer></script>
 
 </head>
 
@@ -28,6 +28,8 @@
 
         <label for="colorSlider" class="uselessLabel">Choix de la couleur :</label>
         <input type="range" min="0" max="360" class="slider" id="colorSlider" value="<?= $A_view['colorHue'] ?>">
+
+        <p id="levelNumber" style="display: none"><?= $A_view['levels'] ?></p>
 
         <label for="levels" class="uselessLabel">Choix du niveau</label>
         <select class="levels" id="levels">
