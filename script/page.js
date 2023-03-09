@@ -27,6 +27,9 @@ const accountForm		= document.querySelector("#accountForm");		// form to disconn
 const colorSlider 		= document.querySelector("#colorSlider");		// slider to choose color from
 
 
+/* initialize web color value */
+cssRoot.style.setProperty('--hue', colorSlider.value);
+
 
 ///------------------///
 /// GLOBAL FUNCTIONS ///

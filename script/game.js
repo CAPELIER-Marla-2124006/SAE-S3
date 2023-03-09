@@ -21,6 +21,10 @@ const popupBackground 	= document.querySelector(".popupBackground");	// backgrou
 const userPoints		= document.querySelector("#userPoints");		// where the points are displayed
 
 
+/* set level selector to value */
+levelSelector.value = levelNumber;
+
+
 ///------------------///
 /// GLOBAL FUNCTIONS ///
 ///------------------///
@@ -198,44 +202,3 @@ if(registerButton != null) {
 if(accountButton != null) {
 	accountButton.addEventListener("click", displayAccountForm);
 }
-
-
-
-
-
-
-
-
-
-///--------------///
-/// SORT OF MAIN ///
-///--------------///
-/* initialize web page */
-/// SET COLOR VALUE ///
-cssRoot.style.setProperty('--hue', colorSlider.value);
-
-/// SET LEVEL SELECTOR ///
-levelSelector.value = levelNumberHTML.innerHTML;
-
-/// GET INSTRUCTIONS ///
-sendApiRequests("php/sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=instructions", (inst)=>{
-	instructionsDiv.innerHTML = inst;
-});
-
-/// DISPLAY LESSON ///
-sendApiRequests("php/sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=lesson", (lesson)=>{
-	// put lesson in the text div
-	lessonDiv.querySelector(".text").innerHTML = lesson;
-	displayLesson();
-});
-
-/// GET HINT ///
-sendApiRequests("php/sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=hint", (hint)=>{
-	// put hint in the text div
-	hintDiv.querySelector(".text").innerHTML = hint;
-});
-
-/// GET WIN MESSAGE ///
-sendApiRequests("php/sql.php?idLevel="+levelNumberHTML.innerHTML+"&type=success", (msg)=> {
-	successDiv.querySelector(".text").innerHTML = msg;
-})
