@@ -4,18 +4,18 @@ namespace Model;
 
 class Exercise
 {
-	private string $code_init, $instructions, $lesson, $hint, $success, $answer;
+	private string $code_init, $instructions, $lesson, $hint, $success, $exexercise_answer;
 	private int $id, $points;
 
 	public function __construct(int $id, string $code_init, string $instructions, string $lesson, string $hint,
-								string $success, string $answer, int $points) {
+								string $success, string $exercise_answer, int $points) {
 		$this->id = $id;
 		$this->code_init = $code_init;
 		$this->instructions = $instructions;
 		$this->lesson = $lesson;
 		$this->hint = $hint;
 		$this->success = $success;
-		$this->answer = $answer;
+		$this->exercise_answer = $exercise_answer;
 		$this->points = $points;
 	}
 
@@ -119,21 +119,21 @@ class Exercise
 	}
 
 	/**
-	 * Answer getter
-	 * @return string The answer of the exercise
+	 * Exercise_answer getter
+	 * @return string The exercise_answer of the exercise
 	 */
-	public function getAnswer(): string
+	public function getExercise_answer(): string
 	{
-		return $this->answer;
+		return $this->exercise_answer;
 	}
 
 	/**
-	 * Answer setter
-	 * @param string $answer The new answer
+	 * Exercise_answer setter
+	 * @param string $exercise_answer The new exercise_answer
 	 */
-	public function setAnswer(string $answer): void
+	public function setExercise_answer(string $exercise_answer): void
 	{
-		$this->answer = $answer;
+		$this->exercise_answer = $exercise_answer;
 	}
 
 	/**

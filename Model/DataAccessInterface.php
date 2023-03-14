@@ -40,4 +40,6 @@ interface DataAccessInterface
      */
     public function updateUser(User $user): void;
 
+    public function executeExerciseAnswer(string $request): array;
+
 }
