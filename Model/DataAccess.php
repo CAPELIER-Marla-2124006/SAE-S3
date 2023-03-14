@@ -76,4 +76,17 @@ class DataAccess implements DataAccessInterface {
 		]);
 	}
 
+	/**
+	 * @param string $request
+	 * @return array
+	 */
+	public function executeExerciseAnswer(string $request): array {
+		$statement = $this->data->prepare($request);
+		$statement->execute();
+        $output = array();
+        while ($row = $statement->fetch())
+            $output[] = $row;
+        return $output;
+	}
+
 }
