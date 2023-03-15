@@ -6,13 +6,13 @@ class V1Controller extends AController {
         switch ($this->urlFolder) { 
             case 'exercise':{
                 $data = new DataAccess();
-                $exercice = $data->getExercise($this->urlParams[0]);//urlParams[0] = nb level
+                $exercise = $data->getExercise($this->urlParams[0]);//urlParams[0] = nb level
                 $php_array = [
-                    'lesson'=>$exercice->getLesson(),
-                    'instructions'=>$exercice->getInstructions(),
-                    'hint'=>$exercice->getHint(),
-                    'codeInit'=>$exercice->getCodeInit(),
-                    'success'=>$exercice->getSuccess()
+                    'lesson'=>$exercise->getLesson(),
+                    'instructions'=>$exercise->getInstructions(),
+                    'hint'=>$exercise->getHint(),
+                    'codeInit'=>$exercise->getCodeInit(),
+                    'success'=>$exercise->getSuccess()
                 ];
                 $json_array = json_encode($php_array);
                 echo($json_array);
@@ -42,7 +42,7 @@ class V1Controller extends AController {
                 $user = $dataAdmin->getUser($_SESSION['ID']);
                 
                 // get exercise object of the exrcise asked
-                $exerciceAsked = $dataAdmin->getExercise($this->urlParams[0]);
+                $exerciseAsked = $dataAdmin->getExercise($this->urlParams[0]);
                 // user answer send in post
                 $userAnswer = $this->postParams['answer'];
                 
@@ -54,13 +54,13 @@ class V1Controller extends AController {
                 if($userResult == $dataAdmin->getResult($rightAnswer)){
                     
                     $win = true;
-                    $points = $user->getPoints() + $exerciceAsked->getPoints();
+                    $points = $user->getPoints() + $exerciseAsked->getPoints();
                     $user->setLevel($this->postParams['level']);
                     
                 } else {
 
                     $win = false;
-                    $points = $user->getPoints() - intdiv($exerciceAsked->getPoints(), 5);
+                    $points = $user->getPoints() - intdiv($exerciseAsked->getPoints(), 5);
 
                 }
                 $user->setPoints($points);
