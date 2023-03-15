@@ -4,7 +4,7 @@ class GameController
 {
 	private array $A_GameInfo;
     public function __construct() {
-		$data = new DataAccess();
+		$data = new DataAccess(Model::getAdminConnexion()); // connect as Admin
 
 		if(Session::is_login()) {
 			$user = $data->getUser($_SESSION['ID']);
