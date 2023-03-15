@@ -2,22 +2,39 @@
 
 final class Model
 {
-	private static PDO $conn;
+	private static PDO $adminConn;
+	private static PDO $userConn;
 
-	public static function get(): PDO
+	public static function getUserConnexion(): PDO
 	{
-		if(self::$conn === null){
-			self::init();
-		}
-		return self::$conn;
+		if(self::$userConn === null)
+			self::$userConn = self::init('user');
+
+		return self::$userConn;
 	}
 
-	private static function init(): void
+	public static function getAdminConnexion(): PDO
 	{
+		if(self::$adminConn === null)
+			self::$adminConn = self::init('admin');
+
+		return self::$adminConn;
+	}
+
+	private static function init(string $which): PDO
+	{
+		$db_username = $_ENV["DB_USERNAME"];
+		$db_password = $_ENV["DB_PASSWORD"];
+
+		if($which === 'user') {
+			$db_username = 'IUT-SAE-USER';
+			$db_password = 'IUT-SAE-USER';
+		}
+
 		$PDO_URI = sprintf("mysql:host=%s;dbname=%s", $_ENV["DB_HOST"], $_ENV["DB_DBNAME"]);
 
 		try{
-			self::$conn = new PDO($PDO_URI, $_ENV["DB_USERNAME"], $_ENV["DB_PASSWORD"]);
+			return new PDO($PDO_URI, $db_username, $db_password);
 		}catch(PDOException $e){
 			throw new HTTPSpecialCaseException(500, "Connection to the database failed");
 		}
