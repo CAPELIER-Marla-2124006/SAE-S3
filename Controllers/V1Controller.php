@@ -5,7 +5,7 @@ class V1Controller extends AController {
     public function process() { // TODO FIX DATAACCESS
         switch ($this->urlFolder) { 
             case 'exercise':{
-                $data = new DataAccess();
+                $data = new DataAccess(Model::getAdminConnexion());
                 $exercise = $data->getExercise($this->urlParams[0]);//urlParams[0] = nb level
                 $php_array = [
                     'lesson'=>$exercise->getLesson(),
@@ -19,7 +19,7 @@ class V1Controller extends AController {
                 break;
             }
             case 'saveUser':{
-                $data = new DataAccessAdmin();
+                $data = new DataAccess(Model::getAdminConnexion());
                 $user = $data->getUser($_SESSION['ID']);
                 if(isset($this->postParams['notes'])) {
                     $user->setNotes($this->postParams['notes']);
@@ -35,8 +35,8 @@ class V1Controller extends AController {
             }
             case 'submit':{//points et user level
                 /////// PSEUDO CODE ////////
-                $dataExercise = new DataAccessUser(); // connect as not Admin
-                $dataAdmin = new DataAccessAdmin(); // connect as Admin
+                $dataExercise = new DataAccess(Model::getUserConnexion()); // connect as not Admin
+                $dataAdmin = new DataAccess(Model::getAdminConnexion()); // connect as Admin
                 
                 // get current connected user
                 $user = $dataAdmin->getUser($_SESSION['ID']);
