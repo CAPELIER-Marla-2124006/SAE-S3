@@ -8,7 +8,7 @@ class GameController
 
 		if(Session::is_login()) {
 			$user = $data->getUser($_SESSION['ID']);
-			$exercice = $data->getExercice($user->getLevel());
+			$exercice = $data->getExercise($user->getLevel());
 
 			$this->A_GameInfo = [
 				'username'=>$user->getUsername(),
@@ -23,7 +23,7 @@ class GameController
 			];
 
 		} else {
-			$exercice = $data->getExercice(1);
+			$exercice = $data->getExercise(1);
 			$this->A_GameInfo = [
 				'colorHue'=>164,
 				'levels'=>1,
