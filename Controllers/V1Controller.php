@@ -2,9 +2,13 @@
 
 class V1Controller extends AController {
 
-    public function process() { // TODO FIX DATAACCESS
+    /**
+	 * Process the request by using the url
+     * @return void
+	 */
+    public function process(): void {
         switch ($this->urlFolder) { 
-            case 'exercise':{
+            case 'exercise':{ // get exercise from database and return it in json
                 $data = new DataAccess(Model::getAdminConnexion());
                 $exercise = $data->getExercise($this->urlParams[0]);//urlParams[0] = nb level
                 $php_array = [
@@ -18,7 +22,7 @@ class V1Controller extends AController {
                 echo($json_array);
                 break;
             }
-            case 'saveUser':{
+            case 'saveUser':{ // save/update user's stats in database
                 $data = new DataAccess(Model::getAdminConnexion());
                 $user = $data->getUser($_SESSION['ID']);
                 if(isset($this->postParams['notes'])) {
@@ -33,8 +37,7 @@ class V1Controller extends AController {
                 $data->updateUser($user);
                 break;
             }
-            case 'submit':{//points et user level
-                /////// PSEUDO CODE ////////
+            case 'submit':{ // check if user's answer is equal to the right answer, update user's stats and return result in json
                 $dataExercise = new DataAccess(Model::getUserConnexion()); // connect as not Admin
                 $dataAdmin = new DataAccess(Model::getAdminConnexion()); // connect as Admin
                 
@@ -43,11 +46,13 @@ class V1Controller extends AController {
                 
                 // get exercise object of the exrcise asked
                 $exerciseAsked = $dataAdmin->getExercise($this->urlParams[0]);
+
                 // user answer send in post
                 $userAnswer = $this->postParams['answer'];
                 
                 // get right answer of the exercise asked
                 $rightAnswer = $dataAdmin->getExercise($this->urlParams[0])->getAnswer();
+
                 // get result array of the user answer
                 $userResult = $dataExercise->executeExerciseAnswer($userAnswer);
 
@@ -67,8 +72,10 @@ class V1Controller extends AController {
                 
                 // create table and headers of table
                 $table = "<table><tr>";
+
                 // for each keys in first result
                 foreach ($userResult[0] as $key => $var) {
+
                     // if it's not a number
                     if(!ctype_digit($key) && !is_numeric($key))
                         $table .= "<th>".$key."</th>";
@@ -79,21 +86,23 @@ class V1Controller extends AController {
                 // for each line in results
                 foreach ($userResult as $line) {
                     $table .= "<tr>";
+
                     // for each case in line
                     foreach ($line as $key => $case) {
+
                         // if it's not a number
                         if(!ctype_digit($key) && !is_numeric($key))
                             $table .= "<td>".$case."</td>";
                     }
                     $table .= "</tr>";
                 }
+
                 //end table
                 $table .= "</table>";
 
                 $returnArray = [$win, $points, $table];
 
                 echo(json_encode($returnArray));
-                
                 break;
             }
             default:{
