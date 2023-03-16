@@ -1,7 +1,5 @@
 <?php
 
-namespace Model;
-
 class Exercise
 {
 	private string $code_init, $instructions, $lesson, $hint, $success, $exexercise_answer;
