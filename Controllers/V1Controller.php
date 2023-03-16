@@ -49,9 +49,9 @@ class V1Controller extends AController {
                 // get right answer of the exercise asked
                 $rightAnswer = $dataAdmin->getExercise($this->urlParams[0])->getAnswer();
                 // get result array of the user answer
-                $userResult = $dataExercise->getResult($userAnswer);
+                $userResult = $dataExercise->executeExerciseAnswer($userAnswer);
 
-                if($userResult == $dataAdmin->getResult($rightAnswer)){
+                if($userResult == $dataAdmin->executeExerciseAnswer($rightAnswer)){
                     
                     $win = true;
                     $points = $user->getPoints() + $exerciseAsked->getPoints();
