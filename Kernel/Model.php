@@ -2,8 +2,8 @@
 
 final class Model
 {
-	private static PDO $adminConn;
-	private static PDO $userConn;
+	private static ?PDO $adminConn = null;
+	private static ?PDO $userConn = null;
 
 	public static function getUserConnexion(): PDO
 	{
@@ -28,7 +28,7 @@ final class Model
 
 		if($which === 'user') {
 			$db_username = 'IUT-SAE-USER';
-			$db_password = 'IUT-SAE-USER';
+			$db_password = 'iut-sae-user';
 		}
 
 		$PDO_URI = sprintf("mysql:host=%s;dbname=%s", $_ENV["DB_HOST"], $_ENV["DB_DBNAME"]);
