@@ -2,7 +2,7 @@
 
 class Exercise
 {
-	private string $code_init, $instructions, $lesson, $hint, $success, $exexercise_answer;
+	private string $code_init, $instructions, $lesson, $hint, $success, $exercise_answer;
 	private int $id, $points;
 
 	public function __construct(int $id, string $code_init, string $instructions, string $lesson, string $hint,
