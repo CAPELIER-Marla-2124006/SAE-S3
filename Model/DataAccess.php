@@ -18,7 +18,7 @@ class DataAccess implements DataAccessInterface {
 		$statement->execute([$id]);
 		$row = $statement->fetch();
 		return new Exercise(
-			$row['ID'], $row['CODE_INIT'], $row['DESCRIPTION'], $row['LESSON'],
+			$row['ID'], $row['CODE_INIT'], $row['INSTRUCTION'], $row['LESSON'],
 			$row['HINT'], $row['SUCCESS'], $row['ANSWER'], $row['POINTS']
 		);
 	}
