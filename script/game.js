@@ -121,8 +121,9 @@ executeButton.addEventListener("click", () => {
 		//console.log(json);
 		json = JSON.parse(json);
 		resultsDiv.innerHTML = json['table'];
-		userPoints.innerHTML = "Points : " + json['points'];
-		if(json['win'] === "true") {
+		if(userPoints !== null)
+			userPoints.innerHTML = "Points : " + json['points'];
+		if(json['win'] == true) {
 			displayWin();
 		}
 	}, 'answer='+query);

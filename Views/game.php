@@ -191,8 +191,8 @@
             <div id="popupEnd">
                 <button class="nextButton"><img src="/images/next.png" alt="next level"></button>
                 <h1>Terminé !</h1>
-                <div class="text"></div>
-                <div class="reminder">N'oublie pas d'écrire ce que t'as écrit dans tes notes pour ne rien oublier !</div>
+                <div class="text"><?= $A_view['success'] ?></div>
+                <div class="reminder">N'oublie pas d'écrire ce que t'as appris dans tes notes pour ne rien oublier !</div>
             </div>
 
         </div>
