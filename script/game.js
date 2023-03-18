@@ -73,7 +73,7 @@ function changeLevel(num) {
 /* select next level */
 function nextLevel() {
 	if(levelNumber < 8) {
-		changeLevel(levelNumber+1);
+		changeLevel(parseInt(levelNumber)+1);
 		displayLesson();
 	}
 	else
