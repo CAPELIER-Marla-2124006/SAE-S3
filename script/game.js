@@ -125,7 +125,7 @@ executeButton.addEventListener("click", () => {
 		if(json['win'] === "true") {
 			displayWin();
 		}
-	}, query);
+	}, 'answer='+query);
 
 })
 

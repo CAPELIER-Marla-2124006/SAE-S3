@@ -36,18 +36,18 @@ cssRoot.style.setProperty('--hue', colorSlider.value);
 ///------------------///
 /* send a request from url, with a lambda in params (almost like the return) */
 function sendApiRequests(what, level, callback, post='') {
-    let xmlhttp = new XMLHttpRequest();
-    // send request to the api
-    xmlhttp.open("GET", 'api/v1/' + what + '/' + level, true);
-    xmlhttp.send(post??'');
-
-    // when result comes back, we call the function given
-    xmlhttp.onload = function () {
-        // get response
-        let response = this.responseText;
-        // callback is a func declared when call this func, to do whatever we want with the response
-        callback(response);
-    }
+    fetch('api/v1/' + what + '/' + level, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: post
+    }).then(
+        response => response.text()
+    ).then(
+        text => callback(text)
+    );
 }
 
 /* display the connexion form and set the button to hide it */
