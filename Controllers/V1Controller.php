@@ -7,7 +7,7 @@ class V1Controller extends AController {
      * @return void
 	 */
     public function process(): void {
-        switch ($this->urlFolder) { 
+        switch ($this->urlFolder) {
             case 'exercise':{ // get exercise from database and return it in json
                 $data = new DataAccess(Model::getAdminConnexion());
                 $exercise = $data->getExercise($this->urlParams[0]);//urlParams[0] = nb level
@@ -40,36 +40,43 @@ class V1Controller extends AController {
             case 'submit':{ // check if user's answer is equal to the right answer, update user's stats and return result in json
                 $dataExercise = new DataAccess(Model::getUserConnexion()); // connect as not Admin
                 $dataAdmin = new DataAccess(Model::getAdminConnexion()); // connect as Admin
-                
-                // get current connected user
-                $user = $dataAdmin->getUser($_SESSION['ID']);
-                
+
+                // get current connected user if possible
+                if(Session::is_login())
+                    $user = $dataAdmin->getUser($_SESSION['ID']);
+
                 // get exercise object of the exrcise asked
                 $exerciseAsked = $dataAdmin->getExercise($this->urlParams[0]);
 
                 // user answer send in post
                 $userAnswer = $this->postParams['answer'];
-                
+
                 // get right answer of the exercise asked
-                $rightAnswer = $dataAdmin->getExercise($this->urlParams[0])->getAnswer();
+                $rightAnswer = $dataAdmin->getExercise($this->urlParams[0])->getExercise_answer();
 
                 // get result array of the user answer
                 $userResult = $dataExercise->executeExerciseAnswer($userAnswer);
 
                 if($userResult == $dataAdmin->executeExerciseAnswer($rightAnswer)){
-                    
+
                     $win = true;
-                    $points = $user->getPoints() + $exerciseAsked->getPoints();
-                    $user->setLevel($this->postParams['level']);
-                    
+                    $points = 0;
+                    if(Session::is_login()) {
+                        $points = $user->getPoints() + $exerciseAsked->getPoints();
+                        $user->setLevel($this->postParams['level']);
+                    }
+
                 } else {
 
                     $win = false;
-                    $points = $user->getPoints() - intdiv($exerciseAsked->getPoints(), 5);
+                    $points = 0;
+                    if(Session::is_login())
+                        $points = $user->getPoints() - intdiv($exerciseAsked->getPoints(), 5);
 
                 }
-                $user->setPoints($points);
-                
+                if(Session::is_login())
+                    $user->setPoints($points);
+
                 // create table and headers of table
                 $table = "<table><tr>";
 
@@ -77,11 +84,11 @@ class V1Controller extends AController {
                 foreach ($userResult[0] as $key => $var) {
 
                     // if it's not a number
-                    if(!ctype_digit($key) && !is_numeric($key))
+                    if(!is_int($key) && !is_numeric($key))
                         $table .= "<th>".$key."</th>";
                 }
                 $table .= "</tr>";
-            
+
                 // fill table
                 // for each line in results
                 foreach ($userResult as $line) {
@@ -91,7 +98,7 @@ class V1Controller extends AController {
                     foreach ($line as $key => $case) {
 
                         // if it's not a number
-                        if(!ctype_digit($key) && !is_numeric($key))
+                        if(!is_int($key) && !is_numeric($key))
                             $table .= "<td>".$case."</td>";
                     }
                     $table .= "</tr>";
@@ -100,9 +107,7 @@ class V1Controller extends AController {
                 //end table
                 $table .= "</table>";
 
-                $returnArray = [$win, $points, $table];
-
-                echo(json_encode($returnArray));
+                echo(json_encode(array('win'=>$win, 'points'=>$points, 'table'=>$table)));
                 break;
             }
             default:{
