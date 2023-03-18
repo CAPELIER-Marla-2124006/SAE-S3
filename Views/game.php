@@ -120,6 +120,7 @@
             <fieldset class="todo">
                 <legend>Instructions</legend>
                 <div class="instructions" id="instructions">
+                    <?= $A_view['instructions'] ?>
                 </div>
                 <button id="lesson"><img src="/images/lesson.svg" alt="lesson" width="32"></button>
                 <button id="hint"><img src="/images/hint.svg" alt="hint" width="32"></button>
@@ -169,14 +170,14 @@
             <div id="popupLesson">
                 <button class="exitButton"><img src="/images/exit.png" alt="close page"></button>
                 <h1>Cours</h1>
-                <div class="text"></div>
+                <div class="text"><?= $A_view['lesson'] ?></div>
             </div>
 
 
             <div id="popupHint">
                 <button class="exitButton"><img src="/images/exit.png" alt="close page"></button>
                 <h1>Indice</h1>
-                <div class="text"></div>
+                <div class="text"><?= $A_view['hint'] ?></div>
             </div>
 
 
