@@ -31,7 +31,8 @@ class GameController
 				'notes'=>'Notes pour plus tard',
 				'code'=>$exercice->getCodeInit(),
 				'hint'=>$exercice->getHint(),
-				'lesson'=>$exercice->getLesson()
+				'lesson'=>$exercice->getLesson(),
+				'instructions'=>$exercice->getInstructions()
 			];
 		}
 
