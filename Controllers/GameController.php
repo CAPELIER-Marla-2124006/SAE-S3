@@ -32,7 +32,8 @@ class GameController
 				'code'=>$exercice->getCodeInit(),
 				'hint'=>$exercice->getHint(),
 				'lesson'=>$exercice->getLesson(),
-				'instructions'=>$exercice->getInstructions()
+				'instructions'=>$exercice->getInstructions(),
+				'success'=>$exercice->getSuccess()
 			];
 		}
 
