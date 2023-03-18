@@ -73,7 +73,7 @@ function changeLevel(num) {
 /* select next level */
 function nextLevel() {
 	if(levelNumber < 8) {
-		changeLevel(levelNumber+1);
+		changeLevel(parseInt(levelNumber)+1);
 		displayLesson();
 	}
 	else
@@ -118,14 +118,15 @@ executeButton.addEventListener("click", () => {
 
 	// we call sendRequest with a func that sendRequest will call that will edit the html in responseDiv
 	sendApiRequests("submit", levelNumber, (json) => {
-		//console.log(json);
+		console.log(json);
 		json = JSON.parse(json);
 		resultsDiv.innerHTML = json['table'];
-		userPoints.innerHTML = "Points : " + json['points'];
-		if(json['win'] === "true") {
+		if(userPoints !== null)
+			userPoints.innerHTML = "Points : " + json['points'];
+		if(json['win'] == true) {
 			displayWin();
 		}
-	}, query);
+	}, 'answer='+query);
 
 })
 
