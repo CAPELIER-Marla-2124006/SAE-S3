@@ -52,7 +52,7 @@ class V1Controller extends AController {
                 $userAnswer = $this->postParams['answer'];
 
                 // get right answer of the exercise asked
-                $rightAnswer = $dataAdmin->getExercise($this->urlParams[0])->getExercise_answer();
+                $rightAnswer = $exerciseAsked->getExercise_answer();
 
                 // get result array of the user answer
                 $userResult = $dataExercise->executeExerciseAnswer($userAnswer);
@@ -63,55 +63,74 @@ class V1Controller extends AController {
                     }
                 }
 
-                if($userResult == $dataAdmin->executeExerciseAnswer($rightAnswer)){
+                switch ($userResult){
 
-                    $win = true;
-                    $points = 0;
-                    if(Session::is_login()) {
-                        $points = $user->getPoints() + $exerciseAsked->getPoints();
-                        $user->setLevel($this->postParams['level']);
+                    case($dataAdmin->executeExerciseAnswer($rightAnswer)):{ // if user answer is equal to right answer
+                        $win = true;
+                        $points = 0;
+                        if(Session::is_login()) {
+                            $points = $user->getPoints() + $exerciseAsked->getPoints();
+                            $user->setLevel($this->postParams['level']);
+                        }
                     }
 
-                } else {
-
-                    $win = false;
-                    $points = 0;
-                    if(Session::is_login())
-                        $points = $user->getPoints() - intdiv($exerciseAsked->getPoints(), 5);
-
-                }
-                if(Session::is_login())
-                    $user->setPoints($points);
-
-                // create table and headers of table
-                $table = "<table><tr>";
-
-                // for each keys in first result
-                foreach ($userResult[0] as $key => $var) {
-
-                    // if it's not a number
-                    if(!is_int($key) && !is_numeric($key))
-                        $table .= "<th>".$key."</th>";
-                }
-                $table .= "</tr>";
-
-                // fill table
-                // for each line in results
-                foreach ($userResult as $line) {
-                    $table .= "<tr>";
-
-                    // for each case in line
-                    foreach ($line as $key => $case) {
-
-                        // if it's not a number
-                        if(!is_int($key) && !is_numeric($key))
-                            $table .= "<td>".$case."</td>";
+                    case (!$dataAdmin->executeExerciseAnswer($rightAnswer)):{ // if user answer is not equal to right answer
+                        $win = false;
+                        $points = 0;
+                        if(Session::is_login()){
+                            $points = $user->getPoints() - intdiv($exerciseAsked->getPoints(), 5);
+                        }
                     }
-                    $table .= "</tr>";
-                }
 
-                //end table
-                $table .= "</table>";
+                    case(Session::is_login()):{ // if user is connected
+                        $user->setPoints($points);
+                    }
+
+                    case(mysqli_error($dataExercise->getConnexion() == "")):{
+                        $table = "Error in your code : ".mysqli_error($dataExercise->getConnexion());
+                        break;
+                    }
+
+                    case(!null):{
+                        $table = "null";
+                        break;
+                    }
+
+                    default:{
+                        // create table and headers of table
+                        $table = "<table><tr>";
+
+                        // for each keys in first result
+                        foreach ($userResult[0] as $key => $var) {
+
+                            // if it's not a number
+                            if(!is_int($key) && !is_numeric($key))
+                                $table .= "<th>".$key."</th>";
+                        }
+                        $table .= "</tr>";
+
+                        // fill table
+                        // for each line in results
+                        foreach ($userResult as $line) {
+                            $table .= "<tr>";
+
+                            // for each case in line
+                            foreach ($line as $key => $case) {
+
+                                // if it's not a number
+                                if(!is_int($key) && !is_numeric($key))
+                                    $table .= "<td>".$case."</td>";
+                            }
+                            $table .= "</tr>";
+                        }
+
+                        //end table
+                        $table .= "</table>";
+                        break;
+                    }
+
+                    
+                }
 
                 echo(json_encode(array('win'=>$win, 'points'=>$points, 'table'=>$table)));
                 break;
