@@ -53,13 +53,11 @@ function changeLevel(num) {
 		let lesson = levelJSON['lesson'];
 		let instructions = levelJSON['instructions'];
 		let hint = levelJSON['hint'];
-		let codeInit = levelJSON['codeInit'];
 		let success = levelJSON['success'];
 
 		lessonDiv.querySelector(".text").innerHTML = lesson;
 		instructionsDiv.innerHTML = instructions;
 		hintDiv.querySelector(".text").innerHTML = hint;
-		editor.setValue(codeInit);
 		successDiv.querySelector(".text").innerHTML = success;
 	});
 
