@@ -40,6 +40,10 @@ interface DataAccessInterface
      */
     public function updateUser(User $user): void;
 
+    /**
+     * Execute the request given by the user and return an array of Exercise instances (the result of the request)
+     * @return array An array of Exercise instances
+     */
     public function executeExerciseAnswer(string $request): array;
 
 }

@@ -5,7 +5,11 @@
     $PASS="iut-sae-user";
 
 
-    // Connect to DB
+    /**
+     * Connect to the database
+     * @param string $db_name The name of the database
+     * @return PDO The connection to the database
+     */
     function connectDB(string $db_name)
     {
         global $HOST, $USER, $PASS;

@@ -3,6 +3,12 @@ class Entry {
 
     private array $urlParams, $getParams, $postParams;
 
+    /**
+     * Entry constructor.
+     * @param string $url url of the request
+     * @param array $getParams get parameters of the request
+     * @param array $postParams post parameters of the request
+     */
     public function __construct(string $url, Array $getParams, Array $postParams)
 	{
 
@@ -11,6 +17,7 @@ class Entry {
             $url = substr($url, 0, strlen($url) - 1);
         }
 
+        // remove the first slash
         if (str_starts_with($url, '/')) {
             $url = substr($url, 1, strlen($url));
         }
@@ -20,6 +27,10 @@ class Entry {
         $this->postParams = $postParams;
     }
 
+    /**
+     * Execute the request
+     * @return void
+     */
     public function execute(): void
 	{
         $O_baseCtr = new RootController();

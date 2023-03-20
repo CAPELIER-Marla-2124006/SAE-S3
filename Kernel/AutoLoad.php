@@ -6,6 +6,11 @@ final class AutoLoad {
 
     const AUTOLOAD_FOLDERS = array("/Kernel/", "/Controllers/", "/Utils/", "/Exceptions/", "/Model/");
 
+    /**
+     * Load the class
+     * @param string $className name of the class to load
+     * @return void
+     */
     public static function loadClass(string $className): void
 	{
 
@@ -20,4 +25,5 @@ final class AutoLoad {
     }
 }
 
+// Register the autoloader
 spl_autoload_register("AutoLoad::loadClass");
