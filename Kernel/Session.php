@@ -28,6 +28,10 @@ final class Session
 		return false;
 	}
 
+	/**
+	 * destroy the session
+	 * @return void
+	 */
 	public static function destroy_session(): void
 	{
 		self::start_session(60*60);

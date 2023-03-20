@@ -5,6 +5,10 @@ final class Model
 	private static ?PDO $adminConn = null;
 	private static ?PDO $userConn = null;
 
+	/**
+	 * @return PDO
+	 * @throws HTTPSpecialCaseException
+	 */
 	public static function getUserConnexion(): PDO
 	{
 		if(self::$userConn === null)
@@ -13,6 +17,10 @@ final class Model
 		return self::$userConn;
 	}
 
+	/**
+	 * @return PDO
+	 * @throws HTTPSpecialCaseException
+	 */
 	public static function getAdminConnexion(): PDO
 	{
 		if(self::$adminConn === null)
@@ -21,6 +29,11 @@ final class Model
 		return self::$adminConn;
 	}
 
+	/**
+	 * @param string $which 'user' or 'admin'
+	 * @return PDO
+	 * @throws HTTPSpecialCaseException
+	 */
 	private static function init(string $which): PDO
 	{
 		$db_username = $_ENV["DB_USERNAME"];
