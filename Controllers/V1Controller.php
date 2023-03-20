@@ -84,7 +84,7 @@ class V1Controller extends AController {
                 }
 
                 // create table to display result
-                if($userResult == mysqli_error($dataExercise->getConnexion() == "")){// if error in user's answer display error
+                if(!(mysqli_error($dataExercise->getConnexion() == ""))){// if error in user's answer display error
                     $table = "Error in your code : ".mysqli_error($dataExercise->getConnexion());
                 }else if($userResult == null){// if user's answer is null display null
                     $table = "null";
