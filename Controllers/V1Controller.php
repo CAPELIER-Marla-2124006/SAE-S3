@@ -56,6 +56,13 @@ class V1Controller extends AController {
 
                 // get result array of the user answer
                 $userResult = $dataExercise->executeExerciseAnswer($userAnswer);
+                for($i=0; $i < sizeof($userResult); ++$i) {
+                    foreach ($userResult[$i] as $key => $value) {
+                        $userResult[$i][strtoupper($key)] = $value;
+                        unset($userResult[$i][$key]);
+                    }
+                }
+                var_dump($userResult);
 
                 if($userResult == $dataAdmin->executeExerciseAnswer($rightAnswer)){
 
