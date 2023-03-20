@@ -3,7 +3,7 @@
 class V1Controller extends AController {
 
     /**
-	 * Process the request by using the url
+	 * Process the request by using the url (used to change the view's elements and update the database)
      * @return void
 	 */
     public function process(): void {
@@ -116,7 +116,7 @@ class V1Controller extends AController {
                 echo(json_encode(array('win'=>$win, 'points'=>$points, 'table'=>$table)));
                 break;
             }
-            default:{
+            default:{ // if urlFolder is not recognized
                 throw new HTTPSpecialCaseException(404);
             }
         }
