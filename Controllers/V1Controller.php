@@ -120,8 +120,8 @@ class V1Controller extends AController {
                     //end table
                     $table .= "</table>";
                     break;
-                }     
-            
+                }
+
                 echo(json_encode(array('win'=>$win, 'points'=>$points, 'table'=>$table)));
                 break;
             }
