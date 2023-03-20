@@ -5,6 +5,7 @@ class Exercise
 	private string $code_init, $instructions, $lesson, $hint, $success, $exercise_answer;
 	private int $id, $points;
 
+	
 	public function __construct(int $id, string $code_init, string $instructions, string $lesson, string $hint,
 								string $success, string $exercise_answer, int $points) {
 		$this->id = $id;
