@@ -63,75 +63,62 @@ class V1Controller extends AController {
                     }
                 }
 
-                switch ($userResult){
-
-                    case($dataAdmin->executeExerciseAnswer($rightAnswer)):{ // if user answer is equal to right answer
-                        $win = true;
-                        $points = 0;
-                        if(Session::is_login()) {
-                            $points = $user->getPoints() + $exerciseAsked->getPoints();
-                            $user->setLevel($this->postParams['level']);
-                        }
+                if($userResult == $dataAdmin->executeExerciseAnswer($rightAnswer)){ // if user answer is equal to right answer
+                    $win = true;
+                    $points = 0;
+                    if(Session::is_login()) {
+                        $points = $user->getPoints() + $exerciseAsked->getPoints();
+                        $user->setLevel($this->postParams['level']);
                     }
-
-                    case (!$dataAdmin->executeExerciseAnswer($rightAnswer)):{ // if user answer is not equal to right answer
-                        $win = false;
-                        $points = 0;
-                        if(Session::is_login()){
-                            $points = $user->getPoints() - intdiv($exerciseAsked->getPoints(), 5);
-                        }
+                }else{ // if user answer is not equal to right answer
+                    $win = false;
+                    $points = 0;
+                    if(Session::is_login()){
+                        $points = $user->getPoints() - intdiv($exerciseAsked->getPoints(), 5);
                     }
+                }
 
-                    case(Session::is_login()):{ // if user is connected
-                        $user->setPoints($points);
+                if(Session::is_login()){ // if user is connected
+                    $user->setPoints($points);
+                }
+
+                if($userResult == mysqli_error($dataExercise->getConnexion() == "")){
+                    $table = "Error in your code : ".mysqli_error($dataExercise->getConnexion());
+                }else if($userResult == null){
+                    $table = "null";
+                }else{
+                    // create table and headers of table
+                    $table = "<table><tr>";
+
+                    // for each keys in first result
+                    foreach ($userResult[0] as $key => $var) {
+
+                        // if it's not a number
+                        if(!is_int($key) && !is_numeric($key))
+                            $table .= "<th>".$key."</th>";
                     }
+                    $table .= "</tr>";
 
-                    case(mysqli_error($dataExercise->getConnexion() == "")):{
-                        $table = "Error in your code : ".mysqli_error($dataExercise->getConnexion());
-                        break;
-                    }
+                    // fill table
+                    // for each line in results
+                    foreach ($userResult as $line) {
+                        $table .= "<tr>";
 
-                    case(!null):{
-                        $table = "null";
-                        break;
-                    }
-
-                    default:{
-                        // create table and headers of table
-                        $table = "<table><tr>";
-
-                        // for each keys in first result
-                        foreach ($userResult[0] as $key => $var) {
+                        // for each case in line
+                        foreach ($line as $key => $case) {
 
                             // if it's not a number
                             if(!is_int($key) && !is_numeric($key))
-                                $table .= "<th>".$key."</th>";
+                                $table .= "<td>".$case."</td>";
                         }
                         $table .= "</tr>";
-
-                        // fill table
-                        // for each line in results
-                        foreach ($userResult as $line) {
-                            $table .= "<tr>";
-
-                            // for each case in line
-                            foreach ($line as $key => $case) {
-
-                                // if it's not a number
-                                if(!is_int($key) && !is_numeric($key))
-                                    $table .= "<td>".$case."</td>";
-                            }
-                            $table .= "</tr>";
-                        }
-
-                        //end table
-                        $table .= "</table>";
-                        break;
                     }
 
-                    
-                }
-
+                    //end table
+                    $table .= "</table>";
+                    break;
+                }     
+            
                 echo(json_encode(array('win'=>$win, 'points'=>$points, 'table'=>$table)));
                 break;
             }
