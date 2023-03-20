@@ -63,6 +63,7 @@ class V1Controller extends AController {
                     }
                 }
 
+                // check if user answer is equal to right answer and update user's stats
                 if($userResult == $dataAdmin->executeExerciseAnswer($rightAnswer)){ // if user answer is equal to right answer
                     $win = true;
                     $points = 0;
@@ -82,11 +83,13 @@ class V1Controller extends AController {
                     $user->setPoints($points);
                 }
 
-                if($userResult == mysqli_error($dataExercise->getConnexion() == "")){
+                // create table to display result
+                if($userResult == mysqli_error($dataExercise->getConnexion() == "")){// if error in user's answer display error
                     $table = "Error in your code : ".mysqli_error($dataExercise->getConnexion());
-                }else if($userResult == null){
+                }else if($userResult == null){// if user's answer is null display null
                     $table = "null";
-                }else{
+                }else{//else display result in table
+
                     // create table and headers of table
                     $table = "<table><tr>";
 
