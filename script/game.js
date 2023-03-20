@@ -59,6 +59,7 @@ function changeLevel(num) {
 		instructionsDiv.innerHTML = instructions;
 		hintDiv.querySelector(".text").innerHTML = hint;
 		successDiv.querySelector(".text").innerHTML = success;
+		levelSelector.value = levelNumber;
 	});
 
 	//console.log(levelSelector.children);
