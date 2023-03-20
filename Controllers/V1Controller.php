@@ -62,7 +62,6 @@ class V1Controller extends AController {
                         unset($userResult[$i][$key]);
                     }
                 }
-                var_dump($userResult);
 
                 if($userResult == $dataAdmin->executeExerciseAnswer($rightAnswer)){
 
