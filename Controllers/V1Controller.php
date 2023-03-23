@@ -54,13 +54,18 @@ class V1Controller extends AController {
                 // get right answer of the exercise asked
                 $rightAnswer = $exerciseAsked->getExercise_answer();
 
-                // get result array of the user answer
-                $userResult = $dataExercise->executeExerciseAnswer($userAnswer);
-                for($i=0; $i < sizeof($userResult); ++$i) {
-                    foreach ($userResult[$i] as $key => $value) {
-                        $userResult[$i][strtoupper($key)] = $value;
-                        unset($userResult[$i][$key]);
+                // check if there is an error in the user answer
+                try {
+                    // get result array of the user answer
+                    $userResult = $dataExercise->executeExerciseAnswer($userAnswer);
+                    for($i=0; $i < sizeof($userResult); ++$i) {
+                        foreach ($userResult[$i] as $key => $value) {
+                            $userResult[$i][strtoupper($key)] = $value;
+                            unset($userResult[$i][$key]);
+                        }
                     }
+                }catch (Exception $e){ // if there is an error in the user answer send it
+                    $table = "Error in your code : ". $e->getMessage(). "\n";
                 }
 
                 // check if user answer is equal to right answer and update user's stats
@@ -84,8 +89,8 @@ class V1Controller extends AController {
                 }
 
                 // create table to display result
-                if(!(mysqli_error($dataExercise->getConnexion() == ""))){// if error in user's answer display error
-                    $table = "Error in your code : ".mysqli_error($dataExercise->getConnexion());
+                if ($table != "" || $table != null){
+
                 }else if($userResult == null){// if user's answer is null display null
                     $table = "null";
                 }else{//else display result in table
