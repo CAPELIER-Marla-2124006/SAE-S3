@@ -50,6 +50,7 @@ class GameController
 				'code'=>$exercice->getCodeInit(),
 				'hint'=>$exercice->getHint(),
 				'lesson'=>$exercice->getLesson(),
+				'instructions'=>$exercice->getInstructions(),
 				'loginError'=>$loginError,
 				'registerError'=>$registerError
 			];
