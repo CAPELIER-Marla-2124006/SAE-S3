@@ -50,18 +50,22 @@ class V1Controller extends AController {
 
                 // user answer send in post
                 $userAnswer = $this->postParams['answer'];
+				// and the result given by database
+				$userResult = array();
 
                 // get right answer of the exercise asked
                 $rightAnswer = $exerciseAsked->getExercise_answer();
+
+				// create a table to display results
+				$table="";
 
                 // check if there is an error in the user answer
                 try {
                     // get result array of the user answer
                     $userResult = $dataExercise->executeExerciseAnswer($userAnswer);
-                    for($i=0; $i < sizeof($userResult); ++$i) {
+                    for($i=0; $i < sizeof($userResult); $i++) {
                         foreach ($userResult[$i] as $key => $value) {
                             $userResult[$i][strtoupper($key)] = $value;
-                            unset($userResult[$i][$key]);
                         }
                     }
                 }catch (Exception $e){ // if there is an error in the user answer send it
@@ -89,11 +93,9 @@ class V1Controller extends AController {
                 }
 
                 // create table to display result
-                if ($table != "" || $table != null){
-
-                }else if($userResult == null){// if user's answer is null display null
-                    $table = "null";
-                }else{//else display result in table
+                if(empty($table) && ($userResult == null || sizeof($userResult)==0)) {// if user's answer is empty display no response
+					$table = "Aucune réponse";
+                } elseif(empty($table)) {//else display result in table
 
                     // create table and headers of table
                     $table = "<table><tr>";
