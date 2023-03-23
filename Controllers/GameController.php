@@ -3,8 +3,38 @@
 class GameController
 {
 	private array $A_GameInfo;
-    public function __construct() {
+    public function __construct(array $getParams) {
 		$data = new DataAccess(Model::getAdminConnexion()); // connect as Admin
+
+		$loginError = "";
+		if(isset($getParams['loginError']))
+		switch ($getParams['loginError']) {
+			case 'username':{
+				$loginError = "Cet utilisateur n'existe pas";
+				break;
+			}
+			case 'password':{
+				$loginError = "Mauvais mot de passe";
+				break;
+			}
+		}
+
+		$registerError = "";
+		if(isset($getParams['registerError']))
+		switch($getParams['registerError']) {
+			case 'empty':{
+				$registerError = "Le nom ou le mot de passe ne peut pas être vide";
+				break;
+			}
+			case 'password_confirm':{
+				$registerError = "Les mots de passe ne correspondent pas";
+				break;
+			}
+			case 'username_exist':{
+				$registerError = "Ce nom existe déjà";
+				break;
+			}
+		}
 
 		if(Session::is_login()) {
 			$user = $data->getUser($_SESSION['ID']);
@@ -19,7 +49,9 @@ class GameController
 				'notes'=>$user->getNotes(),
 				'code'=>$exercice->getCodeInit(),
 				'hint'=>$exercice->getHint(),
-				'lesson'=>$exercice->getLesson()
+				'lesson'=>$exercice->getLesson(),
+				'loginError'=>$loginError,
+				'registerError'=>$registerError
 			];
 
 		} else {
@@ -33,7 +65,9 @@ class GameController
 				'hint'=>$exercice->getHint(),
 				'lesson'=>$exercice->getLesson(),
 				'instructions'=>$exercice->getInstructions(),
-				'success'=>$exercice->getSuccess()
+				'success'=>$exercice->getSuccess(),
+				'loginError'=>$loginError,
+				'registerError'=>$registerError
 			];
 		}
 

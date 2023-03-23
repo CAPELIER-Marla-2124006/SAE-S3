@@ -67,15 +67,18 @@
 
 				echo('<div class="connexion">
                     <button id="accountButton">'.$A_view['username'].'</button>
-                    <h1 id="userPoints">Points : '.$A_view['userPoints'].'</h1>
-                    <a href="/disconnect">Se déconnecter</a>
+                    <form action="" id="accountForm">
+                        <h1 id="userPoints">Points : '.$A_view['points'].'</h1>
+                        <a href="/account/disconnect">Se déconnecter</a>
+                    </form>
                  </div>');
 				// or display connexion and register buttons
 			} else {
 				echo('<div class="connexion">
                 <button id="connexionButton">Connexion</button>
-                <form action="/login" method="post" id="connexionForm">
+                <form action="/account/login" method="post" id="connexionForm">
                     <h1>Connection</h1>
+                    <p>'.$A_view['loginError'].'</p>
                     <fieldset>
                         <legend>Nom d\'utilisateur</legend>
                         <input type="text" name="username" id="connexionUsername">
@@ -90,8 +93,9 @@
 
             <div class="connexion">
                 <button id="registerButton">Inscription</button>
-                <form action="/register" method="post" id="registerForm">
+                <form action="/account/register" method="post" id="registerForm">
                     <h1>Inscription</h1>
+                    <p>'.$A_view['registerError'].'</p>
                     <fieldset>
                         <legend>Nom d\'utilisateur</legend>
                         <input type="text" name="username" id="registerUsername">
