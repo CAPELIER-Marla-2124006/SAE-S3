@@ -88,7 +88,7 @@ final class Session
 	public static function login_or_die(): void
 	{
 		if (!self::is_login()) {
-			header("Location: /annonces/index.php");
+			header("Location: /game");
 			die;
 		}
 	}
