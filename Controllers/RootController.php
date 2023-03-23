@@ -15,6 +15,10 @@ class RootController extends AController {
 				$game->display();
                 break;
             }
+			case 'account':{
+				$this->callController(new AccountController());
+				break;
+			}
             case 'api':{ // used to get data from database and update it
                 $this->callController(new APIController());
                 break;
