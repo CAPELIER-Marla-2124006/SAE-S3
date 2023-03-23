@@ -36,18 +36,16 @@ cssRoot.style.setProperty('--hue', colorSlider.value);
 ///------------------///
 /* send a request from url, with a lambda in params (almost like the return) */
 function sendApiRequests(what, level, callback, post='') {
-    fetch('api/v1/' + what + '/' + level, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: post
-    }).then(
-        response => response.text()
-    ).then(
-        text => callback(text)
-    );
+    //console.log("[Api Request] /api/v1/"+ what + '/' + level)
+    //console.log("[Api Request] data : " + post)
+    fetch('api/v1/' + what + '/' + level, {method: 'POST', headers: {'Accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded'}, body: post})
+        .then(response => {
+            //console.log("[Api Response] response :" + response);
+            response.text().then(text =>{
+                //console.log("[Api Response] text :" + text);
+                callback(text);
+            });
+        });
 }
 
 /* display the connexion form and set the button to hide it */
@@ -104,7 +102,7 @@ function hideAccountForm() {
 ////////////////////
 // when the user exit notes textarea, store its data in db
 notesTextarea.addEventListener("focusout", ()=>{
-    sendApiRequests("saveUser", levelNumber, ()=>{}, 'notes=>'+notesTextarea.value);
+    sendApiRequests("saveUser", levelNumber, ()=>{}, 'notes='+notesTextarea.value);
 });
 
 // when the user change slider value

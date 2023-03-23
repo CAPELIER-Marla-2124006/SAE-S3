@@ -7,6 +7,7 @@ class V1Controller extends AController {
      * @return void
 	 */
     public function process(): void {
+		Session::resume_session();
         switch ($this->urlFolder) {
             case 'exercise':{ // get exercise from database and return it in json
                 $data = new DataAccess(Model::getAdminConnexion());
