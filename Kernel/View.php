@@ -14,7 +14,7 @@ final class View {
         $A_view = $params;
 
         ob_start();
-        include $S_file;
+        require $S_file;
         ob_end_flush();
     }
 }

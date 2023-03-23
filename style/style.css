@@ -191,12 +191,14 @@ body {
     border: var(--border);
     border-radius: var(--border-radius);
 }
-.header .connect .connexion > form > input[type="submit"] {
+.header .connect .connexion > form > input[type="submit"], #accountForm > a {
     color: var(--text-color);
     background: var(--text-background);
     border: var(--border);
     border-radius: var(--border-radius);
     padding: var(--min-margin);
+    text-decoration: none;
+    text-align: center;
 }
 
 /* full page and contents */

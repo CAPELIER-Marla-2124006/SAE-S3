@@ -11,7 +11,7 @@ class RootController extends AController {
             case '':
             case 'game':
             case 'index.php':{ // send to the view of the game
-				$game = new GameController();
+				$game = new GameController($this->getParams);
 				$game->display();
                 break;
             }
