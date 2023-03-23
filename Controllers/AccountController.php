@@ -56,6 +56,8 @@ class AccountController extends AController
 				break;
 			}
 			case 'disconnect':{
+				Session::destroy_session();
+				header('Location: /game');
 				break;
 			}
 		}
