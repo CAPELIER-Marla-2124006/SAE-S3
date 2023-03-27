@@ -79,7 +79,7 @@ class V1Controller extends AController {
                     $points = 0;
                     if(Session::is_login()) {
                         $points = $user->getPoints() + $exerciseAsked->getPoints();
-                        $user->setLevel($this->postParams['level']);
+                        $user->setLevel($this->postParams['level']+1);
                     }
                 }else{ // if user answer is not equal to right answer
                     $win = false;
