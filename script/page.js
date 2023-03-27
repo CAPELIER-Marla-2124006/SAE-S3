@@ -42,7 +42,7 @@ function sendApiRequests(what, level, callback, post='') {
         .then(response => {
             //console.log("[Api Response] response :" + response);
             response.text().then(text =>{
-                //console.log("[Api Response] text :" + text);
+                console.log("[Api Response] text :" + text);
                 callback(text);
             });
         });
@@ -112,7 +112,7 @@ colorSlider.oninput = function() {
 
 // when the user selected the value, it's updated in DB
 colorSlider.addEventListener("change", ()=> {
-    sendApiRequests("saveUser", levelNumber, ()=>{}, 'colorHue=>'+colorSlider.value);
+    sendApiRequests("saveUser", levelNumber, ()=>{}, 'colorHue='+colorSlider.value);
 });
 
 /* close end popup and get next level */
