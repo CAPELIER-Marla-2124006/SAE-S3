@@ -51,6 +51,7 @@ class GameController
 				'hint'=>$exercice->getHint(),
 				'lesson'=>$exercice->getLesson(),
 				'instructions'=>$exercice->getInstructions(),
+				'success'=>$exercice->getSuccess(),
 				'loginError'=>$loginError,
 				'registerError'=>$registerError
 			];
