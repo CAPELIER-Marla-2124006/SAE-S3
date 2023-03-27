@@ -42,7 +42,7 @@ function sendApiRequests(what, level, callback, post='') {
         .then(response => {
             //console.log("[Api Response] response :" + response);
             response.text().then(text =>{
-                console.log("[Api Response] text :" + text);
+                //console.log("[Api Response] text :" + text);
                 callback(text);
             });
         });
