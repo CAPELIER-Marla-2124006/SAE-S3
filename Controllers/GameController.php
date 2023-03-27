@@ -36,9 +36,14 @@ class GameController
 			}
 		}
 
-		if(Session::is_login()) {
+		if(Session::is_login() && isset($_SESSION['ID'])) {
 			$user = $data->getUser($_SESSION['ID']);
 			$exercice = $data->getExercise($user->getLevel());
+			if($exercice == null) {
+				$user->setLevel(1);
+				$data->updateUser($user);
+				$exercice = $data->getExercise(1);
+			}
 
 			$this->A_GameInfo = [
 				'username'=>$user->getUsername(),
