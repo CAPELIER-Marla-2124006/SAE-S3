@@ -117,7 +117,7 @@ executeButton.addEventListener("click", () => {
 
 	// we call sendRequest with a func that sendRequest will call that will edit the html in responseDiv
 	sendApiRequests("submit", levelNumber, (json) => {
-		console.log(json);
+		//console.log(json);
 		json = JSON.parse(json);
 		resultsDiv.innerHTML = json['table'];
 		if(userPoints !== null)
@@ -125,7 +125,7 @@ executeButton.addEventListener("click", () => {
 		if(json['win'] == true) {
 			displayWin();
 		}
-	}, 'answer='+query);
+	}, 'answer='+query+"&level="+levelNumber);
 
 })
 
