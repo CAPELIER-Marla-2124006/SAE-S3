@@ -66,6 +66,7 @@ class V1Controller extends AController {
                     $userResult = $dataExercise->executeExerciseAnswer($userAnswer);
                     for($i=0; $i < sizeof($userResult); $i++) {
                         foreach ($userResult[$i] as $key => $value) {
+                            unset($userResult[$i][$key]);
                             $userResult[$i][strtoupper($key)] = $value;
                         }
                     }
