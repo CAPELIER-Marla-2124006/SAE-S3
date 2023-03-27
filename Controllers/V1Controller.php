@@ -91,6 +91,7 @@ class V1Controller extends AController {
 
                 if(Session::is_login()){ // if user is connected
                     $user->setPoints($points);
+                    $dataAdmin->updateUser($user);
                 }
 
                 // create table to display result
