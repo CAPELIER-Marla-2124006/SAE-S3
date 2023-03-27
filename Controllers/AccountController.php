@@ -46,12 +46,14 @@ class AccountController extends AController
 					new User($username,
 						password_hash($password, PASSWORD_BCRYPT),
 						"Notes pour plus tard",
-						0, 164, 0
+						1, 164, 0
 					)
 				);
 
 				Session::start_session(3*60*60);
 				Session::set_login($username);
+
+				header("Location: /game");
 
 				break;
 			}
